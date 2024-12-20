@@ -81,8 +81,4 @@ jobs:
 1. Configure an IAM Policy with the necessary permissions required by the pipeline.
 2. Attach the policy to the role.
 
----
-
-## References
-- [Financefair Platform Documentation](https://invoicefair.atlassian.net/wiki/pages/resumedraft.action?draftId=2913271812&draftShareId=97c0fa6f-90e8-409b-be33-aa0ee393a326)
 
