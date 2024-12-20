@@ -1,0 +1,50 @@
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform CLI configuration
+.terraformrc
+terraform.rc
+
+# Terragrunt cache
+.terragrunt-cache/
+
+# Localstack data (if used)
+.localstack/
+
+# Terraform lock file (optional, if managed manually)
+*.lock.hcl
+
+# Temporary files
+*.bak
+*.tmp
+*.swp
+*~
+
+# Log and debug files
+*.log
+
+# Directory used by Terraform for module downloads
+.terraform/
+
+# Sensitive files
+.env
+*.env
+
+# IDE-specific files
+.idea/
+.vscode/
+*.iml
