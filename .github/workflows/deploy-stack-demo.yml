@@ -70,6 +70,8 @@ jobs:
   plan:
     # if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
+    name: Terraform Plan
+    description: Generate a Terraform execution plan to preview the changes.
     runs-on: ubuntu-24.04
     permissions:
       id-token: write
