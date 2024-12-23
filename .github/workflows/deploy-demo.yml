@@ -80,6 +80,7 @@ env:
   environment: 'demo'
   region: 'eu-west-1'
   base_dir: 'non-prod'
+  aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
   #TF_LOG: 'DEBUG'
 
 jobs:
@@ -95,7 +96,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
+          role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ env.region }}
 
       - name: Check terragrunt HCL

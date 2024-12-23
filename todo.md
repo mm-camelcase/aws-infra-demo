@@ -1,2 +1,3 @@
 - mention using external modules
 - tg advantages
+- nb: check that action cannot be triggered via external user when repo public
