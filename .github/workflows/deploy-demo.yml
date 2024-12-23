@@ -172,20 +172,6 @@ jobs:
       - name: Annotate Pipeline
         run: echo "::notice ::Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
 
-      - name: Send GitHub Action to Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload: |
-            {
-              "username": "${{ github.actor }}",
-              "action": "${{ github.event.inputs.action }}",
-              "resource": "${{ github.event.inputs.resource }}",
-              "status": "${{ job.status }}",
-              "environment": "${{ env.environment }}"
-            }
-        #env:
-        #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   destroy:
     if: ${{ github.event.inputs.action == 'destroy' }}
@@ -216,17 +202,3 @@ jobs:
       - name: Annotate Pipeline
         run: echo "::notice ::Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
 
-      - name: Send GitHub Action to Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          payload: |
-            {
-              "username": "${{ github.actor }}",
-              "action": "${{ github.event.inputs.action }}",
-              "resource": "${{ github.event.inputs.resource }}",
-              "status": "${{ job.status }}",
-              "environment": "${{ env.environment }}"
-            }
-        #env:
-        #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
