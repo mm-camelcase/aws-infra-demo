@@ -1,4 +1,4 @@
-# Terragrunt Stacks
+# Terragrunt Stacks Documentation
 
 ## Overview
 Terragrunt stacks are an organisational approach to managing infrastructure-as-code using Terragrunt. They allow the grouping of related Terraform modules into logical units that can be managed independently. This approach simplifies the deployment and maintenance of infrastructure by separating concerns and promoting modularity.
@@ -49,9 +49,9 @@ Terragrunt stacks bring several benefits to managing your infrastructure:
    ```
 
 2. **Mocking Dependencies**:
-   When testing or developing locally, you may need to mock dependencies (e.g., a remote state backend or external data sources). Use tools like [LocalStack](https://localstack.cloud/) to emulate AWS services. For example:
-   - In your `terragrunt.hcl`, configure the backend to point to a local S3 service.
-   - Use Terragrunt’s `dependency` blocks to define mock inputs where needed.
+   Mocking dependencies is necessary because running a `run-all plan` command in Terragrunt can break if required resources do not exist. For example, a stack may depend on outputs from another stack (e.g., VPC ID, subnets). During testing or local development, you can use mocked values to avoid failures.
+
+   To mock dependencies, use tools like [LocalStack](https://localstack.cloud/) to emulate AWS services, or define placeholder outputs in your Terragrunt configurations. This ensures that `plan-all` succeeds without requiring actual resources to be provisioned.
 
    Example:
    ```hcl
@@ -59,10 +59,19 @@ Terragrunt stacks bring several benefits to managing your infrastructure:
      config_path = "../common/networking"
    }
 
+   dependency "mocked" {
+     mock_outputs = {
+       vpc_id = "mock-vpc-id"
+       subnet_ids = ["mock-subnet-1", "mock-subnet-2"]
+     }
+   }
+
    inputs = {
      vpc_id = dependency.networking.outputs.vpc_id
    }
    ```
+
+   This approach allows for smooth planning and development workflows while ensuring that dependencies are properly tested and defined.
 
 3. **Automating Deployment**:
    Set up a CI/CD pipeline using tools like GitHub Actions, as demonstrated in the `deploy-demo.yml` file. Automate plan and apply steps for individual stacks based on changes detected in the relevant directories.
@@ -98,12 +107,6 @@ Terragrunt stacks bring several benefits to managing your infrastructure:
   }
   ```
 
-## Common Practices
-- **Version Control**: Use Git to version your Terragrunt configurations and modules.
-- **Documentation**: Maintain clear documentation for each stack (e.g., prerequisites, variables, outputs).
-- **Environment Isolation**: Separate environments into distinct directories to prevent accidental changes.
-- **Testing**: Use local testing tools like LocalStack to verify changes before deployment.
-- **Auditing and Security**: Use IAM roles and policies to restrict access and ensure compliance.
 
 ## Learn More
 - [Terragrunt Documentation](https://terragrunt.gruntwork.io/docs/)
