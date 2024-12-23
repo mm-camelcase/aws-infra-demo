@@ -112,7 +112,7 @@ jobs:
           role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
           aws-region: eu-west-1
 
-      - name: Apply
+      - name: Apply (run-all apply)
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
