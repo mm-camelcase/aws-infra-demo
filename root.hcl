@@ -122,22 +122,22 @@ remote_state {
   config = {
     access_key = local.env == "local" ? "fake" : null
     secret_key = local.env == "local" ? "fake" : null
-    bucket                      = "${local.env}-${local.account_name}${local.aws_region != "eu-west-1" ? "-${local.aws_region}" : ""}-terraform-state"
+    bucket     = "${local.env}-${local.account_name}${local.aws_region != "eu-west-1" ? "-${local.aws_region}" : ""}-terraform-state"
     #endpoint                    = local.env == "local" ? "http://localhost.localstack.cloud:4566" : null
-    endpoint       = "http://localhost:4566"
+    endpoint                    = "http://localhost:4566"
     skip_requesting_account_id  = true
     skip_credentials_validation = true
     skip_region_validation      = true
     force_path_style            = true
     #skip_metadata_api_check     = true
     #session_token               = false
-    key                         = "${path_relative_to_include()}/terraform.tfstate"
-    region                      = local.aws_region
-    encrypt                     = true
-    dynamodb_table              = "${local.account_name}-${local.env}-lock-table"
-    dynamodb_endpoint           = local.env == "local" ? "http://localhost:4566" : null
+    key               = "${path_relative_to_include()}/terraform.tfstate"
+    region            = local.aws_region
+    encrypt           = true
+    dynamodb_table    = "${local.account_name}-${local.env}-lock-table"
+    dynamodb_endpoint = local.env == "local" ? "http://localhost:4566" : null
   }
-  
+
 }
 
 
