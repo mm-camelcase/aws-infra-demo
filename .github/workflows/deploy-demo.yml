@@ -78,7 +78,7 @@ env:
   tf_version: 'v1.6.6'
   tg_version: '0.54.7'
   environment: 'demo'
-  #region: 'eu-west-1'
+  region: 'eu-west-1'
   base_dir: 'non-prod'
   #TF_LOG: 'DEBUG'
 
@@ -96,7 +96,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
-          aws-region: eu-west-1
+          aws-region: ${{ env.region }}
 
       - name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
