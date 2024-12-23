@@ -78,6 +78,7 @@ env:
   tf_version: 'v1.6.6'
   tg_version: '0.54.7'
   environment: 'demo'
+  #gh_env: 'Demo'
   region: 'eu-west-1'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
@@ -145,7 +146,7 @@ jobs:
   apply:
     if: ${{ github.event.inputs.action == 'apply' }}
     runs-on: ubuntu-24.04
-    environment: Demo
+    #environment: Demo
     permissions:
       id-token: write
       contents: read
@@ -176,7 +177,7 @@ jobs:
   destroy:
     if: ${{ github.event.inputs.action == 'destroy' }}
     runs-on: ubuntu-24.04
-    environment: Dev
+    #environment: Demo
     permissions:
       id-token: write
       contents: read
