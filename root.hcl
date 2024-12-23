@@ -124,7 +124,7 @@ remote_state {
     secret_key = local.env == "local" ? "fake" : null
     bucket     = "${local.env}-${local.account_name}${local.aws_region != "eu-west-1" ? "-${local.aws_region}" : ""}-terraform-state"
     #endpoint                    = local.env == "local" ? "http://localhost.localstack.cloud:4566" : null
-    endpoint                    = "http://localhost:4566"
+    endpoint                    = local.env == "local" ? "http://localhost:4566" : null
     skip_requesting_account_id  = true
     skip_credentials_validation = true
     skip_region_validation      = true
