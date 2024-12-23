@@ -8,6 +8,10 @@ terraform {
 
 dependency az {
   config_path = "../azs"
+
+  mock_outputs = {
+    available_azs = ["us-east-1a", "us-east-1b"]
+  }
 }
 
 locals {
