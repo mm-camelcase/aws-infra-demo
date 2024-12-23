@@ -14,7 +14,7 @@ on:
         type: choice
         description: 'Resource'
         options:
-          - 'storage/s3/example-bucket'
+          - 'common/storage/s3/example-bucket'
           # - 'network/azs'
           # - 'network/vpc'
           # - 'network/bastion'
