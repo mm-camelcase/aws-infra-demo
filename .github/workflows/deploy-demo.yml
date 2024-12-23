@@ -85,7 +85,7 @@ env:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -119,7 +119,7 @@ jobs:
   plan:
     # if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -144,7 +144,7 @@ jobs:
 
   apply:
     if: ${{ github.event.inputs.action == 'apply' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: Demo
     permissions:
       id-token: write
@@ -175,7 +175,7 @@ jobs:
 
   destroy:
     if: ${{ github.event.inputs.action == 'destroy' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: Dev
     permissions:
       id-token: write
