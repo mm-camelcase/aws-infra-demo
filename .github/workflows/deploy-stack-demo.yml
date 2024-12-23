@@ -14,7 +14,6 @@ on:
         type: choice
         description: 'Stack'
         options:
-          - 'common/storage/s3/example-bucket'
           - 'common/networking'
 
 
@@ -92,7 +91,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
-          tg_command: 'plan'
+          tg_command: 'run-all plan'
 
   apply:
     if: ${{ github.event.inputs.action == 'apply' }}
@@ -119,7 +118,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
-          tg_command: 'apply -auto-approve'
+          tg_command: 'run-all apply -auto-approve'
 
       - name: Annotate Pipeline
         run: echo "::notice ::Stack --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
@@ -149,7 +148,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
-          tg_command: 'destroy -auto-approve'
+          tg_command: 'run-all destroy -auto-approve'
 
       - name: Annotate Pipeline
         run: echo "::notice ::Stack --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
