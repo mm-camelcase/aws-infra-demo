@@ -1,4 +1,4 @@
-name: Deploy Stack (Demo)
+name: Deploy Stack (Enhanced Demo)
 
 on:
   workflow_dispatch:
@@ -12,14 +12,12 @@ on:
           - destroy
       stack:
         type: choice
-        description: 'Stack'
+        description: 'Stack to target'
         options:
           - 'common/networking'
-
-
       region:
         type: choice
-        description: 'Region'
+        description: 'AWS Region'
         options:
           - 'eu-west-1'
           - 'us-east-1'
@@ -28,130 +26,138 @@ env:
   tf_version: 'v1.6.6'
   tg_version: '0.54.7'
   environment: 'demo'
-  #gh_env: 'Demo'
-  region: 'eu-west-1'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
-  #TF_LOG: 'DEBUG'
+  TF_LOG: 'DEBUG'
 
 jobs:
-  checks:
+  setup:
+    name: Setup Environment
     runs-on: ubuntu-24.04
-    permissions:
-      id-token: write
-      contents: read
+    outputs:
+      tg_dir: ${{ steps.set-dir.outputs.tg_dir }}
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@main
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Set AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.aws_role }}
-          aws-region: ${{ env.region }}
+          aws-region: ${{ github.event.inputs.region }}
 
-      - name: Check terragrunt HCL
+      - name: Define Terragrunt Directory
+        id: set-dir
+        run: echo "::set-output name=tg_dir::${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
+
+  checks:
+    name: Validate Terragrunt Configuration
+    runs-on: ubuntu-24.04
+    needs: setup
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ github.event.inputs.region }}
+
+      - name: Check HCL Formatting
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
+          tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
 
-      - name: Terragrunt Validate
+      - name: Validate Configuration
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
+          tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'validate'
 
-
   plan:
-    # if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
-    if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
-    name: Terraform Plan
-    #description: Generate a Terraform execution plan to preview the changes.
+    name: Generate Plan
     runs-on: ubuntu-24.04
-    permissions:
-      id-token: write
-      contents: read
-    needs: [ checks ]
+    needs: checks
+    if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@main
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
-          aws-region: eu-west-1
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ github.event.inputs.region }}
 
-      - name: Plan (run-all plan)
+      - name: Run Terragrunt Plan
         uses: gruntwork-io/terragrunt-action@v2
+        id: plan
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
+          tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all plan'
 
-  apply:
-    if: ${{ github.event.inputs.action == 'apply' }}
-    runs-on: ubuntu-24.04
-    #environment: Demo
-    permissions:
-      id-token: write
-      contents: read
-    # needs: [ plan ]
-    needs: [ checks ]
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@main
+      - name: Annotate Plan
+        if: ${{ success() }}
+        run: |
+          echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
+          echo "${{ steps.plan.outputs.stdout }}"
 
-      - name: Configure AWS credentials
+  apply:
+    name: Apply Changes
+    runs-on: ubuntu-24.04
+    needs: checks
+    if: ${{ github.event.inputs.action == 'apply' }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
-          aws-region: eu-west-1
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ github.event.inputs.region }}
 
-      - name: Apply (run-all apply)
+      - name: Run Terragrunt Apply
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
+          tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all apply -auto-approve'
 
-      - name: Annotate Pipeline
-        run: echo "::notice ::Stack --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
-
+      - name: Annotate Apply
+        run: echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
 
   destroy:
-    if: ${{ github.event.inputs.action == 'destroy' }}
+    name: Destroy Resources
     runs-on: ubuntu-24.04
-    #environment: Demo
-    permissions:
-      id-token: write
-      contents: read
-    needs: [ plan ]
+    needs: checks
+    if: ${{ github.event.inputs.action == 'destroy' }}
     steps:
-      - name: 'Checkout'
-        uses: actions/checkout@main
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
-          aws-region: eu-west-1
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ github.event.inputs.region }}
 
-      - name: Destroy
+      - name: Run Terragrunt Destroy
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}
+          tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all destroy -auto-approve'
 
-      - name: Annotate Pipeline
-        run: echo "::notice ::Stack --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
-
+      - name: Annotate Destroy
+        run: echo "::notice ::Destroyed Stack: ${{ needs.setup.outputs.tg_dir }}"
