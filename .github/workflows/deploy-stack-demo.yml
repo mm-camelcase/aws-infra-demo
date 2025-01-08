@@ -134,7 +134,8 @@ jobs:
           tg_command: 'run-all apply -auto-approve'
 
       - name: Annotate Apply
-        run: echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
+        run: |
+          echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
 
   destroy:
     name: Destroy Resources
@@ -160,4 +161,5 @@ jobs:
           tg_command: 'run-all destroy -auto-approve'
 
       - name: Annotate Destroy
-        run: echo "::notice ::Destroyed Stack: ${{ needs.setup.outputs.tg_dir }}"
+        run: |
+          echo "::notice ::Destroyed Stack: ${{ needs.setup.outputs.tg_dir }}"
