@@ -37,8 +37,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    # outputs:
-    #   tg_dir: ${{ env.tg_dir }}
+    outputs:
+      tg_dir: ${{ steps.set-dir.outputs.tg_dir }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -50,6 +50,7 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Define Terragrunt Directory
+        id: set-dir
         run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_OUTPUT
   
   checks:
