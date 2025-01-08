@@ -180,7 +180,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: checks
+    needs: [setup, checks]
     if: ${{ github.event.inputs.action == 'apply' }}
     steps:
       - name: Checkout Repository
@@ -198,7 +198,9 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all apply -auto-approve'
+          tg_command: 'run-all apply'
+          tg_comment: 1
+          tg_add_approve: 0
 
       - name: Annotate Apply
         run: |
