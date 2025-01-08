@@ -56,6 +56,9 @@ jobs:
   checks:
     name: Validate Terragrunt Configuration
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
     needs: setup
     steps:
       - name: Checkout Repository
@@ -86,6 +89,9 @@ jobs:
   plan:
     name: Generate Plan
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
     needs: checks
     if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
     steps:
@@ -116,6 +122,9 @@ jobs:
   apply:
     name: Apply Changes
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
     needs: checks
     if: ${{ github.event.inputs.action == 'apply' }}
     steps:
@@ -143,6 +152,9 @@ jobs:
   destroy:
     name: Destroy Resources
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
     needs: checks
     if: ${{ github.event.inputs.action == 'destroy' }}
     steps:
