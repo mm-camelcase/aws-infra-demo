@@ -47,7 +47,7 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Define Terragrunt Directory
-        run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_ENV
+        run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_OUTPUT
   
   checks:
     name: Validate Terragrunt Configuration
