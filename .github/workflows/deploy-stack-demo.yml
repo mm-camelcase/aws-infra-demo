@@ -135,7 +135,8 @@ jobs:
       #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
       - name: Save Plan Output to File
-        run: echo "${{ steps.plan.outputs.tg_action_output }}" > terragrunt_plan_output.txt
+        run: |
+          printf "%s" "${{ steps.plan.outputs.tg_action_output }}" > terragrunt_plan_output.txt
 
       # - name: Annotate Plan
       #   if: ${{ success() }}
