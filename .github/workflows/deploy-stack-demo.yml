@@ -112,12 +112,19 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all plan'
+        env:
+          TG_ACTION_OUTPUT_FILE: plan_output.txt
 
       - name: Annotate Plan
         if: ${{ success() }}
         run: |
           echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
-          echo "::notice ::Plan Output : ${{ steps.plan.outputs.tg_action_output }}"
+
+      - name: Upload Plan Output
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan
+          path: plan_output.txt
 
   apply:
     name: Apply Changes
