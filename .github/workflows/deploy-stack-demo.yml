@@ -134,6 +134,19 @@ jobs:
       #     echo "Checking for plan.tfplan files..."
       #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
+      - name: Output Cleaning
+        if: always()
+        run: |
+          TG_OUT=$(echo "${{ steps.plan.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
+          echo "TG_PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
+          echo "$TG_OUT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Log Cleaned Plan Output
+        run: |
+          echo "Cleaned Terragrunt Plan Output:"
+          echo "${{ env.TG_PLAN_OUTPUT }}"
+
       - name: Log Terragrunt Plan Output
         run: |
           echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
