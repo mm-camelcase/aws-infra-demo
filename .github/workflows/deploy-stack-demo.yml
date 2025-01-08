@@ -117,7 +117,7 @@ jobs:
         if: ${{ success() }}
         run: |
           echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
-          echo "${{ steps.plan.outputs.stdout }}"
+          echo "${{ steps.plan.outputs.tg_action_output }}"
 
   apply:
     name: Apply Changes
