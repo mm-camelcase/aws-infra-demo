@@ -125,9 +125,15 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all plan > combined_plan_output.txt 2>&1'
+          tg_command: 'run-all plan -out=plan.tfplan'
         env:
           TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+
+
+      - name: List Plan Files
+        run: |
+          echo "Checking for plan.tfplan files..."
+          find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
       - name: Annotate Plan
         if: ${{ success() }}
