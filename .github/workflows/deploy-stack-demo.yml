@@ -28,6 +28,7 @@ env:
   environment: 'demo'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
+  TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
   TF_LOG: 'DEBUG'
 
 jobs:
