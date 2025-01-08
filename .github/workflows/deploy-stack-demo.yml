@@ -54,7 +54,7 @@ jobs:
         run: mkdir -p $TF_PLUGIN_CACHE_DIR
 
       - name: Terraform Plugin Cache
-        uses: actions/cache@v4.0.1
+        uses: actions/cache@v4
         with:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
           key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
@@ -82,6 +82,8 @@ jobs:
 
       - name: Check HCL Formatting
         uses: gruntwork-io/terragrunt-action@v2
+        env:
+          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
@@ -90,6 +92,8 @@ jobs:
 
       - name: Validate Configuration
         uses: gruntwork-io/terragrunt-action@v2
+        env:
+          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
@@ -123,7 +127,7 @@ jobs:
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all plan'
         env:
-          TG_ACTION_OUTPUT_FILE: plan_output.txt
+          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
       - name: Annotate Plan
         if: ${{ success() }}
