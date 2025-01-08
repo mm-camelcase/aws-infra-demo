@@ -34,8 +34,11 @@ jobs:
   setup:
     name: Setup Environment
     runs-on: ubuntu-24.04
-    outputs:
-      tg_dir: ${{ env.tg_dir }}
+    permissions:
+      id-token: write
+      contents: read
+    # outputs:
+    #   tg_dir: ${{ env.tg_dir }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
