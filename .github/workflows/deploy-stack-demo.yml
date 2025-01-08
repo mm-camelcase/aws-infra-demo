@@ -125,7 +125,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all plan'
+          tg_command: 'run-all plan -out=plan_output.txt'
         env:
           TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
