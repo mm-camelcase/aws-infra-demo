@@ -126,6 +126,8 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
           tg_command: 'run-all plan'
+          tg_comment: 1
+          tg_add_approve: 0
         env:
           TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
@@ -134,43 +136,43 @@ jobs:
       #     echo "Checking for plan.tfplan files..."
       #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
-      - name: Log Terragrunt Plan Output
-        run: |
-          echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
-
-      - name: Output Cleaning
-        if: always()
-        run: |
-          TG_OUT=$(echo "${{ steps.plan.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
-          echo "TG_PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
-          echo "$TG_OUT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Log Cleaned Plan Output
-        run: |
-          echo "Cleaned Terragrunt Plan Output:"
-          echo "${{ env.TG_PLAN_OUTPUT }}"
-
-      - name: Log Terragrunt Plan Output
-        run: |
-          echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
-
-      - name: Save Plan Output to File
-        run: |
-          cat <<EOF > terragrunt_plan_output.txt
-          ${{ steps.plan.outputs.tg_action_output }}
-          EOF
-
-      # - name: Annotate Plan
-      #   if: ${{ success() }}
+      # - name: Log Terragrunt Plan Output
       #   run: |
-      #     echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
+      #     echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
 
-      - name: Upload Plan Output
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-plan
-          path: terragrunt_plan_output.txt
+      # - name: Output Cleaning
+      #   if: always()
+      #   run: |
+      #     TG_OUT=$(echo "${{ steps.plan.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
+      #     echo "TG_PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
+      #     echo "$TG_OUT" >> $GITHUB_ENV
+      #     echo "EOF" >> $GITHUB_ENV
+
+      # - name: Log Cleaned Plan Output
+      #   run: |
+      #     echo "Cleaned Terragrunt Plan Output:"
+      #     echo "${{ env.TG_PLAN_OUTPUT }}"
+
+      # - name: Log Terragrunt Plan Output
+      #   run: |
+      #     echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
+
+      # - name: Save Plan Output to File
+      #   run: |
+      #     cat <<EOF > terragrunt_plan_output.txt
+      #     ${{ steps.plan.outputs.tg_action_output }}
+      #     EOF
+
+      # # - name: Annotate Plan
+      # #   if: ${{ success() }}
+      # #   run: |
+      # #     echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
+
+      # - name: Upload Plan Output
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: terraform-plan
+      #     path: terragrunt_plan_output.txt
 
   apply:
     name: Apply Changes
