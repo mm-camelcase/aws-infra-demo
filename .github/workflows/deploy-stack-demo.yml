@@ -125,26 +125,28 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all plan -out=plan.tfplan'
+          tg_command: 'run-all plan'
         env:
           TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
+      # - name: List Plan Files
+      #   run: |
+      #     echo "Checking for plan.tfplan files..."
+      #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
-      - name: List Plan Files
-        run: |
-          echo "Checking for plan.tfplan files..."
-          find . -name "plan.tfplan" -type f -exec ls -lh {} +
+      - name: Save Plan Output to File
+        run: echo "${{ steps.plan.outputs.tg_action_output }}" > terragrunt_plan_output.txt
 
-      - name: Annotate Plan
-        if: ${{ success() }}
-        run: |
-          echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
+      # - name: Annotate Plan
+      #   if: ${{ success() }}
+      #   run: |
+      #     echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
 
       - name: Upload Plan Output
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
-          path: combined_plan_output.txt
+          path: terragrunt_plan_output.txt
 
   apply:
     name: Apply Changes
