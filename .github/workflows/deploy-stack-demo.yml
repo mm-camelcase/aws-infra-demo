@@ -134,6 +134,10 @@ jobs:
       #     echo "Checking for plan.tfplan files..."
       #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
+      - name: Log Terragrunt Plan Output
+        run: |
+          echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
+
       - name: Save Plan Output to File
         run: |
           cat <<EOF > terragrunt_plan_output.txt
