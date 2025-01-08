@@ -119,7 +119,7 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Run Terragrunt Plan
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v2.1.4
         id: plan
         with:
           tf_version: ${{ env.tf_version }}
@@ -133,6 +133,10 @@ jobs:
       #   run: |
       #     echo "Checking for plan.tfplan files..."
       #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
+
+      - name: Log Terragrunt Plan Output
+        run: |
+          echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
 
       - name: Output Cleaning
         if: always()
