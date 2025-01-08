@@ -34,6 +34,9 @@ jobs:
   setup:
     name: Setup Environment
     runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       tg_dir: ${{ steps.set-dir.outputs.tg_dir }}
     steps:
