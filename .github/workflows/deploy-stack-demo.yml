@@ -203,7 +203,7 @@ jobs:
           #tg_command: 'run-all apply'
           tg_command: 'run-all apply'
           #tg_comment: 1
-          tg_add_approve: 0
+          #tg_add_approve: 0
 
       - name: Annotate Apply
         run: |
