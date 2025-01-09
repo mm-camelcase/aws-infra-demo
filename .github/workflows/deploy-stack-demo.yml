@@ -109,7 +109,7 @@ jobs:
       id-token: write
       contents: read
     needs: [setup, checks]
-    if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
+    #if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
