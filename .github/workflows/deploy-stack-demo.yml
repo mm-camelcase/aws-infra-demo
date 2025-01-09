@@ -68,6 +68,28 @@ jobs:
       #     terragrunt-version: ${{ env.tg_version }}
       #     # token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Step 1: Try to load the image from cache
+      - name: Restore Cached Docker Image
+        uses: actions/cache@v3
+        id: cache-docker
+        with:
+          path: /tmp/terragrunt-image.tar
+          key: docker-terragrunt-tf-1.10.3-tg-0.71.1
+
+      # Step 2: Pull the image if it's not in the cache
+      - name: Pull and Save Third-Party Docker Image
+        if: steps.cache-docker.outputs.cache-hit != 'true'
+        run: |
+          docker pull devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+          docker save devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1 -o /tmp/terragrunt-image.tar
+
+      # Step 3: Load the cached image
+      - name: Load Cached Docker Image
+        run: |
+          if [ -f /tmp/terragrunt-image.tar ]; then
+            docker load -i /tmp/terragrunt-image.tar
+          fi
+
       - name: Define Terragrunt Directory
         id: set-dir
         run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_OUTPUT
@@ -158,8 +180,8 @@ jobs:
         run: |
           echo "${{ steps.tg.outputs.terragrunt-path }}" >> $GITHUB_PATH
 
-      - name: Interact with Terragrunt
-        run: terragrunt --version
+      # - name: Interact with Terragrunt
+      #   run: terragrunt --version
 
       - name: Run Terragrunt Plan
         run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
