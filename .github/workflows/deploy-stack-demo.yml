@@ -68,27 +68,27 @@ jobs:
       #     terragrunt-version: ${{ env.tg_version }}
       #     # token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 1: Try to load the image from cache
-      - name: Restore Cached Docker Image
-        uses: actions/cache@v3
-        id: cache-docker
-        with:
-          path: /tmp/terragrunt-image.tar
-          key: docker-terragrunt-tf-1.10.3-tg-0.71.1
+      # # Step 1: Try to load the image from cache
+      # - name: Restore Cached Docker Image
+      #   uses: actions/cache@v3
+      #   id: cache-docker
+      #   with:
+      #     path: /tmp/terragrunt-image.tar
+      #     key: docker-terragrunt-tf-1.10.3-tg-0.71.1
 
-      # Step 2: Pull the image if it's not in the cache
-      - name: Pull and Save Third-Party Docker Image
-        if: steps.cache-docker.outputs.cache-hit != 'true'
-        run: |
-          docker pull devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
-          docker save devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1 -o /tmp/terragrunt-image.tar
+      # # Step 2: Pull the image if it's not in the cache
+      # - name: Pull and Save Third-Party Docker Image
+      #   if: steps.cache-docker.outputs.cache-hit != 'true'
+      #   run: |
+      #     docker pull devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+      #     docker save devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1 -o /tmp/terragrunt-image.tar
 
-      # Step 3: Load the cached image
-      - name: Load Cached Docker Image
-        run: |
-          if [ -f /tmp/terragrunt-image.tar ]; then
-            docker load -i /tmp/terragrunt-image.tar
-          fi
+      # # Step 3: Load the cached image
+      # - name: Load Cached Docker Image
+      #   run: |
+      #     if [ -f /tmp/terragrunt-image.tar ]; then
+      #       docker load -i /tmp/terragrunt-image.tar
+      #     fi
 
       - name: Define Terragrunt Directory
         id: set-dir
@@ -245,6 +245,8 @@ jobs:
   apply:
     name: Apply Changes
     runs-on: ubuntu-24.04
+    container:
+      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
@@ -260,16 +262,23 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Apply
-        uses: gruntwork-io/terragrunt-action@v2.1.4
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          #tg_command: 'run-all apply'
-          tg_command: 'run-all apply'
-          #tg_comment: 1
-          #tg_add_approve: 0
+      # - name: Run Terragrunt Apply
+      #   uses: gruntwork-io/terragrunt-action@v2.1.4
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     #tg_command: 'run-all apply'
+      #     tg_command: 'run-all apply'
+      #     #tg_comment: 1
+      #     #tg_add_approve: 0
+
+      - name: Run Terragrunt Plan
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out testout.json
+
+      - name: Annotate Apply
+        run: |
+          echo "cat testout.json"
 
       - name: Annotate Apply
         run: |
