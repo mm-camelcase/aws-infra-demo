@@ -281,7 +281,7 @@ jobs:
 
       - name: Annotate Apply
         run: |
-          echo "cat testout.json"
+          cat testout.json
 
       - name: Annotate Apply
         run: |
