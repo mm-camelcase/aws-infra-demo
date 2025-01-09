@@ -274,14 +274,14 @@ jobs:
       #     #tg_add_approve: 0
 
       - name: Run Terragrunt JSON
-        run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out testout.json
+        run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
 
       # - name: Run Terragrunt Plan
       #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-json-out testout.json
 
       - name: Annotate Apply
         run: |
-          cat testout.json
+          ls -la
 
       - name: Annotate Apply
         run: |
