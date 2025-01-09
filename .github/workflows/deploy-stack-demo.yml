@@ -89,11 +89,11 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Setup Terragrunt
-        uses: autero1/action-terragrunt@v3
-        with:
-          terragrunt-version: ${{ env.tg_version }}
-          # token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Setup Terragrunt
+      #   uses: autero1/action-terragrunt@v3
+      #   with:
+      #     terragrunt-version: ${{ env.tg_version }}
+      #     # token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Interact with Terragrunt
         run: terragrunt --version
