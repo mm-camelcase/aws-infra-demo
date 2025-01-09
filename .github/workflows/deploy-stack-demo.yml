@@ -61,11 +61,11 @@ jobs:
       #     path: ${{ env.TF_PLUGIN_CACHE_DIR }}
       #     key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
 
-      - name: Setup Terragrunt
-        uses: autero1/action-terragrunt@v3
-        with:
-          terragrunt-version: ${{ env.tg_version }}
-          # token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Setup Terragrunt
+      #   uses: autero1/action-terragrunt@v3
+      #   with:
+      #     terragrunt-version: ${{ env.tg_version }}
+      #     # token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Define Terragrunt Directory
         id: set-dir
@@ -87,6 +87,12 @@ jobs:
         with:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v3
+        with:
+          terragrunt-version: ${{ env.tg_version }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Interact with Terragrunt
         run: terragrunt --version
