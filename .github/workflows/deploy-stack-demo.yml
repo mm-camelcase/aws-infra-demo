@@ -24,6 +24,7 @@ on:
 
 env:
   tf_version: 'v1.6.6'
+  tf_version2: '1.6.6'
   tg_version: '0.54.7'
   environment: 'demo'
   base_dir: 'non-prod'
@@ -134,7 +135,7 @@ jobs:
       - name: 'Terragrunt Plan'
         uses: the-commons-project/terragrunt-github-actions@master
         with:
-          tf_actions_version: ${{ env.tf_version }}
+          tf_actions_version: ${{ env.tf_version2 }}
           tg_actions_version: ${{ env.tg_version }}
           tf_actions_subcommand: 'plan'
           tf_actions_working_dir: ${{ needs.setup.outputs.tg_dir }}
