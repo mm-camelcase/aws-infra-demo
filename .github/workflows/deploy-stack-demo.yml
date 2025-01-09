@@ -145,7 +145,11 @@ jobs:
           terragrunt-version: ${{ env.tg_version }}
           # token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check HCL Formatting
+      -  name: Add Terragrunt to PATH
+          run: |
+            echo "${{ steps.terragrunt-install.outputs.terragrunt-path }}" >> $GITHUB_PATH
+
+      - name: Run Terragrunt Plan
         run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
 
       # - name: Run Terragrunt Plan
