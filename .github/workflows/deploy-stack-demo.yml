@@ -140,14 +140,15 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Setup Terragrunt
+        id: tg
         uses: autero1/action-terragrunt@v3
         with:
           terragrunt-version: ${{ env.tg_version }}
           # token: ${{ secrets.GITHUB_TOKEN }}
 
-      -  name: Add Terragrunt to PATH
-          run: |
-            echo "${{ steps.terragrunt-install.outputs.terragrunt-path }}" >> $GITHUB_PATH
+      - name: Add Terragrunt to PATH1
+        run: |
+          echo "${{ steps.tg.outputs.terragrunt-path }}" >> $GITHUB_PATH
 
       - name: Run Terragrunt Plan
         run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
