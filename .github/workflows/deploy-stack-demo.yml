@@ -274,7 +274,7 @@ jobs:
       #     #tg_add_approve: 0
 
       - name: Run Terragrunt Plan
-        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out testout.json
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-approve-all --terragrunt-json-out testout.json
 
       - name: Annotate Apply
         run: |
