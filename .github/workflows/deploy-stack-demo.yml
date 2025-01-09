@@ -119,7 +119,7 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Run Terragrunt Plan
-        uses: gruntwork-io/terragrunt-action@v2.1.4
+        uses: gruntwork-io/terragrunt-action@v2
         id: plan
         with:
           tf_version: ${{ env.tf_version }}
@@ -199,7 +199,7 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
           #tg_command: 'run-all apply'
-          tg_command: 'run-all apply --terragrunt-non-interactive --terragrunt-plan-all'
+          tg_command: 'run-all apply --terragrunt-plan-all'
           #tg_comment: 1
           #tg_add_approve: 0
 
