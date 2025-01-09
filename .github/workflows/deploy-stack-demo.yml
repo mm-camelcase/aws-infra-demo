@@ -193,7 +193,7 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Run Terragrunt Apply
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v2.1.4
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
