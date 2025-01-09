@@ -139,16 +139,25 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Plan
-        uses: gruntwork-io/terragrunt-action@v2
-        id: plan
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v3
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all plan'
-          tg_comment: 1
-          tg_add_approve: 0
+          terragrunt-version: ${{ env.tg_version }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check HCL Formatting
+        run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+
+      # - name: Run Terragrunt Plan
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   id: plan
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     tg_command: 'run-all plan'
+      #     tg_comment: 1
+      #     tg_add_approve: 0
         # env:
         #   TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
