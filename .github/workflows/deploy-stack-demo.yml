@@ -27,6 +27,7 @@ env:
   # tg_version: '0.54.7'
   tf_version: 'v1.10.4'
   tg_version: '0.71.2'
+  tg_container: 'tf-1.10.3-tg-0.71.1'
   environment: 'demo'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
@@ -113,19 +114,24 @@ jobs:
         run: terragrunt hclfmt --terragrunt-check --terragrunt-diff -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
 
       
+      # - name: Validate Configuration
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   env:
+      #     TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     tg_command: 'validate'
+
       - name: Validate Configuration
-        uses: gruntwork-io/terragrunt-action@v2
-        env:
-          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'validate'
+        run: terragrunt validate -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
 
   plan:
     name: Generate Plan
     runs-on: ubuntu-24.04
+    container:
+      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
