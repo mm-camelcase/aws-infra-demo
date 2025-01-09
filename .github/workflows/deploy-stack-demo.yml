@@ -30,7 +30,7 @@ env:
   environment: 'demo'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
-  TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
+  #TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
   #TF_LOG: 'DEBUG'
 
 jobs:
@@ -55,11 +55,11 @@ jobs:
       - name: Create Terraform Plugin Cache Dir
         run: mkdir -p $TF_PLUGIN_CACHE_DIR
 
-      - name: Terraform Plugin Cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
-          key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
+      # - name: Terraform Plugin Cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ${{ env.TF_PLUGIN_CACHE_DIR }}
+      #     key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
 
       - name: Define Terragrunt Directory
         id: set-dir
@@ -130,8 +130,8 @@ jobs:
           tg_command: 'run-all plan'
           tg_comment: 1
           tg_add_approve: 0
-        env:
-          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+        # env:
+        #   TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
 
       # - name: List Plan Files
       #   run: |
