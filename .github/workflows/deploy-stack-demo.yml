@@ -118,18 +118,29 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Plan
-        uses: gruntwork-io/terragrunt-action@v2.1.4
-        id: plan
+      # - name: Run Terragrunt Plan
+      #   uses: gruntwork-io/terragrunt-action@v2.1.4
+      #   id: plan
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     tg_command: 'run-all plan'
+      #     tg_comment: 1
+      #     tg_add_approve: 0
+      #   env:
+      #     TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+
+      - name: 'Terragrunt Plan'
+        uses: the-commons-project/terragrunt-github-actions@master
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all plan'
-          tg_comment: 1
-          tg_add_approve: 0
-        env:
-          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+          tf_actions_version: ${{ env.tf_version }}
+          tg_actions_version: ${{ env.tg_version }}
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: ${{ needs.setup.outputs.tg_dir }}
+          #tf_actions_comment: true
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: List Plan Files
       #   run: |
