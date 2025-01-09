@@ -73,8 +73,9 @@ jobs:
   
   checks:
     name: Validate Terragrunt Configuration
-    # runs-on: ubuntu-24.04
-    runs-on: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+    runs-on: ubuntu-24.04
+    container:
+      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
