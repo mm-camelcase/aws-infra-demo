@@ -73,7 +73,8 @@ jobs:
   
   checks:
     name: Validate Terragrunt Configuration
-    runs-on: ubuntu-24.04
+    # runs-on: ubuntu-24.04
+    runs-on: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
@@ -149,6 +150,9 @@ jobs:
       - name: Add Terragrunt to PATH1
         run: |
           echo "${{ steps.tg.outputs.terragrunt-path }}" >> $GITHUB_PATH
+
+      - name: Interact with Terragrunt
+        run: terragrunt --version
 
       - name: Run Terragrunt Plan
         run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
