@@ -198,9 +198,10 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all apply'
-          tg_comment: 1
-          tg_add_approve: 0
+          #tg_command: 'run-all apply'
+          tg_command: 'run-all apply --terragrunt-non-interactive --terragrunt-plan-all'
+          #tg_comment: 1
+          #tg_add_approve: 0
 
       - name: Annotate Apply
         run: |
