@@ -97,16 +97,20 @@ jobs:
       - name: Interact with Terragrunt
         run: terragrunt --version
 
-      - name: Check HCL Formatting
-        uses: gruntwork-io/terragrunt-action@v2
-        env:
-          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
+      # - name: Check HCL Formatting
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   env:
+      #     TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
 
+      - name: Check HCL Formatting
+        run: terragrunt hclfmt --terragrunt-check --terragrunt-diff -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+
+      
       - name: Validate Configuration
         uses: gruntwork-io/terragrunt-action@v2
         env:
