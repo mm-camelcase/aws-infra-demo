@@ -215,7 +215,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: checks
+    needs: [setup, checks]
     if: ${{ github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository
