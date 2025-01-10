@@ -122,20 +122,29 @@ jobs:
         run: |
           cat plan-output.json | jq '.resource_changes'
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Set Up Virtual Environment
+      - name: Install yq (Go-Based)
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install yq
-
+          wget https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -O /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+        
       - name: Convert JSON to YAML
-        run: |
-          run: cat plan-output.json | yq -P > plan-output.yaml
+        run: yq eval -P plan-output.json > plan-output.yaml
+        
+
+      # - name: Set up Python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.10'
+
+      # - name: Set Up Virtual Environment
+      #   run: |
+      #     python -m venv venv
+      #     source venv/bin/activate
+      #     pip install yq
+
+      # - name: Convert JSON to YAML
+      #   run: |
+      #     run: cat plan-output.json | yq -P > plan-output.yaml
 
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
