@@ -98,7 +98,7 @@ jobs:
     name: Validate Terragrunt Configuration
     runs-on: ubuntu-24.04
     container:
-      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+      image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
@@ -273,8 +273,8 @@ jobs:
       #     #tg_comment: 1
       #     #tg_add_approve: 0
 
-      # - name: Run Terragrunt JSON
-      #   run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
+      - name: Run Terragrunt JSON
+        run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
 
       # - name: Run Terragrunt Plan
       #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-json-out testout.json
