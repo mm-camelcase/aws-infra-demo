@@ -120,7 +120,6 @@ jobs:
 
       - name: Convert JSON to YAML
         run: |
-          pip install yq
           yq -y plan-output.json > plan-output.yaml
 
       - name: Upload Terraform Plan Output
