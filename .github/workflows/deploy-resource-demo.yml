@@ -110,17 +110,21 @@ jobs:
         #run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
         run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color | tee plan-output.txt
 
-      - name: Run Terragrunt Show 2
-        #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
-        run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+      # - name: Run Terragrunt Show 2
+      #   #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
+      #   run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
     
       - name: Run Terragrunt Show
         #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
         run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
-      - name: Parse Plan Output with jq
+      - name: Visualise plan
         run: |
-          cat plan-output.json | jq '.resource_changes'
+          tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | sed '\$d' > plan.md
+          tfplandoc generate plan-output.json >> plan.md
+      # - name: Parse Plan Output with jq
+      #   run: |
+      #     cat plan-output.json | jq '.resource_changes'
 
       # - name: Install wget
       #   run: apt-get update && apt-get install -y wget
@@ -130,13 +134,13 @@ jobs:
       #     wget https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -O /usr/local/bin/yq
       #     chmod +x /usr/local/bin/yq
 
-      - name: Install yq (Go-Based)
-        run: |
-          curl -L https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -o /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
+      # - name: Install yq (Go-Based)
+      #   run: |
+      #     curl -L https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -o /usr/local/bin/yq
+      #     chmod +x /usr/local/bin/yq
         
-      - name: Convert JSON to YAML
-        run: yq eval -P plan-output.json > plan-output.yaml
+      # - name: Convert JSON to YAML
+      #   run: yq eval -P plan-output.json > plan-output.yaml
         
 
       # - name: Set up Python
@@ -158,7 +162,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-output
-          path: ./plan-output.yaml
+          path: ./plan.md
 
 
   apply:
