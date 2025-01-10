@@ -122,6 +122,9 @@ jobs:
         run: |
           cat plan-output.json | jq '.resource_changes'
 
+      - name: Install wget
+        run: sudo apt-get update && sudo apt-get install -y wget
+
       - name: Install yq (Go-Based)
         run: |
           wget https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -O /usr/local/bin/yq
