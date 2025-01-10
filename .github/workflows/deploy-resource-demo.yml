@@ -122,9 +122,14 @@ jobs:
         run: |
           cat plan-output.json | jq '.resource_changes'
 
+      - name: Set Up Virtual Environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install yq
+
       - name: Convert JSON to YAML
         run: |
-          pip install --no-cache-dir yq
           run: cat plan-output.json | yq -P > plan-output.yaml
 
       - name: Upload Terraform Plan Output
