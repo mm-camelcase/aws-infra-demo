@@ -118,9 +118,14 @@ jobs:
         #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
         run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
+      - name: Parse Plan Output with jq
+        run: |
+          cat plan-output.json | jq '.resource_changes'
+
       - name: Convert JSON to YAML
         run: |
-          yq -y plan-output.json > plan-output.yaml
+          pip install --no-cache-dir yq
+          run: cat plan-output.json | yq -P > plan-output.yaml
 
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
