@@ -107,63 +107,15 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Run Terragrunt Plan
-        #run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
-        run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color | tee plan-output.txt
-
-      # - name: Run Terragrunt Show 2
-      #   #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
-      #   run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+        run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan -no-color 
     
       - name: Run Terragrunt Show
-        #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
-        run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
+        run: terragrunt show -json $GITHUB_WORKSPACE/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
       - name: Visualise plan
         run: |
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
-
-      - name: Visualise plan 2
-        run: |
-          tfplandoc generate -h 
-          
-
-
-      # - name: Parse Plan Output with jq
-      #   run: |
-      #     cat plan-output.json | jq '.resource_changes'
-
-      # - name: Install wget
-      #   run: apt-get update && apt-get install -y wget
-
-      # - name: Install yq (Go-Based)
-      #   run: |
-      #     wget https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -O /usr/local/bin/yq
-      #     chmod +x /usr/local/bin/yq
-
-      # - name: Install yq (Go-Based)
-      #   run: |
-      #     curl -L https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -o /usr/local/bin/yq
-      #     chmod +x /usr/local/bin/yq
-        
-      # - name: Convert JSON to YAML
-      #   run: yq eval -P plan-output.json > plan-output.yaml
-        
-
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.10'
-
-      # - name: Set Up Virtual Environment
-      #   run: |
-      #     python -m venv venv
-      #     source venv/bin/activate
-      #     pip install yq
-
-      # - name: Convert JSON to YAML
-      #   run: |
-      #     run: cat plan-output.json | yq -P > plan-output.yaml
 
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
@@ -171,6 +123,14 @@ jobs:
           name: terraform-plan-output
           path: ./plan.md
 
+  approval:
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Await Manual Approval
+        uses: hmarr/auto-approve-action@v4
+        # with:
+        #   github_token: ${{ secrets.GITHUB_TOKEN }}
 
   apply:
     name: Apply Changes
@@ -180,8 +140,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [setup, checks]
-    if: ${{ github.event.inputs.action == 'apply' }}
+    needs: [approval, setup]
+    # if: ${{ github.event.inputs.action == 'apply' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -203,22 +163,28 @@ jobs:
       #     #tg_comment: 1
       #     #tg_add_approve: 0
 
-      - name: Run Terragrunt JSON
-        run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
+      # - name: Run Terragrunt JSON
+      #   run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
 
       # - name: Run Terragrunt Plan
       #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-json-out testout.json
 
-      - name: Run Terragrunt Apply
-        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-plan-all
+      # - name: Run Terragrunt Apply
+      #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-plan-all
 
-      - name: Annotate Apply
-        run: |
-          ls -la
+      # - name: Run Terragrunt Apply
+      #   run: terragrunt apply tfplan
 
-      - name: Annotate Apply
-        run: |
-          echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
+      - name: Run Terrafrom Apply 2
+        run: terragrunt apply $GITHUB_WORKSPACE/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+
+      # - name: Annotate Apply
+      #   run: |
+      #     ls -la
+
+      # - name: Annotate Apply
+      #   run: |
+      #     echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
 
   destroy:
     name: Destroy Resources
