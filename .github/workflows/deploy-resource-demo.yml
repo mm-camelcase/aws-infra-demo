@@ -90,7 +90,7 @@ jobs:
     name: Generate Plan
     runs-on: ubuntu-24.04
     container:
-      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+      image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
@@ -122,6 +122,13 @@ jobs:
         run: |
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | sed '\$d' > plan.md
           tfplandoc generate plan-output.json >> plan.md
+
+      - name: Visualise plan 2
+        run: |
+          tfplandoc generate -h 
+          
+
+
       # - name: Parse Plan Output with jq
       #   run: |
       #     cat plan-output.json | jq '.resource_changes'
