@@ -120,7 +120,7 @@ jobs:
 
       - name: Visualise plan
         run: |
-          tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | sed -e '\$d' > plan.md
+          tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
 
       - name: Visualise plan 2
