@@ -123,7 +123,7 @@ jobs:
           cat plan-output.json | jq '.resource_changes'
 
       - name: Install wget
-        run: sudo apt-get update && sudo apt-get install -y wget
+        run: apt-get update && apt-get install -y wget
 
       - name: Install yq (Go-Based)
         run: |
