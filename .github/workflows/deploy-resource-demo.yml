@@ -107,8 +107,14 @@ jobs:
           aws-region: ${{ github.event.inputs.region }}
 
       - name: Run Terragrunt Plan
-        run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+        #run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+        run: terraform plan | tee plan-output.txt
 
+      - name: Upload Terraform Plan Output
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan-output
+          path: ./plan-output.txt
 
 
   apply:
