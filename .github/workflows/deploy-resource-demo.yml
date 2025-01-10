@@ -118,11 +118,16 @@ jobs:
         #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
         run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
+      - name: Convert JSON to YAML
+        run: |
+          pip install yq
+          yq -y plan-output.json > plan-output.yaml
+
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-output
-          path: ./plan-output.json
+          path: ./plan-output.yaml
 
 
   apply:
