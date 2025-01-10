@@ -1,0 +1,205 @@
+name: Deploy Resources (Demo)
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        description: 'Action to perform (plan/apply/destroy)'
+        options:
+          - plan
+          - apply
+          - destroy
+      resource:
+        type: choice
+        description: 'Resource'
+        options:
+          - 'common/storage/s3/example-bucket'
+          - 'common/networking/azs'
+          - 'common/networking/vpc'
+          # - 'network/bastion'
+          # - 'security/certs/core-ssl'
+          # - 'network/alb/alb-core'
+          # - 'network/alb/alb-sandbox'
+          # - 'security/groups/devenv-rds'
+          # - 'security/groups/ecs-to-rds'
+          # - 'security/groups/bastion-sg'
+          # - 'security/groups/ecs-services'
+          # - 'security/groups/camunda-sandbox-rds'
+          # - 'security/groups/fineract-sandbox-rds'
+          # - 'security/groups/whitelist-bastion'
+          # - 'security/groups/whitelist-mongo'
+          # - 'security/kms/parameter-store'
+          # - 'security/groups/connect-db'
+          # - 'security/iam/datadog'
+          # - 'security/waf/core-alb'
+          # - 'security/waf-ipset/whitelist'
+          # - 'storage/s3/example-bucket'
+          # - 'storage/parameter-store'
+          # - 'storage/rds/shared-devenv'
+          # - 'storage/rds/camunda-sandbox'
+          # - 'storage/rds/fineract-sandbox'
+          # - 'storage/rds/connect-db'
+          # - 'storage/efs'
+          # - 'cluster/app-mesh/mesh'
+          # - 'cluster/ecs-cluster/core'
+          # - 'cluster/service-discovery/cloud-map'
+          # - 'cluster/service-discovery/route53'
+          # - 'cluster/ecs-services/core/nginx-demo'
+          # - 'cluster/ecs-services/core/auth'
+          # - 'cluster/ecs-services/core/admin-app'
+          # - 'cluster/ecs-services/core/buyer-app'
+          # - 'cluster/ecs-services/core/mongo-db'
+          # - 'cluster/ecs-services/core/rabbit-mq'
+          # - 'cluster/ecs-services/core/checklist-api'
+          # - 'cluster/ecs-services/core/gateway-service'
+          # - 'cluster/ecs-services/core/core-service'
+          # - 'cluster/ecs-services/core/trade-service'
+          # - 'cluster/ecs-services/core/user-service'
+          # - 'cluster/ecs-services/core/connect-service'
+          # - 'cluster/eventbridge/log'
+          # - 'cluster/eventbridge/auto-deploy'
+          # - 'security/group-rules/ecs-to-rds'
+          # - 'security/group-rules/whitelists'
+          # - 'cluster/ecs-cluster/sandbox'
+          # - 'cluster/ecs-services/sandbox/camunda'
+          # - 'security/certs/ff-dot-tech' # us-east-1
+          # - 'network/cloudfront/vite-app'
+          # - 'storage/s3/vite-app'
+
+      region:
+        type: choice
+        description: 'Region'
+        options:
+          - 'eu-west-1'
+          - 'us-east-1'
+
+env:
+  tf_version: 'v1.6.6'
+  tg_version: '0.54.7'
+  environment: 'demo'
+  #gh_env: 'Demo'
+  region: 'eu-west-1'
+  base_dir: 'non-prod'
+  aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
+  #TF_LOG: 'DEBUG'
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.aws_role }}
+          aws-region: ${{ env.region }}
+
+      - name: Check terragrunt HCL
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}
+          tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
+
+      - name: Terragrunt Validate
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}
+          tg_command: 'validate'
+
+
+  plan:
+    # if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
+    if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+    needs: [ checks ]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
+          aws-region: eu-west-1
+
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}
+          tg_command: 'plan'
+
+  apply:
+    if: ${{ github.event.inputs.action == 'apply' }}
+    runs-on: ubuntu-24.04
+    #environment: Demo
+    permissions:
+      id-token: write
+      contents: read
+    # needs: [ plan ]
+    needs: [ checks ]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
+          aws-region: eu-west-1
+
+      - name: Apply
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}
+          tg_command: 'apply -auto-approve'
+
+      - name: Annotate Pipeline
+        run: echo "::notice ::Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
+
+
+  destroy:
+    if: ${{ github.event.inputs.action == 'destroy' }}
+    runs-on: ubuntu-24.04
+    #environment: Demo
+    permissions:
+      id-token: write
+      contents: read
+    needs: [ plan ]
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@main
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction
+          aws-region: eu-west-1
+
+      - name: Destroy
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}
+          tg_command: 'destroy -auto-approve'
+
+      - name: Annotate Pipeline
+        run: echo "::notice ::Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
+
