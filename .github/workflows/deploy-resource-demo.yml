@@ -113,7 +113,7 @@ jobs:
     
       - name: Run Terragrunt Show
         #run: terraform show -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -json tfplan > plan-output.json
-        run: terragrunt show tfplan
+        run: terragrunt show tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
 
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
