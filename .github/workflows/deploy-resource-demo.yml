@@ -241,12 +241,17 @@ jobs:
       # - name: Run Terragrunt Apply
       #   run: terragrunt apply tfplan
 
+      - name: check dir 1
+        run: |
+          pwd
+          ls -la
+
       - uses: actions/download-artifact@v4
         with:
           name: terraform-plan-output
           path: tfplan
 
-      - name: check dir
+      - name: check dir 2
         run: |
           pwd
           ls -la
