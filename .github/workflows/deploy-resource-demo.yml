@@ -145,6 +145,7 @@ jobs:
           pwd
           ls -la
           ls -la ${{ needs.setup.outputs.tg_dir }}
+          cat ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache/*/*/tfplan
 
 
       # Upload the plan file and visual planas as artifacts
@@ -153,7 +154,6 @@ jobs:
         with:
           name: terraform-plan-output
           path: |
-           ./plan.md
            ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache/*/*/tfplan
 
 
