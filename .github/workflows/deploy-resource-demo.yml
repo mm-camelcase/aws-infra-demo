@@ -147,15 +147,23 @@ jobs:
   #       # with:
   #       #   github_token: ${{ secrets.GITHUB_TOKEN }}
 
+  # approval:
+  #   needs: plan
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
+  #   steps:
+  #     - name: Await Manual Approval
+  #       uses: hmarr/auto-approve-action@v2
+  #       # with:
+  #       #   github_token: ${{ secrets.GITHUB_TOKEN }}
+
   approval:
     needs: plan
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     steps:
       - name: Await Manual Approval
-        uses: hmarr/auto-approve-action@v2
-        # with:
-        #   github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "Waiting for manual approval before applying changes."
+        # This step acts as a placeholder to pause the workflow for manual review
 
   apply:
     name: Apply Changes
