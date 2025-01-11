@@ -160,7 +160,7 @@ jobs:
           name: terraform-plan-output
           path: |
             ./plan.md
-            ${{ env.TFPLAN_PATH }}
+            .${{ env.TFPLAN_PATH }}
 
 
 
