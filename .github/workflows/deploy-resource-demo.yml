@@ -176,7 +176,7 @@ jobs:
       id-token: write
       contents: read
     needs: [approval, setup, plan]
-    # if: ${{ github.event.inputs.action == 'apply' }}
+    if: ${{ github.event.inputs.action == 'apply' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -214,6 +214,11 @@ jobs:
         with:
           name: terraform-plan-output
           path: tfplan
+
+      - name: Run Terragrunt Apply
+        run: |
+          pwd
+          ls -la
 
       - name: Run Terrafrom Apply 2
         run: terragrunt apply tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
