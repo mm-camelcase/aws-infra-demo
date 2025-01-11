@@ -113,25 +113,30 @@ jobs:
         run: |
           if [[ "${{ github.event.inputs.action }}" == "plan" ]]; then
             echo "Running terraform plan..."
-            terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan   
+            terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan   
           elif [[ "${{ github.event.inputs.action }}" == "destroy" ]]; then
             echo "Running terraform plan -destroy..."
-            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan
+            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan
           fi
 
       - name: Run Terragrunt Show
-        run: terragrunt show -json $GITHUB_WORKSPACE/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
+        run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
       - name: Visualise plan
         run: |
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
 
+      # Upload the plan file and visual planas as artifacts
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-output
-          path: ./plan.md
+          path: |
+           ./plan.md
+           ./tfplan
+
+
 
   # approval:
   #   needs: plan
@@ -195,8 +200,13 @@ jobs:
       # - name: Run Terragrunt Apply
       #   run: terragrunt apply tfplan
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-output
+          path: tfplan
+
       - name: Run Terrafrom Apply 2
-        run: terragrunt apply $GITHUB_WORKSPACE/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+        run: terragrunt apply tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
 
       # - name: Annotate Apply
       #   run: |
