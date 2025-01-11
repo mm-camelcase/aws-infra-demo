@@ -111,7 +111,7 @@ jobs:
     
       - name: Run Terraform Plan
         run: |
-          if [ "${{ github.event.inputs.action }}" = "plan" ]; then
+          if [ "${{ github.event.inputs.action }}" = "apply" ]; then
             echo "Running terraform plan..."
             terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
