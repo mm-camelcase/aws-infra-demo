@@ -173,7 +173,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [approval, setup]
+    needs: [approval, setup, plan]
     # if: ${{ github.event.inputs.action == 'apply' }}
     steps:
       - name: Checkout Repository
