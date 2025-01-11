@@ -129,6 +129,7 @@ jobs:
           ls -la
           ls -la ${{ needs.setup.outputs.tg_dir }}
           ls -la ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache
+          ls -la -R
 
       - name: Run Terragrunt Show
         run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
