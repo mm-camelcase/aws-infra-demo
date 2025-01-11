@@ -131,6 +131,13 @@ jobs:
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
 
+      - name: check dir
+        run: |
+          pwd
+          ls -la
+          ls -la ${{ needs.setup.outputs.tg_dir }}
+
+
       # Upload the plan file and visual planas as artifacts
       - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
@@ -219,7 +226,7 @@ jobs:
           name: terraform-plan-output
           path: tfplan
 
-      - name: Run Terragrunt Apply
+      - name: check dir
         run: |
           pwd
           ls -la
