@@ -130,7 +130,7 @@ jobs:
           ls -la
           ls -la ${{ needs.setup.outputs.tg_dir }}
           ls -la ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache
-          ls -la -R
+          ls -la ${{ github.workspace }} 
           find ${{ needs.setup.outputs.tg_dir }} -name "tfplan.tfplan"
 
       - name: Run Terragrunt Show
