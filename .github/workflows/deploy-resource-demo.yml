@@ -123,6 +123,12 @@ jobs:
             terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
           fi
 
+      - name: check dir 1
+        run: |
+          pwd
+          ls -la
+          ls -la ${{ needs.setup.outputs.tg_dir }}
+
       - name: Run Terragrunt Show
         run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
@@ -131,7 +137,7 @@ jobs:
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
 
-      - name: check dir
+      - name: check dir 2
         run: |
           pwd
           ls -la
