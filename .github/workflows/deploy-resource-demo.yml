@@ -257,7 +257,8 @@ jobs:
           ls -la
 
       - name: Run Terrafrom Apply 2
-        run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+        #run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+        run: terragrunt run-all apply --terragrunt-out-dir ${{ github.workspace }}/tfplan
 
       # - name: Annotate Apply
       #   run: |
