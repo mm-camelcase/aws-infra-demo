@@ -151,6 +151,7 @@ jobs:
       - name: Find tfplan and Export Path
         run: |
           TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
+          echo $TFPLAN_PATH
           echo "TFPLAN_PATH=$TFPLAN_PATH" >> $GITHUB_ENV
 
       # Upload the plan file and visual planas as artifacts
