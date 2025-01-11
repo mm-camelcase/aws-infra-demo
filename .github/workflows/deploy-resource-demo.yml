@@ -148,11 +148,15 @@ jobs:
           cat ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache/*/*/tfplan
 
 
-      - name: Find tfplan and Export Path
+      - name: Find tfplan and copy to root
         run: |
           TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
-          echo $TFPLAN_PATH
-          echo "TFPLAN_PATH=$TFPLAN_PATH" >> $GITHUB_ENV
+          cp $TFPLAN_PATH ./tfplan
+          #echo $TFPLAN_PATH
+          #echo "TFPLAN_PATH=$TFPLAN_PATH" >> $GITHUB_ENV
+
+      # - name: Copy tfplan to Workspace Root
+      #   run: cp ${{ env.TFPLAN_PATH }} ./tfplan
 
       # Upload the plan file and visual planas as artifacts
       - name: Upload Terraform Plan Output
@@ -161,7 +165,7 @@ jobs:
           name: terraform-plan-output
           path: |
             ./plan.md
-            ./${{ env.TFPLAN_PATH }}
+            ./tfplan
 
 
 
