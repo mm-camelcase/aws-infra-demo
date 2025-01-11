@@ -138,7 +138,7 @@ jobs:
           name: terraform-plan-output
           path: |
            ./plan.md
-           ./tfplan
+           ${{ needs.setup.outputs.tg_dir }}/tfplan
 
 
 
