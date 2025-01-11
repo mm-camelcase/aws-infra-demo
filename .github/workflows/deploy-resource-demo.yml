@@ -113,12 +113,10 @@ jobs:
         run: |
           if [[ "${{ github.event.inputs.action }}" == "plan" ]]; then
             echo "Running terraform plan..."
-            terraform plan -out=$GITHUB_WORKSPACE/tfplan
-            terraform show $GITHUB_WORKSPACE/tfplan
+            terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan   
           elif [[ "${{ github.event.inputs.action }}" == "destroy" ]]; then
             echo "Running terraform plan -destroy..."
-            terraform plan -destroy -out=$GITHUB_WORKSPACE/tfplan
-            terraform show $GITHUB_WORKSPACE/tfplan
+            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan
           fi
 
       - name: Run Terragrunt Show
