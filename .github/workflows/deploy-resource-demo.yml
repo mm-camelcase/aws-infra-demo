@@ -117,10 +117,10 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
             echo "Running terraform plan..."
-            terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
+            terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=${{ needs.setup.outputs.tg_dir }}/tfplan -no-color
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
             echo "Running terraform plan -destroy..."
-            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
+            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=${{ needs.setup.outputs.tg_dir }}/tfplan -no-color
           fi
 
       - name: check dir 1
@@ -132,7 +132,7 @@ jobs:
           ls -la -R
 
       - name: Run Terragrunt Show
-        run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
+        run: terragrunt show -json ${{ needs.setup.outputs.tg_dir }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
       - name: Visualise plan
         run: |
