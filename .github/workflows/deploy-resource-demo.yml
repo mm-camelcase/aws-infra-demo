@@ -160,10 +160,12 @@ jobs:
   approval:
     needs: plan
     runs-on: ubuntu-latest
+    environment:
+      name: demo
     steps:
       - name: Await Manual Approval
         run: echo "Waiting for manual approval before applying changes."
-        # This step acts as a placeholder to pause the workflow for manual review
+
 
   apply:
     name: Apply Changes
