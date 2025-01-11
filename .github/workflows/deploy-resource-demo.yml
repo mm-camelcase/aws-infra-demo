@@ -106,9 +106,21 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Plan
-        run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan -no-color 
+      # - name: Run Terragrunt Plan
+      #   run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan -no-color 
     
+      - name: Run Terraform Plan
+        run: |
+          if [[ "${{ github.event.inputs.action }}" == "plan" ]]; then
+            echo "Running terraform plan..."
+            terraform plan -out=$GITHUB_WORKSPACE/tfplan
+            terraform show $GITHUB_WORKSPACE/tfplan
+          elif [[ "${{ github.event.inputs.action }}" == "destroy" ]]; then
+            echo "Running terraform plan -destroy..."
+            terraform plan -destroy -out=$GITHUB_WORKSPACE/tfplan
+            terraform show $GITHUB_WORKSPACE/tfplan
+          fi
+
       - name: Run Terragrunt Show
         run: terragrunt show -json $GITHUB_WORKSPACE/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
@@ -123,12 +135,22 @@ jobs:
           name: terraform-plan-output
           path: ./plan.md
 
+  # approval:
+  #   needs: plan
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Await Manual Approval
+  #       uses: hmarr/auto-approve-action@v4
+  #       # with:
+  #       #   github_token: ${{ secrets.GITHUB_TOKEN }}
+
   approval:
     needs: plan
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     steps:
       - name: Await Manual Approval
-        uses: hmarr/auto-approve-action@v4
+        uses: hmarr/auto-approve-action@v2
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
 
