@@ -232,7 +232,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [setup, checks]
+    needs: [approval, setup, plan]
     if: ${{ github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository
