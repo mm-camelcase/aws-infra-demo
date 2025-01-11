@@ -118,7 +118,7 @@ jobs:
           if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
             echo "Running terraform plan..."
             #terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
-            run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
+            terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
             echo "Running terraform plan -destroy..."
             terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
