@@ -172,28 +172,11 @@ jobs:
 
 
 
-  # approval:
-  #   needs: plan
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Await Manual Approval
-  #       uses: hmarr/auto-approve-action@v4
-  #       # with:
-  #       #   github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  # approval:
-  #   needs: plan
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
-  #   steps:
-  #     - name: Await Manual Approval
-  #       uses: hmarr/auto-approve-action@v2
-  #       # with:
-  #       #   github_token: ${{ secrets.GITHUB_TOKEN }}
+ 
 
   approval:
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: demo
     steps:
@@ -283,6 +266,8 @@ jobs:
   destroy:
     name: Destroy Resources
     runs-on: ubuntu-24.04
+    container:
+      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
