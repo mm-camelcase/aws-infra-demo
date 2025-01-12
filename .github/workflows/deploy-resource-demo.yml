@@ -121,16 +121,17 @@ jobs:
             terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
             echo "Running terraform plan -destroy..."
-            terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
+            #terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
+            terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           fi
 
-      - name: check dir 1
-        run: |
-          pwd
-          ls -la
-          echo ${{ github.workspace }} 
-          ls -la ${{ github.workspace }} 
-          find ${{ needs.setup.outputs.tg_dir }} -name "tfplan.tfplan"
+      # - name: check dir 1
+      #   run: |
+      #     pwd
+      #     ls -la
+      #     echo ${{ github.workspace }} 
+      #     ls -la ${{ github.workspace }} 
+      #     find ${{ needs.setup.outputs.tg_dir }} -name "tfplan.tfplan"
 
       - name: Run Terragrunt Show
         run: terragrunt show -json ${{ github.workspace }}/tfplan.tfplan  -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
