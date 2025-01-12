@@ -1,7 +1,7 @@
 name: Deploy Resources (Demo)
 
 concurrency:
-  group: terraform-${{ github.environment }}
+  group: terraform-demo
 
 on:
   workflow_dispatch:
