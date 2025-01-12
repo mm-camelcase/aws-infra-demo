@@ -257,11 +257,12 @@ jobs:
         run: |
           pwd
           ls -la
-          echo ${{ github.workspace }} 
-          ls -la ${{ github.workspace }} 
+          echo $GITHUB_WORKSPACE 
+          ls -la $GITHUB_WORKSPACE 
           #echo "$RUNNER_TEMP"
           #ls -la "$RUNNER_TEMP"
         env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
           RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Run Terrafrom Apply 2
