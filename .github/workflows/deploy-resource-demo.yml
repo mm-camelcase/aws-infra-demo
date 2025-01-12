@@ -243,30 +243,29 @@ jobs:
       # - name: Run Terragrunt Apply
       #   run: terragrunt apply tfplan
 
-      - name: check dir 1
-        run: |
-          pwd
-          ls -la
+      # - name: check dir 1
+      #   run: |
+      #     pwd
+      #     ls -la
 
       - uses: actions/download-artifact@v4
         with:
           name: terraform-plan-output
           path: ${{ github.workspace }}/tfplan.tfplan
 
-      - name: check dir 2
-        run: |
-          pwd
-          ls -la
-          echo $GITHUB_WORKSPACE 
-          ls -la $GITHUB_WORKSPACE 
-          #echo "$RUNNER_TEMP"
-          #ls -la "$RUNNER_TEMP"
-        env:
-          GITHUB_WORKSPACE: ${{ github.workspace }}
-          RUNNER_TEMP: ${{ runner.temp }}
+      # - name: check dir 2
+      #   run: |
+      #     pwd
+      #     ls -la
+      #     echo $GITHUB_WORKSPACE 
+      #     ls -la $GITHUB_WORKSPACE 
+      #     #echo "$RUNNER_TEMP"
+      #     #ls -la "$RUNNER_TEMP"
+      #   env:
+      #     GITHUB_WORKSPACE: ${{ github.workspace }}
+      #     RUNNER_TEMP: ${{ runner.temp }}
 
-      - name: Run Terrafrom Apply 2
-        #run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
+      - name: Run Terrafrom Apply
         run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
@@ -276,9 +275,9 @@ jobs:
       #   run: |
       #     ls -la
 
-      # - name: Annotate Apply
-      #   run: |
-      #     echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
+      - name: Annotate Apply
+        run: |
+          echo "::notice ::Applied Resource: ${{ needs.setup.outputs.tg_dir }}"
 
   destroy:
     name: Destroy Resources
@@ -298,14 +297,25 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Destroy
-        uses: gruntwork-io/terragrunt-action@v2
+      # - name: Run Terragrunt Destroy
+      #   uses: gruntwork-io/terragrunt-action@v2
+      #   with:
+      #     tf_version: ${{ env.tf_version }}
+      #     tg_version: ${{ env.tg_version }}
+      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
+      #     tg_command: 'run-all destroy -auto-approve'
+
+      - uses: actions/download-artifact@v4
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all destroy -auto-approve'
+          name: terraform-plan-output
+          path: ${{ github.workspace }}/tfplan.tfplan
+
+      - name: Run Terrafrom Destroy
+        run: terragrunt run-all destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          #RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Annotate Destroy
         run: |
-          echo "::notice ::Destroyed Stack: ${{ needs.setup.outputs.tg_dir }}"
+          echo "::notice ::Destroyed Resource: ${{ needs.setup.outputs.tg_dir }}"
