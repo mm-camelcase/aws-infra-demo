@@ -128,13 +128,12 @@ jobs:
         run: |
           pwd
           ls -la
-          ls -la ${{ needs.setup.outputs.tg_dir }}
-          ls -la ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache
+          echo ${{ github.workspace }} 
           ls -la ${{ github.workspace }} 
           find ${{ needs.setup.outputs.tg_dir }} -name "tfplan.tfplan"
 
       - name: Run Terragrunt Show
-        run: terragrunt show -json tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
+        run: terragrunt show -json ${{ github.workspace }}/tfplan.tfplan  -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
       - name: Visualise plan
         run: |
