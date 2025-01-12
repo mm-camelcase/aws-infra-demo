@@ -251,21 +251,22 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: terraform-plan-output
-          path: ${{ runner.temp }}/tfplan.tfplan
+          path: ${{ github.workspace }}/tfplan.tfplan
 
       - name: check dir 2
         run: |
           pwd
           ls -la
           echo ${{ github.workspace }} 
-          echo "$RUNNER_TEMP"
-          ls -la "$RUNNER_TEMP"
+          ls -la ${{ github.workspace }} 
+          #echo "$RUNNER_TEMP"
+          #ls -la "$RUNNER_TEMP"
         env:
           RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Run Terrafrom Apply 2
         #run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
-        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$RUNNER_TEMP" --terragrunt-non-interactive
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }}  --terragrunt-non-interactive
         env:
           RUNNER_TEMP: ${{ runner.temp }}
 
