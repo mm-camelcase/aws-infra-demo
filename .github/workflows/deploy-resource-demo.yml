@@ -258,8 +258,11 @@ jobs:
           pwd
           ls -la
           echo ${{ github.workspace }} 
-          echo ${{ runner.temp }}
-          ls -la ${{ runner.temp }}
+          echo "$RUNNER_TEMP"
+          ls -la "$RUNNER_TEMP"
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Run Terrafrom Apply 2
         #run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
