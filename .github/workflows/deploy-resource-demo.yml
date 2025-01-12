@@ -151,7 +151,7 @@ jobs:
       - name: Find tfplan and copy to root
         run: |
           TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
-          cp $TFPLAN_PATH ./tfplan
+          #cp $TFPLAN_PATH ./tfplan
           cp ${{ github.workspace }}/tfplan.tfplan ./tfplan.tfplan
           #echo $TFPLAN_PATH
           #echo "TFPLAN_PATH=$TFPLAN_PATH" >> $GITHUB_ENV
@@ -166,7 +166,7 @@ jobs:
           name: terraform-plan-output
           path: |
             ./plan.md
-            ./tfplan
+            #./tfplan
             ./tfplan.tfplan
 
 
