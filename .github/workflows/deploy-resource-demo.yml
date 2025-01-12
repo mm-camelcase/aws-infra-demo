@@ -1,7 +1,7 @@
 name: Deploy Resources (Demo)
 
-# only 1 alloed run
-# visualise all
+concurrency:
+  group: terraform-${{ github.environment }}
 
 on:
   workflow_dispatch:
@@ -117,11 +117,9 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
             echo "Running terraform plan..."
-            #terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
             terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
             echo "Running terraform plan -destroy..."
-            #terragrunt plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=tfplan -no-color
             terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           fi
 
@@ -147,7 +145,6 @@ jobs:
           name: terraform-plan-output
           path: |
             ./plan.md
-            #./tfplan
             ./tfplan.tfplan
 
   approval:
