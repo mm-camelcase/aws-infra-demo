@@ -1,5 +1,8 @@
 name: Deploy Resources (Demo)
 
+# only 1 alloed run
+# visualise all
+
 on:
   workflow_dispatch:
     inputs:
@@ -110,9 +113,6 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Run Terragrunt Plan
-      #   run: terragrunt plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} -out=$GITHUB_WORKSPACE/tfplan -no-color 
-    
       - name: Run Terraform Plan
         run: |
           if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
@@ -125,14 +125,6 @@ jobs:
             terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
           fi
 
-      # - name: check dir 1
-      #   run: |
-      #     pwd
-      #     ls -la
-      #     echo ${{ github.workspace }} 
-      #     ls -la ${{ github.workspace }} 
-      #     find ${{ needs.setup.outputs.tg_dir }} -name "tfplan.tfplan"
-
       - name: Run Terragrunt Show
         run: terragrunt show -json ${{ github.workspace }}/tfplan.tfplan  -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
@@ -141,24 +133,12 @@ jobs:
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
           tfplandoc generate plan-output.json >> plan.md
 
-      # - name: check dir 2
-      #   run: |
-      #     pwd
-      #     ls -la
-      #     ls -la ${{ needs.setup.outputs.tg_dir }}
-      #     cat ${{ needs.setup.outputs.tg_dir }}/.terragrunt-cache/*/*/tfplan
-
-
-      - name: Find tfplan and copy to root
+      - name: Find tfplan.tfplan and copy to root
         run: |
-          TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
+          #TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
           #cp $TFPLAN_PATH ./tfplan
           cp ${{ github.workspace }}/tfplan.tfplan ./tfplan.tfplan
-          #echo $TFPLAN_PATH
-          #echo "TFPLAN_PATH=$TFPLAN_PATH" >> $GITHUB_ENV
 
-      # - name: Copy tfplan to Workspace Root
-      #   run: cp ${{ env.TFPLAN_PATH }} ./tfplan
 
       # Upload the plan file and visual planas as artifacts
       - name: Upload Terraform Plan Output
@@ -169,10 +149,6 @@ jobs:
             ./plan.md
             #./tfplan
             ./tfplan.tfplan
-
-
-
- 
 
   approval:
     needs: plan
@@ -204,60 +180,15 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Run Terragrunt Apply
-      #   uses: gruntwork-io/terragrunt-action@v2.1.4
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     #tg_command: 'run-all apply'
-      #     tg_command: 'run-all apply'
-      #     #tg_comment: 1
-      #     #tg_add_approve: 0
-
-      # - name: Run Terragrunt JSON
-      #   run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
-
-      # - name: Run Terragrunt Plan
-      #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-json-out testout.json
-
-      # - name: Run Terragrunt Apply
-      #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-plan-all
-
-      # - name: Run Terragrunt Apply
-      #   run: terragrunt apply tfplan
-
-      # - name: check dir 1
-      #   run: |
-      #     pwd
-      #     ls -la
-
       - uses: actions/download-artifact@v4
         with:
           name: terraform-plan-output
           path: ${{ github.workspace }}/tfplan.tfplan
 
-      # - name: check dir 2
-      #   run: |
-      #     pwd
-      #     ls -la
-      #     echo $GITHUB_WORKSPACE 
-      #     ls -la $GITHUB_WORKSPACE 
-      #     #echo "$RUNNER_TEMP"
-      #     #ls -la "$RUNNER_TEMP"
-      #   env:
-      #     GITHUB_WORKSPACE: ${{ github.workspace }}
-      #     RUNNER_TEMP: ${{ runner.temp }}
-
       - name: Run Terrafrom Apply
         run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
-          RUNNER_TEMP: ${{ runner.temp }}
-
-      # - name: Annotate Apply
-      #   run: |
-      #     ls -la
 
       - name: Annotate Apply
         run: |
@@ -283,24 +214,16 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Run Terragrunt Destroy
-      #   uses: gruntwork-io/terragrunt-action@v2
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     tg_command: 'run-all destroy -auto-approve'
-
       - uses: actions/download-artifact@v4
         with:
           name: terraform-plan-output
           path: ${{ github.workspace }}/tfplan.tfplan
 
       - name: Run Terrafrom Destroy
-        run: terragrunt run-all destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        #run: terragrunt run-all destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
-          #RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Annotate Destroy
         run: |
