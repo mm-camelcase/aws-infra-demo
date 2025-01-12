@@ -261,13 +261,14 @@ jobs:
           echo "$RUNNER_TEMP"
           ls -la "$RUNNER_TEMP"
         env:
-          GITHUB_WORKSPACE: ${{ github.workspace }}
           RUNNER_TEMP: ${{ runner.temp }}
 
       - name: Run Terrafrom Apply 2
         #run: terragrunt apply ${{ github.workspace }}/tfplan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} 
         run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ runner.temp }} --terragrunt-non-interactive
-
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+          
       # - name: Annotate Apply
       #   run: |
       #     ls -la
