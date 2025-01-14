@@ -61,7 +61,7 @@ jobs:
         run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_OUTPUT
   
       - name: Annotate Pipeline
-        run: echo "::notice ::Running Terragrunt ${{ github.event.inputs.action }} on Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
+        run: echo "::notice ::Running Terragrunt ${{ github.event.inputs.action }} on Stack --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}"
 
 
   checks:
