@@ -1,4 +1,4 @@
-name: Deploy Resources (Demo)
+name: Deploy Stack (Demo)
 
 concurrency:
   group: terraform-demo
