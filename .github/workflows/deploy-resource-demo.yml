@@ -151,7 +151,7 @@ jobs:
       - name: summary
         run: |
           echo "## Resource:${{ needs.setup.outputs.tg_dir }}" >> $GITHUB_STEP_SUMMARY
-          echo cat plan.md >> $GITHUB_STEP_SUMMARY
+          cat plan.md >> $GITHUB_STEP_SUMMARY
 
   approval:
     needs: plan
