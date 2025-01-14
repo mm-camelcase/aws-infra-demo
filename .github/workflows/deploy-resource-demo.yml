@@ -130,7 +130,7 @@ jobs:
       - name: Visualise plan
         run: |
           tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
-          tfplandoc generate plan-output.json >> plan.md
+          tfplandoc generate plan-output.json -a >> plan.md
 
       - name: Find tfplan.tfplan and copy to root
         run: |
