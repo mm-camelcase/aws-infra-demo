@@ -185,7 +185,7 @@ jobs:
           path: ${{ github.workspace }}/tfplan.tfplan
 
       - name: Run Terrafrom Apply
-        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive -–terragrunt-include-external-dependencies
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
 
