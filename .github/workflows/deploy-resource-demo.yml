@@ -118,10 +118,10 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
             echo "Running terraform plan..."
-            terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
+            terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} --terragrunt-include-external-dependencies
           elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
             echo "Running terraform plan -destroy..."
-            terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
+            terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} --terragrunt-include-external-dependencies
           fi
 
       - name: Run Terragrunt Show
