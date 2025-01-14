@@ -1,4 +1,7 @@
-name: Deploy Stack (Enhanced Demo)
+name: Deploy Resources (Demo)
+
+concurrency:
+  group: terraform-demo
 
 on:
   workflow_dispatch:
@@ -12,7 +15,7 @@ on:
           - destroy
       stack:
         type: choice
-        description: 'Stack to target'
+        description: 'Stack'
         options:
           - 'common/networking'
       region:
@@ -25,9 +28,9 @@ on:
 env:
   # tf_version: 'v1.6.6'
   # tg_version: '0.54.7'
-  tf_version: 'v1.10.4'
-  tg_version: '0.71.2'
-  tg_container: 'tf-1.10.3-tg-0.71.1'
+  #tf_version: 'v1.10.4'
+  #tg_version: '0.71.2'
+  #tg_container: 'tf-1.10.3-tg-0.71.1'
   environment: 'demo'
   base_dir: 'non-prod'
   aws_role: 'arn:aws:iam::966412459053:role/CCAwsInfraDemoGithubAction'
@@ -53,49 +56,18 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Create Terraform Plugin Cache Dir
-      #   run: mkdir -p $TF_PLUGIN_CACHE_DIR
-
-      # - name: Terraform Plugin Cache
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ${{ env.TF_PLUGIN_CACHE_DIR }}
-      #     key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
-
-      # - name: Setup Terragrunt
-      #   uses: autero1/action-terragrunt@v3
-      #   with:
-      #     terragrunt-version: ${{ env.tg_version }}
-      #     # token: ${{ secrets.GITHUB_TOKEN }}
-
-      # # Step 1: Try to load the image from cache
-      # - name: Restore Cached Docker Image
-      #   uses: actions/cache@v3
-      #   id: cache-docker
-      #   with:
-      #     path: /tmp/terragrunt-image.tar
-      #     key: docker-terragrunt-tf-1.10.3-tg-0.71.1
-
-      # # Step 2: Pull the image if it's not in the cache
-      # - name: Pull and Save Third-Party Docker Image
-      #   if: steps.cache-docker.outputs.cache-hit != 'true'
-      #   run: |
-      #     docker pull devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
-      #     docker save devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1 -o /tmp/terragrunt-image.tar
-
-      # # Step 3: Load the cached image
-      # - name: Load Cached Docker Image
-      #   run: |
-      #     if [ -f /tmp/terragrunt-image.tar ]; then
-      #       docker load -i /tmp/terragrunt-image.tar
-      #     fi
-
       - name: Define Terragrunt Directory
         id: set-dir
         run: echo "tg_dir=${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.stack }}" >> $GITHUB_OUTPUT
   
+      - name: Annotate Pipeline
+        run: echo "::notice ::Running Terragrunt ${{ github.event.inputs.action }} on Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
+
+
   checks:
     name: Validate Terragrunt Configuration
+    strategy:
+      fail-fast: true
     runs-on: ubuntu-24.04
     container:
       image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
@@ -113,38 +85,8 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Setup Terragrunt
-      #   uses: autero1/action-terragrunt@v3
-      #   with:
-      #     terragrunt-version: ${{ env.tg_version }}
-      #     # token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Interact with Terragrunt
-        run: terragrunt --version
-
-      # - name: Check HCL Formatting
-      #   uses: gruntwork-io/terragrunt-action@v2
-      #   env:
-      #     TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
-
       - name: Check HCL Formatting
         run: terragrunt hclfmt --terragrunt-check --terragrunt-diff -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
-
-      
-      # - name: Validate Configuration
-      #   uses: gruntwork-io/terragrunt-action@v2
-      #   env:
-      #     TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     tg_command: 'validate'
 
       - name: Validate Configuration
         run: terragrunt validate -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
@@ -153,12 +95,12 @@ jobs:
     name: Generate Plan
     runs-on: ubuntu-24.04
     container:
-      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
+      image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
     needs: [setup, checks]
-    if: ${{ github.event.inputs.action == 'plan' }}
+    if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -169,78 +111,50 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Setup Terragrunt
-        id: tg
-        uses: autero1/action-terragrunt@v3
-        with:
-          terragrunt-version: ${{ env.tg_version }}
-          # token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add Terragrunt to PATH1
+      - name: Run Terraform Plan
         run: |
-          echo "${{ steps.tg.outputs.terragrunt-path }}" >> $GITHUB_PATH
+          if [ "${{ github.event.inputs.action }}" = "plan" ] || [ "${{ github.event.inputs.action }}" = "apply" ]; then
+            echo "Running terraform plan..."
+            terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
+          elif [ "${{ github.event.inputs.action }}" = "destroy" ]; then
+            echo "Running terraform plan -destroy..."
+            terragrunt run-all plan -destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir ${{ github.workspace }} 
+          fi
 
-      # - name: Interact with Terragrunt
-      #   run: terragrunt --version
+      - name: Run Terragrunt Show
+        run: terragrunt show -json ${{ github.workspace }}/tfplan.tfplan  -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} > plan-output.json
 
-      - name: Run Terragrunt Plan
-        run: terragrunt run-all plan -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+      - name: Visualise plan
+        run: |
+          tfplandoc generate -h | sed -n '/Key:/,/Usage:/p' | head -n -1 > plan.md
+          tfplandoc generate plan-output.json >> plan.md
 
-      # - name: Run Terragrunt Plan
-      #   uses: gruntwork-io/terragrunt-action@v2
-      #   id: plan
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     tg_command: 'run-all plan'
-      #     tg_comment: 1
-      #     tg_add_approve: 0
-        # env:
-        #   TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+      - name: Find tfplan.tfplan and copy to root
+        run: |
+          #TFPLAN_PATH=$(find ${{ needs.setup.outputs.tg_dir }} -name "tfplan")
+          #cp $TFPLAN_PATH ./tfplan
+          cp ${{ github.workspace }}/tfplan.tfplan ./tfplan.tfplan
 
-      # - name: List Plan Files
-      #   run: |
-      #     echo "Checking for plan.tfplan files..."
-      #     find . -name "plan.tfplan" -type f -exec ls -lh {} +
 
-      # - name: Log Terragrunt Plan Output
-      #   run: |
-      #     echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
+      # Upload the plan file and visual planas as artifacts
+      - name: Upload Terraform Plan Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-output
+          path: |
+            ./plan.md
+            ./tfplan.tfplan
 
-      # - name: Output Cleaning
-      #   if: always()
-      #   run: |
-      #     TG_OUT=$(echo "${{ steps.plan.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
-      #     echo "TG_PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
-      #     echo "$TG_OUT" >> $GITHUB_ENV
-      #     echo "EOF" >> $GITHUB_ENV
+  approval:
+    needs: plan
+    runs-on: ubuntu-24.04
+    environment:
+      name: demo
+    if: ${{ github.event.inputs.action != 'plan' }}
+    steps:
+      - name: Await Manual Approval
+        run: echo "Waiting for manual approval before applying changes."
 
-      # - name: Log Cleaned Plan Output
-      #   run: |
-      #     echo "Cleaned Terragrunt Plan Output:"
-      #     echo "${{ env.TG_PLAN_OUTPUT }}"
-
-      # - name: Log Terragrunt Plan Output
-      #   run: |
-      #     echo "Terragrunt Plan Output: ${{ steps.plan.outputs.tg_action_output }}"
-
-      # - name: Save Plan Output to File
-      #   run: |
-      #     cat <<EOF > terragrunt_plan_output.txt
-      #     ${{ steps.plan.outputs.tg_action_output }}
-      #     EOF
-
-      # # - name: Annotate Plan
-      # #   if: ${{ success() }}
-      # #   run: |
-      # #     echo "::notice ::Plan Output for Stack: ${{ needs.setup.outputs.tg_dir }}"
-
-      # - name: Upload Plan Output
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: terraform-plan
-      #     path: terragrunt_plan_output.txt
 
   apply:
     name: Apply Changes
@@ -250,7 +164,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [setup, checks]
+    needs: [approval, setup, plan]
     if: ${{ github.event.inputs.action == 'apply' }}
     steps:
       - name: Checkout Repository
@@ -262,41 +176,29 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      # - name: Run Terragrunt Apply
-      #   uses: gruntwork-io/terragrunt-action@v2.1.4
-      #   with:
-      #     tf_version: ${{ env.tf_version }}
-      #     tg_version: ${{ env.tg_version }}
-      #     tg_dir: ${{ needs.setup.outputs.tg_dir }}
-      #     #tg_command: 'run-all apply'
-      #     tg_command: 'run-all apply'
-      #     #tg_comment: 1
-      #     #tg_add_approve: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-output
+          path: ${{ github.workspace }}/tfplan.tfplan
 
-      - name: Run Terragrunt JSON
-        run: terragrunt render-json -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-json-out /dev/stdout
-
-      # - name: Run Terragrunt Plan
-      #   run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-json-out testout.json
-
-      - name: Run Terragrunt Apply
-        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive --terragrunt-plan-all
+      - name: Run Terrafrom Apply
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       - name: Annotate Apply
         run: |
-          ls -la
-
-      - name: Annotate Apply
-        run: |
-          echo "::notice ::Applied Stack: ${{ needs.setup.outputs.tg_dir }}"
+          echo "::notice ::Applied Resource: ${{ needs.setup.outputs.tg_dir }}"
 
   destroy:
     name: Destroy Resources
     runs-on: ubuntu-24.04
+    container:
+      image: devopsinfra/docker-terragrunt:tf-1.10.3-tg-0.71.1
     permissions:
       id-token: write
       contents: read
-    needs: [setup, checks]
+    needs: [approval, setup, plan]
     if: ${{ github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository
@@ -308,14 +210,17 @@ jobs:
           role-to-assume: ${{ env.aws_role }}
           aws-region: ${{ github.event.inputs.region }}
 
-      - name: Run Terragrunt Destroy
-        uses: gruntwork-io/terragrunt-action@v2
+      - uses: actions/download-artifact@v4
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ needs.setup.outputs.tg_dir }}
-          tg_command: 'run-all destroy -auto-approve'
+          name: terraform-plan-output
+          path: ${{ github.workspace }}/tfplan.tfplan
+
+      - name: Run Terrafrom Destroy
+        #run: terragrunt run-all destroy -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        run: terragrunt run-all apply -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}  --terragrunt-out-dir "$GITHUB_WORKSPACE/tfplan.tfplan"  --terragrunt-non-interactive
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       - name: Annotate Destroy
         run: |
-          echo "::notice ::Destroyed Stack: ${{ needs.setup.outputs.tg_dir }}"
+          echo "::notice ::Destroyed Resource: ${{ needs.setup.outputs.tg_dir }}"
