@@ -147,6 +147,9 @@ jobs:
           path: |
             ./plan.md
             ./tfplan.tfplan
+            
+      - name: summary
+        run: echo "## Resource:${{ needs.setup.outputs.tg_dir }}" >> $GITHUB_STEP_SUMMARY
 
   approval:
     needs: plan
