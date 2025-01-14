@@ -20,6 +20,7 @@ on:
           - 'common/storage/s3/example-bucket'
           - 'common/networking/azs'
           - 'common/networking/vpc'
+          - 'cluster/ecs-cluster'
       region:
         type: choice
         description: 'AWS Region'
