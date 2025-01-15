@@ -44,7 +44,7 @@ dependency "service-discovery" {
 # }
 
 dependency "vpc" {
-  config_path = "../../../network/vpc"
+  config_path = "../../../common/networking/vpc"
 }
 
 # dependency "param-store" {
