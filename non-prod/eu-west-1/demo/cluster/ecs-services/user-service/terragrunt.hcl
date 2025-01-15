@@ -200,7 +200,7 @@ inputs = {
         {
           name      = "SQL_PASS"
           valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
-        }        
+        }
       ]
 
       mount_points = [
