@@ -21,6 +21,7 @@ on:
           - 'common/networking/azs'
           - 'common/networking/vpc'
           - 'cluster/ecs-cluster'
+          - 'cluster/ecs-services/user-service'
       region:
         type: choice
         description: 'AWS Region'
