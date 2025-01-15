@@ -67,7 +67,7 @@ inputs = {
   name        = local.service_name
   cluster_arn = dependency.ecs-cluster.outputs.arn
 
-  ephemeral = true
+  #ephemeral = true
 
   cpu    = 1024
   memory = 2048
@@ -132,10 +132,10 @@ inputs = {
         name  = "SPRING_PROFILES_ACTIVE"
         value = local.spring_profile
         },
-        {
-          name  = "FORCE_REDEPLOY"
-          value = "${timestamp()}"
-        },
+        # {
+        #   name  = "FORCE_REDEPLOY"
+        #   value = "${timestamp()}"
+        # },
         {
           name  = "JAVA_OPTS"
           value = "-Xmx1600m"
