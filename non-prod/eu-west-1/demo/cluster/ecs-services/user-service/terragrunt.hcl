@@ -142,50 +142,50 @@ inputs = {
           name  = "JAVA_TOOL_OPTIONS"
           value = ""
         },
-        {
-          name  = "RABBIT_HOST"
-          value = dependency.service-discovery.outputs.rabbit_mq_service_discovery_url
-        },
-        {
-          name  = "RABBIT_PORT"
-          value = 5672
-        },
-        {
-          name  = "MONGO_HOST"
-          value = dependency.service-discovery.outputs.mongo_db_service_discovery_url
-        },
-        {
-          name  = "MONGO_PORT"
-          value = 27017
-        },
-        {
-          name  = "TRADE_SERVICE_URL"
-          value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.trade_service_discovery_url, 8072)
-        },
-        {
-          name  = "CORE_SERVICES_URL"
-          value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.core_service_discovery_url, 8071)
-        },
-        {
-          name  = "CHECKLIST_URL"
-          value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.checklist_api_service_discovery_url, 3003)
-        },
-        {
-          name  = "HOST_NAME"
-          value = "ecs-${local.env}-${local.acc_config.locals.resource_prefix}"
-        },
-        {
-          name  = "DD_ENV"
-          value = local.env
-        },
-        {
-          name  = "DD_SERVICE"
-          value = local.name
-        },
-        {
-          name  = "DD_VERSION"
-          value = local.image_version
-        }
+        # {
+        #   name  = "RABBIT_HOST"
+        #   value = dependency.service-discovery.outputs.rabbit_mq_service_discovery_url
+        # },
+        # {
+        #   name  = "RABBIT_PORT"
+        #   value = 5672
+        # },
+        # {
+        #   name  = "MONGO_HOST"
+        #   value = dependency.service-discovery.outputs.mongo_db_service_discovery_url
+        # },
+        # {
+        #   name  = "MONGO_PORT"
+        #   value = 27017
+        # },
+        # {
+        #   name  = "TRADE_SERVICE_URL"
+        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.trade_service_discovery_url, 8072)
+        # },
+        # {
+        #   name  = "CORE_SERVICES_URL"
+        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.core_service_discovery_url, 8071)
+        # },
+        # {
+        #   name  = "CHECKLIST_URL"
+        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.checklist_api_service_discovery_url, 3003)
+        # },
+        # {
+        #   name  = "HOST_NAME"
+        #   value = "ecs-${local.env}-${local.acc_config.locals.resource_prefix}"
+        # },
+        # {
+        #   name  = "DD_ENV"
+        #   value = local.env
+        # },
+        # {
+        #   name  = "DD_SERVICE"
+        #   value = local.name
+        # },
+        # {
+        #   name  = "DD_VERSION"
+        #   value = local.image_version
+        # }
       ]
 
       secrets = [
@@ -200,172 +200,7 @@ inputs = {
         {
           name      = "SQL_PASS"
           valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
-        },
-        {
-          name      = "AUTH_APP_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/service-urls/auth-domain-name")
-        },
-        {
-          name      = "SLACK_DEFAULT"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-default")
-        },
-        {
-          name      = "SLACK_ONBOARDING"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-onboarding")
-        },
-        {
-          name      = "SLACK_OPERATIONS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-operations")
-        },
-        {
-          name      = "SLACK_BUSDEV"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-default")
-        },
-        {
-          name      = "SLACK_USER"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-user")
-        },
-        {
-          name      = "SLACK_FAILED_REVIEW"
-          valueFrom = format("%s/%s", local.param_base_path, "common/slack/slack-failed-review")
-        },
-        {
-          name      = "DRIVE_PROJECT_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-project-id")
-        },
-        {
-          name      = "DRIVE_PROJECT_KEY_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-private-key-id")
-        },
-        {
-          name      = "DRIVE_PROJECT_KEY"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-private-key")
-        },
-        {
-          name      = "DRIVE_CLIENT_EMAIL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-client-email")
-        },
-        {
-          name      = "DRIVE_CLIENT_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-client-id")
-        },
-        {
-          name      = "DRIVE_AUTH_URI"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-auth-uri")
-        },
-        {
-          name      = "DRIVE_TOKEN_URI"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-token-uri")
-        },
-        {
-          name      = "DRIVE_AUTH_PROVIDER_CERT_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-provider-cert-url")
-        },
-        {
-          name      = "DRIVE_CLIENT_CERT_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/google-drive/google-drive-client-cert-url")
-        },
-
-        {
-          name      = "ADMIN_APP_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/service-urls/admin-domain-name")
-        },
-        {
-          name      = "BUYER_APP_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/service-urls/buyer-domain-name")
-        },
-        {
-          name      = "SELLER_APP_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/service-urls/seller-domain-name")
-        },
-        {
-          name      = "MANDRILL_API_TOKEN"
-          valueFrom = format("%s/%s", local.param_base_path, "common/mandrill/api-token")
-        },
-        {
-          name      = "RABBIT_USER"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-rabbitmq/user")
-        },
-        {
-          name      = "RABBIT_PASS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-rabbitmq/password")
-        },
-        {
-          name      = "MONGO_USER"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mongodb/user")
-        },
-        {
-          name      = "MONGO_PASS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mongodb/password")
-        },
-        {
-          name      = "PLATFORM_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/service-urls/platform-url")
-        },
-        {
-          name      = "EMAIL_NEWREG"
-          valueFrom = format("%s/%s", local.param_base_path, "common/email/email-newreg")
-        },
-        {
-          name      = "SELLER_EMAIL_SETTINGS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/email/seller-email-settings")
-        },
-        {
-          name      = "BUYER_EMAIL_SETTINGS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/email/buyer-email-settings")
-        },
-        {
-          name      = "EMAIL_ATTACHMENT"
-          valueFrom = format("%s/%s", local.param_base_path, "common/email/email-attachment")
-        },
-        {
-          name      = "RESET_TOKEN_SECRET_KEY"
-          valueFrom = format("%s/%s", local.param_base_path, "common/jwt/reset-secret")
-        },
-        {
-          name      = "ONBOARDING_SELLERS_FOLDER_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/onboarding-sellers-folder-id")
-        },
-        {
-          name      = "UPLOADING_SELLERS_FOLDER_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/uploading-sellers-folder-id")
-        },
-        {
-          name      = "S3_GENERAL_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/s3-general-url")
-        },
-        {
-          name      = "AWS_SQS_ACCESS_KEY_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-access-key-id")
-        },
-        {
-          name      = "AWS_SQS_SECRET_ACCESS_KEY"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-secret-access-key")
-        },
-        {
-          name      = "AWS_SQS_HOST"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-host")
-        },
-        {
-          name      = "AWS_SQS_REGION"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-region")
-        },
-        {
-          name      = "AWS_SQS_SLACK_WEBHOOK_QUEUE_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-slack-webhook-queue-url")
-        },
-        {
-          name      = "AWS_SQS_EMAIL_TEMPLATE_QUEUE_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/aws-sqs-email-template-queue-url")
-        },
-        {
-          name      = "MARKETING_LIST_ID"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/marketing-list-id")
-        },
-        {
-          name      = "SUPPORT_EMAIL"
-          valueFrom = format("%s/%s", local.param_base_path, "service/user-service/support-email")
-        }
+        }        
       ]
 
       mount_points = [
