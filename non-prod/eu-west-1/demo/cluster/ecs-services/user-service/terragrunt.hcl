@@ -385,7 +385,7 @@ inputs = {
       }
     }
     #datadog-agent = local.common_config.locals.sidecars.datadog_container
-    fluent-bit    = local.common_config.locals.sidecars.fluentbit_container
+    fluent-bit = local.common_config.locals.sidecars.fluentbit_container
   }
 
   volume = {
