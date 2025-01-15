@@ -25,8 +25,8 @@ locals {
   env            = local.env_config.locals.env
   spring_profile = local.env_config.locals.spring_profile
   region         = local.region_config.locals.aws_region
-  container_port = 8075
-  host_port      = 8075
+  container_port = 8080
+  host_port      = 8080
 
 
 }
@@ -39,29 +39,29 @@ dependency "service-discovery" {
   config_path = "../../service-discovery/cloud-map"
 }
 
-dependency "alb" {
-  config_path = "../../../network/alb"
-}
+# dependency "alb" {
+#   config_path = "../../../network/alb"
+# }
 
 dependency "vpc" {
   config_path = "../../../network/vpc"
 }
 
-dependency "param-store" {
-  config_path = "../../../storage/parameter-store"
-}
+# dependency "param-store" {
+#   config_path = "../../../storage/parameter-store"
+# }
 
-dependency "jump-box" {
-  config_path = "../../../network/bastion"
-}
+# dependency "jump-box" {
+#   config_path = "../../../network/bastion"
+# }
 
-dependency "jump-box-sg" {
-  config_path = "../../../security/groups/bastion-sg"
-}
+# dependency "jump-box-sg" {
+#   config_path = "../../../security/groups/bastion-sg"
+# }
 
-dependency "ecs-services-sg" {
-  config_path = "../../../security/groups/ecs-services"
-}
+# dependency "ecs-services-sg" {
+#   config_path = "../../../security/groups/ecs-services"
+# }
 
 inputs = {
   name        = local.service_name
@@ -232,24 +232,24 @@ inputs = {
   }
 
   subnet_ids         = dependency.vpc.outputs.private_subnets
-  security_group_ids = [dependency.ecs-services-sg.outputs.security_group_id]
-  security_group_rules = {
-    ingress_ecs_services = {
-      type                     = "ingress"
-      from_port                = local.container_port
-      to_port                  = local.container_port
-      protocol                 = "tcp"
-      description              = "Service port"
-      source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
-    }
-    egress_all = {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
+  # security_group_ids = [dependency.ecs-services-sg.outputs.security_group_id]
+  # security_group_rules = {
+  #   ingress_ecs_services = {
+  #     type                     = "ingress"
+  #     from_port                = local.container_port
+  #     to_port                  = local.container_port
+  #     protocol                 = "tcp"
+  #     description              = "Service port"
+  #     source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
+  #   }
+  #   egress_all = {
+  #     type        = "egress"
+  #     from_port   = 0
+  #     to_port     = 0
+  #     protocol    = "-1"
+  #     cidr_blocks = ["0.0.0.0/0"]
+  #   }
+  # }
 
   task_exec_iam_statements = {
     # Required ECR perms
