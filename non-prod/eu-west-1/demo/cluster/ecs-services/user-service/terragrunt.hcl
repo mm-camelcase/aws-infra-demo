@@ -59,9 +59,9 @@ dependency "vpc" {
 #   config_path = "../../../security/groups/bastion-sg"
 # }
 
-# dependency "ecs-services-sg" {
-#   config_path = "../../../security/groups/ecs-services"
-# }
+dependency "ecs-services-sg" {
+  config_path = "../../../common/security/groups/ecs-services"
+}
 
 inputs = {
   name        = local.service_name
@@ -234,24 +234,24 @@ inputs = {
   }
 
   subnet_ids = dependency.vpc.outputs.private_subnets
-  # security_group_ids = [dependency.ecs-services-sg.outputs.security_group_id]
-  # security_group_rules = {
-  #   ingress_ecs_services = {
-  #     type                     = "ingress"
-  #     from_port                = local.container_port
-  #     to_port                  = local.container_port
-  #     protocol                 = "tcp"
-  #     description              = "Service port"
-  #     source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
-  #   }
-  #   egress_all = {
-  #     type        = "egress"
-  #     from_port   = 0
-  #     to_port     = 0
-  #     protocol    = "-1"
-  #     cidr_blocks = ["0.0.0.0/0"]
-  #   }
-  # }
+  security_group_ids = [dependency.ecs-services-sg.outputs.security_group_id]
+  security_group_rules = {
+    ingress_ecs_services = {
+      type                     = "ingress"
+      from_port                = local.container_port
+      to_port                  = local.container_port
+      protocol                 = "tcp"
+      description              = "Service port"
+      source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
+    }
+    egress_all = {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
 
   task_exec_iam_statements = {
     # Required ECR perms

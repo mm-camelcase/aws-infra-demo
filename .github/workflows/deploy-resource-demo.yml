@@ -20,6 +20,7 @@ on:
           - 'common/storage/s3/example-bucket'
           - 'common/networking/azs'
           - 'common/networking/vpc'
+          - 'common/security/groups/ecs-services'
           - 'cluster/ecs-cluster'
           - 'cluster/service-discovery/cloud-map'
           - 'cluster/ecs-services/user-service'
