@@ -67,6 +67,8 @@ inputs = {
   name        = local.service_name
   cluster_arn = dependency.ecs-cluster.outputs.arn
 
+  ephemeral = true
+
   cpu    = 1024
   memory = 2048
 
