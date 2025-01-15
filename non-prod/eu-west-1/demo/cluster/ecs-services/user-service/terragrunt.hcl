@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "github.com/terraform-aws-modules/terraform-aws-ecs//modules/service?ref=v5.7.4"
+  source = "github.com/terraform-aws-modules/terraform-aws-ecs//modules/service?ref=v5.12.0"
 }
 
 
