@@ -190,20 +190,20 @@ inputs = {
         # }
       ]
 
-      secrets = [
-        {
-          name      = "SQLDB_URL"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/sql-jdbc-url")
-        },
-        {
-          name      = "SQL_USER"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/user")
-        },
-        {
-          name      = "SQL_PASS"
-          valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
-        }
-      ]
+      # secrets = [
+      #   {
+      #     name      = "SQLDB_URL"
+      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/sql-jdbc-url")
+      #   },
+      #   {
+      #     name      = "SQL_USER"
+      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/user")
+      #   },
+      #   {
+      #     name      = "SQL_PASS"
+      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
+      #   }
+      # ]
 
       mount_points = [
         {
@@ -222,7 +222,7 @@ inputs = {
       }
     }
     #datadog-agent = local.common_config.locals.sidecars.datadog_container
-    fluent-bit = local.common_config.locals.sidecars.fluentbit_container
+    #fluent-bit = local.common_config.locals.sidecars.fluentbit_container
   }
 
   volume = {
