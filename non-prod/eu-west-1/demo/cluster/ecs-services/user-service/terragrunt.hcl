@@ -233,7 +233,7 @@ inputs = {
     registry_arn = dependency.service-discovery.outputs.user_service_discovery_arn
   }
 
-  subnet_ids = dependency.vpc.outputs.private_subnets
+  subnet_ids         = dependency.vpc.outputs.private_subnets
   security_group_ids = [dependency.ecs-services-sg.outputs.security_group_id]
   security_group_rules = {
     ingress_ecs_services = {
