@@ -99,25 +99,25 @@ inputs = {
       # minimize the risk of malicious modifications (java requires a /tmp directory to be present, see mount_points below), 
       # must be false for ECS Exec
       readonly_root_filesystem  = false
-      enable_cloudwatch_logging = false
+      enable_cloudwatch_logging = true
 
-      log_configuration = {
-        logDriver = "awsfirelens"
-        options = {
-          Name           = "datadog"
-          Host           = "http-intake.logs.datadoghq.eu"
-          dd_service     = local.name
-          dd_source      = "java"
-          dd_message_key = "@message"
-          dd_tags        = "env:${local.env},service:${local.name},version:${local.image_version}"
-          TLS            = "on"
-          provider       = "ecs"
-        }
-        secretOptions : [{
-          name : "apikey"
-          valueFrom : format("${local.param_base_path}/common/datadog/dd-api-key")
-        }]
-      }
+      # log_configuration = {
+      #   logDriver = "awsfirelens"
+      #   options = {
+      #     Name           = "datadog"
+      #     Host           = "http-intake.logs.datadoghq.eu"
+      #     dd_service     = local.name
+      #     dd_source      = "java"
+      #     dd_message_key = "@message"
+      #     dd_tags        = "env:${local.env},service:${local.name},version:${local.image_version}"
+      #     TLS            = "on"
+      #     provider       = "ecs"
+      #   }
+      #   secretOptions : [{
+      #     name : "apikey"
+      #     valueFrom : format("${local.param_base_path}/common/datadog/dd-api-key")
+      #   }]
+      # }
 
       linux_parameters = {
         capabilities = {
@@ -222,7 +222,7 @@ inputs = {
       }
     }
     #datadog-agent = local.common_config.locals.sidecars.datadog_container
-    fluent-bit = local.common_config.locals.sidecars.fluentbit_container
+    #fluent-bit = local.common_config.locals.sidecars.fluentbit_container
   }
 
   volume = {
