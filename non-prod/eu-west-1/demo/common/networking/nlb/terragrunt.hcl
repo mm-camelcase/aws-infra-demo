@@ -78,9 +78,9 @@ inputs = {
     #     target_group_key = "rds_mssql"
     #   }
     # }
-    http_user_service = {
+    tcp_user_service = {
       port     = 1433
-      protocol = "HTTP"
+      protocol = "TCP"
 
       forward = {
         target_group_key = "user_service"
