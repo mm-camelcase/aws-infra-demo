@@ -216,7 +216,7 @@ inputs = {
         }
       ]
 
-      # using nlb heath check
+      # using nlb health check
       # health_check = {
       #   command     = ["curl", "-f", "http://localhost:${local.container_port}/actuator/health"]
       #   interval    = 30,
