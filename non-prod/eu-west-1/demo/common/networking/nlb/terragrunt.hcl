@@ -10,12 +10,12 @@ terraform {
 }
 
 locals {
-  acc_config                   = read_terragrunt_config(find_in_parent_folders("account.hcl"))
-  env_config                   = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  name                         = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "nlb")
+  acc_config = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+  env_config = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+  name       = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "nlb")
   //dotnet_platform_outbound_ips = ["104.45.14.249", "104.45.14.250", "104.45.14.251", "104.45.14.252", "104.45.14.253", "13.69.68.36"] # Outbound IPs for the dotnet platform
   //core_db_ip                   = "10.3.12.32"
-  whitelist                     = ["54.72.131.136"]
+  whitelist = ["54.72.131.136"]
 }
 
 dependency "vpc" {
