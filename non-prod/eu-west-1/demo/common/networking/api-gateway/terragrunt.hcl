@@ -14,9 +14,9 @@ dependency "nlb" {
   config_path = "../nlb"
 }
 
-# dependency "bastion-sg" {
-#   config_path = "../../security/groups/bastion-sg"
-# }
+dependency "gateway-sg" {
+  config_path = "../../security/groups/gateway-sg"
+}
 
 locals {
   acc_config = read_terragrunt_config(find_in_parent_folders("account.hcl"))
@@ -43,7 +43,7 @@ inputs = {
   vpc_links = {
     my-vpc = {
       name               = local.name
-      security_group_ids = [module.api_gateway_security_group.security_group_id]
+      security_group_ids = [dependency.gateway-sg.outputs.security_group_id]
       subnet_ids         = dependency.vpc.outputs.public_subnets
     }
   }
