@@ -256,6 +256,14 @@ inputs = {
       description              = "Service port"
       source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
     }
+    ingress_nlb = {
+      type                     = "ingress"
+      from_port                = local.container_port
+      to_port                  = local.container_port
+      protocol                 = "tcp"
+      description              = "nlb"
+      source_security_group_id = dependency.nlb.outputs.security_group_id
+    }
     egress_all = {
       type        = "egress"
       from_port   = 0
