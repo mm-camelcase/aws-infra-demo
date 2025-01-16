@@ -216,14 +216,14 @@ inputs = {
         }
       ]
 
-      # 170 seconds 
-      health_check = {
-        command     = ["curl", "-f", "http://localhost:${local.container_port}/actuator/health"]
-        interval    = 30,
-        timeout     = 15,
-        retries     = 5
-        startPeriod = 170
-      }
+      # using nlb heath check
+      # health_check = {
+      #   command     = ["curl", "-f", "http://localhost:${local.container_port}/actuator/health"]
+      #   interval    = 30,
+      #   timeout     = 15,
+      #   retries     = 5
+      #   startPeriod = 170
+      # }
     }
     #datadog-agent = local.common_config.locals.sidecars.datadog_container
     #fluent-bit = local.common_config.locals.sidecars.fluentbit_container
