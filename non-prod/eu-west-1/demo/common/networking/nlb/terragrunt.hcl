@@ -134,7 +134,7 @@ inputs = {
     # }
 
     user_service = {
-      protocol                          = "HTTP"
+      protocol                          = "TCP"
       port                              = 8080
       target_type                       = "ip"
       deregistration_delay              = 5
