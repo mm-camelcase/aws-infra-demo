@@ -42,7 +42,7 @@ inputs = {
 # ran this manually 
 # aws ec2 create-key-pair --key-name bastion-key-pair --query 'KeyMaterial' --output text > ~/.ssh/bastion-key-pair.pem
 
-# ssh -i .ssh/bastion-key-pair.pem ec2-user@52.209.116.136
-# ssh -i .ssh/bastion-key-pair.pem -L 9090:localhost:9090 ec2-user@52.209.116.136
-# ssh -i .ssh/bastion-key-pair.pem -L 27017:localhost:27017 ec2-user@52.209.116.136
+# ssh -i .ssh/bastion-key-pair.pem ec2-user@54.72.131.136
+# ssh -i .ssh/bastion-key-pair.pem -L 9090:localhost:9090 ec2-user@54.72.131.136
+# ssh -i .ssh/bastion-key-pair.pem -L 27017:localhost:27017 ec2-user@54.72.131.136
 

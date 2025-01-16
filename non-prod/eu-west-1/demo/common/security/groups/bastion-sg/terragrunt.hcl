@@ -23,16 +23,15 @@ inputs = {
   description = "Security group for EC2 Bastion instance"
   vpc_id      = dependency.vpc.outputs.vpc_id
 
-  # Define ingress rule for PostgreSQL
-  # ingress_with_cidr_blocks = [
-  #   {
-  #     from_port   = 22,
-  #     to_port     = 22,
-  #     protocol    = "tcp",
-  #     description = "Bastion",
-  #     cidr_blocks = "5.179.68.90/32" # Adjust this to a more restrictive CIDR or use `var.ecs_tasks_sg_id` for ECS tasks
-  #   }
-  # ]
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 22,
+      to_port     = 22,
+      protocol    = "tcp",
+      description = "Bastion",
+      cidr_blocks = "5.179.68.90/32"
+    }
+  ]
 
   # Allow all outbound traffic
   egress_with_cidr_blocks = [
