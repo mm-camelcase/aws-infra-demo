@@ -43,6 +43,10 @@ dependency "service-discovery" {
 #   config_path = "../../../network/alb"
 # }
 
+dependency "nlb" {
+  config_path = "../../../common/networking/nlb"
+}
+
 dependency "vpc" {
   config_path = "../../../common/networking/vpc"
 }
@@ -231,6 +235,14 @@ inputs = {
 
   service_registries = {
     registry_arn = dependency.service-discovery.outputs.user_service_discovery_arn
+  }
+
+  load_balancer = {
+    service = {
+      target_group_arn = dependency.nlb.outputs.target_groups["user_service"].arn
+      container_name   = local.name
+      container_port   = local.container_port
+    }
   }
 
   subnet_ids         = dependency.vpc.outputs.private_subnets
