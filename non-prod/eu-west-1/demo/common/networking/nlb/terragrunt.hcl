@@ -142,14 +142,14 @@ inputs = {
 
       health_check = {
         enabled             = true
-        healthy_threshold   = 2
-        interval            = 70
-        matcher             = "200"
-        path                = "/"
-        port                = "8080"
-        protocol            = "HTTP"
-        timeout             = 10
-        unhealthy_threshold = 3
+        healthy_threshold   = 2                  # Number of successes before marking as healthy
+        interval            = 30                 # Reduce the interval for faster retries
+        matcher             = "200"              # Expect HTTP 200 OK
+        path                = "/actuator/health" # Health check endpoint
+        port                = "8080"             # Target port for health checks
+        protocol            = "HTTP"             # HTTP-based health check
+        timeout             = 15                 # Increase timeout to 15 seconds for slower responses
+        unhealthy_threshold = 5                  # Allow up to 5 failures during startup
       }
 
       create_attachment = false

@@ -218,10 +218,10 @@ inputs = {
 
       # 170 seconds 
       health_check = {
-        command     = ["curl", "-f", "http://localhost:${local.container_port}/user/actuator/health"]
+        command     = ["curl", "-f", "http://localhost:${local.container_port}/actuator/health"]
         interval    = 30,
         timeout     = 15,
-        retries     = 3
+        retries     = 5
         startPeriod = 170
       }
     }
