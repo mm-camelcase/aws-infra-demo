@@ -79,7 +79,7 @@ inputs = {
     #   }
     # }
     tcp_user_service = {
-      port     = 1433
+      port     = 8080
       protocol = "TCP"
 
       forward = {
