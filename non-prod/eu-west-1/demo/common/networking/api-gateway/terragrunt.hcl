@@ -44,7 +44,7 @@ inputs = {
     my-vpc = {
       name               = local.name
       security_group_ids = [dependency.gateway-sg.outputs.security_group_id]
-      subnet_ids         = dependency.vpc.outputs.public_subnets
+      subnet_ids         = dependency.vpc.outputs.private_subnets
     }
   }
 
