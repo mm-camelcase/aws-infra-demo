@@ -35,6 +35,7 @@ inputs = {
   name = local.name
 
   load_balancer_type = "network"
+  internal           = true
 
   vpc_id  = dependency.vpc.outputs.vpc_id
   subnets = dependency.vpc.outputs.private_subnets
