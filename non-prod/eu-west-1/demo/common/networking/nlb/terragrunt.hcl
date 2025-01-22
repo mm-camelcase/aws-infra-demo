@@ -15,20 +15,16 @@ locals {
   name       = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "nlb")
   //dotnet_platform_outbound_ips = ["104.45.14.249", "104.45.14.250", "104.45.14.251", "104.45.14.252", "104.45.14.253", "13.69.68.36"] # Outbound IPs for the dotnet platform
   //core_db_ip                   = "10.3.12.32"
-  whitelist = ["54.72.131.136"]
+  // whitelist = ["54.72.131.136"]
 }
 
 dependency "vpc" {
   config_path = "../vpc"
 }
 
-# dependency "cert" {
-#   config_path = "../../security/certs/core-ssl"
-# }
-
-# dependency "param-store" {
-#   config_path = "../../storage/parameter-store"
-# }
+dependency "bastion-sg" {
+  config_path = "../../security/groups/bastion-sg"
+}
 
 
 inputs = {
@@ -45,13 +41,23 @@ inputs = {
 
   idle_timeout = 600 # 10 mins (lower this for prod)
 
+  # security_group_ingress_rules = {
+  #   # handle 8080
+  #   for ip in local.whitelist : ip => {
+  #     from_port   = 8080
+  #     to_port     = 8080
+  #     ip_protocol = "tcp"
+  #     cidr_ipv4   = "${ip}/32"
+  #   }
+  # }
+
   security_group_ingress_rules = {
-    # handle 8080
-    for ip in local.whitelist : ip => {
-      from_port   = 8080
-      to_port     = 8080
-      ip_protocol = "tcp"
-      cidr_ipv4   = "${ip}/32"
+    bastion_8080 = {
+      from_port                = 8080
+      to_port                  = 8080
+      ip_protocol              = "tcp"
+      description              = "bastion"
+      source_security_group_id = dependency.bastion-sg.outputs.security_group_id
     }
   }
 
