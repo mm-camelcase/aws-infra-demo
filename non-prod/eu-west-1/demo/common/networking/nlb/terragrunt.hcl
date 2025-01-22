@@ -53,11 +53,11 @@ inputs = {
 
   security_group_ingress_rules = {
     bastion_8080 = {
-      from_port                = 8080
-      to_port                  = 8080
-      ip_protocol              = "tcp"
-      description              = "bastion"
-      source_security_group_id = dependency.bastion-sg.outputs.security_group_id
+      from_port                    = 8080
+      to_port                      = 8080
+      ip_protocol                  = "tcp"
+      description                  = "bastion"
+      referenced_security_group_id = dependency.bastion-sg.outputs.security_group_id
     }
   }
 
