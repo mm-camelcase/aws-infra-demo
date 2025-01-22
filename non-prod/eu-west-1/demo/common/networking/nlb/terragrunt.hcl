@@ -37,7 +37,7 @@ inputs = {
   load_balancer_type = "network"
 
   vpc_id  = dependency.vpc.outputs.vpc_id
-  subnets = dependency.vpc.outputs.public_subnets
+  subnets = dependency.vpc.outputs.private_subnets
 
   # For example only
   enable_deletion_protection = false
