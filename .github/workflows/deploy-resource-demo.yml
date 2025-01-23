@@ -30,7 +30,7 @@ on:
           - 'cluster/ecs-cluster'
           - 'cluster/service-discovery/cloud-map'
           - 'cluster/ecs-services/user-service'
-          - 'common/security/certs/camelcase-club'
+          - 'common/security/cert'
       region:
         type: choice
         description: 'AWS Region'
