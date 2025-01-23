@@ -26,9 +26,9 @@ dependency "bastion-sg" {
   config_path = "../../security/groups/bastion-sg"
 }
 
-dependency "api-gateway" {
-  config_path = "../api-gateway"
-}
+# dependency "api-gateway" {
+#   config_path = "../api-gateway"
+# }
 
 inputs = {
   name = local.name
