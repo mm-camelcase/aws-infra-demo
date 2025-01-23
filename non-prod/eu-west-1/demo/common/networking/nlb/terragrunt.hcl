@@ -64,11 +64,12 @@ inputs = {
     }
 
     api_gw_8080 = {
-      from_port                    = 8080
-      to_port                      = 8080
-      ip_protocol                  = "tcp"
-      description                  = "bastion"
-      referenced_security_group_id = dependency.api-gateway.outputs.vpc_links["my-vpc"].security_group_ids[0]
+      from_port   = 8080
+      to_port     = 8080
+      ip_protocol = "tcp"
+      description = "api gateway"
+      #referenced_security_group_id = dependency.api-gateway.outputs.vpc_links["my-vpc"].security_group_ids[0]
+      cidr_ipv4 = ["10.2.6.0/24", "10.2.7.0/24"]
     }
   }
 
