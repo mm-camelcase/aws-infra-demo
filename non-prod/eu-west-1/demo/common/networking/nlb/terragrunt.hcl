@@ -67,7 +67,7 @@ inputs = {
     [
       {
         from_port                    = 8080
-        to_port                      = 8080
+        to_port                      = 8081
         ip_protocol                  = "tcp"
         description                  = "bastion"
         referenced_security_group_id = dependency.bastion-sg.outputs.security_group_id
