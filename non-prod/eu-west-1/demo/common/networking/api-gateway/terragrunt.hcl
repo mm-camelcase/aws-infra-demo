@@ -18,10 +18,16 @@ dependency "gateway-sg" {
   config_path = "../../security/groups/gateway-sg"
 }
 
+dependency "cert" {
+  config_path = "../../security/cert"
+}
+
 locals {
   acc_config = read_terragrunt_config(find_in_parent_folders("account.hcl"))
   env_config = read_terragrunt_config(find_in_parent_folders("env.hcl"))
   name       = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "gateway")
+
+  api_domain = "api.camelcase.club"
 }
 
 inputs = {
@@ -38,9 +44,9 @@ inputs = {
   # Custom Domain
   create_domain_name = false
 
-  domain_name = "api.camelcase.club"
+  domain_name = local.api_domain
 
-  domain_name_certificate_arn = 
+  domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
 
 
   # VPC Link
