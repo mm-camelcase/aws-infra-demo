@@ -42,11 +42,22 @@ inputs = {
   name        = local.name
 
   # Custom Domain
+  #create_domain_name = true
+
+  create = true
+
+  # Disable creation of the domain name and API mapping
   create_domain_name = true
+
+  # Disable creation of Route53 alias record(s) for the custom domain
+  create_domain_records = false
+
+  # Disable creation of the ACM certificate for the custom domain
+  create_certificate = false
 
   domain_name = local.api_domain
 
-  #domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
+  domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
 
   # domain_name_configuration = {
   #   certificate_arn = dependency.cert.outputs.certificate_arn
