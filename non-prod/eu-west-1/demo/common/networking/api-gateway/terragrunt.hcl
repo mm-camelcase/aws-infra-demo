@@ -42,7 +42,7 @@ inputs = {
   name        = local.name
 
   # Custom Domain
-  create_domain_name = true
+  create_domain_name = false
 
   domain_name = local.api_domain
 
