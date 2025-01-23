@@ -38,6 +38,10 @@ inputs = {
   # Custom Domain
   create_domain_name = false
 
+  domain_name = "api.camelcase.club"
+
+  domain_name_certificate_arn = 
+
 
   # VPC Link
   vpc_links = {
