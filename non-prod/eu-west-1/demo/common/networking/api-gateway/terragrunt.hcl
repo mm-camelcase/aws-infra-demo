@@ -46,7 +46,14 @@ inputs = {
 
   domain_name = local.api_domain
 
-  domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
+  #domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
+
+  domain_name_configuration = {
+    certificate_arn = dependency.cert.outputs.certificate_arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+    #ownership_verification_certificate_arn = var.domain_name_ownership_verification_certificate_arn
+  }
 
 
   # VPC Link
