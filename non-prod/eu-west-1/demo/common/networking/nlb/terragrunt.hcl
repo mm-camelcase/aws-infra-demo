@@ -15,7 +15,7 @@ locals {
   name       = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "nlb")
   //dotnet_platform_outbound_ips = ["104.45.14.249", "104.45.14.250", "104.45.14.251", "104.45.14.252", "104.45.14.253", "13.69.68.36"] # Outbound IPs for the dotnet platform
   //core_db_ip                   = "10.3.12.32"
-  // whitelist = ["54.72.131.136"]
+  whitelist = ["10.2.6.0", "10.2.7.0"]
 }
 
 dependency "vpc" {
@@ -54,24 +54,36 @@ inputs = {
   #   }
   # }
 
-  security_group_ingress_rules = {
-    bastion_8080 = {
-      from_port                    = 8080
-      to_port                      = 8080
-      ip_protocol                  = "tcp"
-      description                  = "bastion"
-      referenced_security_group_id = dependency.bastion-sg.outputs.security_group_id
-    }
+  security_group_ingress_rules = concat(
+    [
+      for ip in local.whitelist : {
+        from_port   = 8080
+        to_port     = 8080
+        ip_protocol = "tcp"
+        description = "vpclink subnets"
+        cidr_ipv4   = "${ip}/24"
+      }
+    ],
+    [
+      {
+        from_port                    = 8080
+        to_port                      = 8080
+        ip_protocol                  = "tcp"
+        description                  = "bastion"
+        referenced_security_group_id = dependency.bastion-sg.outputs.security_group_id
+      }
+    ]
+  )
 
-    api_gw_8080 = {
-      from_port   = 8080
-      to_port     = 8080
-      ip_protocol = "tcp"
-      description = "api gateway"
-      #referenced_security_group_id = dependency.api-gateway.outputs.vpc_links["my-vpc"].security_group_ids[0]
-      cidr_ipv4 = ["10.2.6.0/24", "10.2.7.0/24"]
-    }
-  }
+  # api_gw_8080 = {
+  #   from_port   = 8080
+  #   to_port     = 8080
+  #   ip_protocol = "tcp"
+  #   description = "api gateway"
+  #   #referenced_security_group_id = dependency.api-gateway.outputs.vpc_links["my-vpc"].security_group_ids[0]
+  #   cidr_ipv4 = ["10.2.6.0/24", "10.2.7.0/24"]
+  # }
+  #}
 
   security_group_egress_rules = {
     all = {
