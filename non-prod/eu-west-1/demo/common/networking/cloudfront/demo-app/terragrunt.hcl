@@ -22,7 +22,7 @@ locals {
 # }
 
 dependency "cert" {
-  config_path = "../../../../../../us-east-1/stage/common/security/cert"
+  config_path = "../../../../../../us-east-1/demo/common/security/cert"
 }
 
 inputs = {
