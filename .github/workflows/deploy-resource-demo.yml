@@ -31,6 +31,7 @@ on:
           - 'cluster/service-discovery/cloud-map'
           - 'cluster/ecs-services/user-service'
           - 'common/security/cert'
+          - 'common/storage/s3/demo-app'
           - 'common/networking/cloudfront/demo-app'
       region:
         type: choice
