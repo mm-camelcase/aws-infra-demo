@@ -12,9 +12,9 @@ locals {
   bucket_name = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "demo-app")
 }
 
-# dependency "cloudfront" {
-#   config_path = "../../../network/cloudfront/demo-app"
-# }
+dependency "cloudfront" {
+  config_path = "../../networking/cloudfront/demo-app"
+}
 
 inputs = {
   bucket        = local.bucket_name
@@ -37,11 +37,11 @@ inputs = {
         Principal = {
           Service = "cloudfront.amazonaws.com"
         }
-        # Condition = {
-        #   StringEquals = {
-        #     "AWS:SourceArn" = dependency.cloudfront.outputs.cloudfront_distribution_arn
-        #   }
-        # }
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = dependency.cloudfront.outputs.cloudfront_distribution_arn
+          }
+        }
       }
     ]
   })
