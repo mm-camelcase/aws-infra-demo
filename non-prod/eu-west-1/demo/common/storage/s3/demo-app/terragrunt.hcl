@@ -13,7 +13,7 @@ locals {
 }
 
 dependency "cloudfront" {
-  config_path = "../../networking/cloudfront/demo-app"
+  config_path = "../../../networking/cloudfront/demo-app"
 }
 
 inputs = {
