@@ -138,7 +138,7 @@ inputs = {
         },
         {
           name  = "KEYCLOAK_ADMIN_PASSWORD"
-          value = "${timestamp()}"
+          value = "securepassword123"
         }
       ]
 
