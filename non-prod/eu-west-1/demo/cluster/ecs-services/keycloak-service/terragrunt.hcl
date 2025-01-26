@@ -15,8 +15,8 @@ locals {
   region_config = read_terragrunt_config(find_in_parent_folders("region.hcl"))
   common_config = read_terragrunt_config(find_in_parent_folders("common/core-params.hcl"))
 
-  repo_base       = local.common_config.locals.repo_base
-  service_name    = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, local.name)
+  repo_base    = local.common_config.locals.repo_base
+  service_name = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, local.name)
   //image           = format("%s/%s", local.common_config.locals.repo_base, local.name)
   //image_version   = read_terragrunt_config(find_in_parent_folders("service-versions.hcl")).locals.services[local.name]
   param_base_path = local.common_config.locals.param_base_path
