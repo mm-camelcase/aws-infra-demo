@@ -59,9 +59,9 @@ dependency "vpc" {
 #   config_path = "../../../network/bastion"
 # }
 
-# dependency "jump-box-sg" {
-#   config_path = "../../../security/groups/bastion-sg"
-# }
+dependency "bastion-sg" {
+  config_path = "../../../common/security/groups/bastion-sg"
+}
 
 dependency "ecs-services-sg" {
   config_path = "../../../common/security/groups/ecs-services"
@@ -207,6 +207,14 @@ inputs = {
       protocol                 = "tcp"
       description              = "Service port"
       source_security_group_id = dependency.ecs-services-sg.outputs.security_group_id
+    }
+    ingress_bastion_services = {
+      type                     = "ingress"
+      from_port                = local.container_port
+      to_port                  = local.container_port
+      protocol                 = "tcp"
+      description              = "Bastion"
+      source_security_group_id = dependency.bastion-sg.outputs.security_group_id
     }
     # ingress_nlb = {
     #   type                     = "ingress"
