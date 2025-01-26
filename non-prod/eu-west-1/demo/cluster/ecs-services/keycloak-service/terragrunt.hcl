@@ -142,6 +142,10 @@ inputs = {
         }
       ]
 
+      #"command": ["start", "--hostname", "keycloak.local", "--db-url", "jdbc:postgresql://db:5432/keycloak", "--db-username", "keycloak", "--db-password", "secure-db-password"]
+
+      command = ["start-dev"]
+
       # secrets = [
       #   {
       #     name      = "SQLDB_URL"
