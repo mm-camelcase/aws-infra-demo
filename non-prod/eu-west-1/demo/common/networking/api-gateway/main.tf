@@ -60,7 +60,7 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 # Route for ECS service
 resource "aws_apigatewayv2_route" "ecs_route" {
   api_id      = aws_apigatewayv2_api.main_api.id
-  route_key   = "ANY /"
+  route_key   = "ANY /api/{proxy+}"
   target      = "integrations/${aws_apigatewayv2_integration.ecs_integration.id}"
   
 }
@@ -68,7 +68,7 @@ resource "aws_apigatewayv2_route" "ecs_route" {
 # Route for Auth service
 resource "aws_apigatewayv2_route" "auth_route" {
   api_id      = aws_apigatewayv2_api.main_api.id
-  route_key   = "ANY /"
+  route_key   = "ANY /auth/{proxy+}"
   target      = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
   
 }
