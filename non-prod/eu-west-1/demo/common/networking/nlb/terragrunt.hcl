@@ -58,7 +58,7 @@ inputs = {
     [
       for ip in local.whitelist : {
         from_port   = 8080
-        to_port     = 8080
+        to_port     = 9000
         ip_protocol = "tcp"
         description = "vpclink subnets"
         cidr_ipv4   = "${ip}/24"
@@ -67,7 +67,7 @@ inputs = {
     [
       {
         from_port                    = 8080
-        to_port                      = 8081
+        to_port                      = 9000
         ip_protocol                  = "tcp"
         description                  = "bastion"
         referenced_security_group_id = dependency.bastion-sg.outputs.security_group_id
