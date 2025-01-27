@@ -10,6 +10,7 @@ resource "aws_apigatewayv2_vpc_link" "my_vpc_link" {
   //]
 
   subnet_ids = var.subnet_ids
+  security_group_ids = [var.gateway-sg-id]
   tags = var.tags
 }
 
@@ -30,23 +31,26 @@ resource "aws_apigatewayv2_api" "main_api" {
 # Integration for ECS service
 resource "aws_apigatewayv2_integration" "ecs_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
+  integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
-  vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
+  //vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
   integration_uri       = var.api_listener_arn
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
-  tags = var.tags
+  
 }
 
 # Integration for Auth service
 resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
+  integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
-  vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
+  
+  //vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
   integration_uri       = var.auth_listener_arn
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
-  tags = var.tags
+  
 }
 
 # ----------------------
@@ -91,6 +95,7 @@ resource "aws_apigatewayv2_domain_name" "ecs_domain" {
   domain_name_configuration {
     certificate_arn = var.cert_arn
     endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
   }
   tags = var.tags
 }
@@ -101,6 +106,7 @@ resource "aws_apigatewayv2_domain_name" "auth_domain" {
   domain_name_configuration {
     certificate_arn = var.cert_arn
     endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
   }
   tags = var.tags
 }

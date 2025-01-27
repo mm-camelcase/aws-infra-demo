@@ -18,6 +18,11 @@ variable "auth_listener_arn" {
   description = "NLB listener for auth"
 }
 
+variable "gateway-sg-id" {
+  type        = string
+  description = "gateway sg"
+}
+
 variable "cert_arn" {
   type        = string
   description = "Cert"
