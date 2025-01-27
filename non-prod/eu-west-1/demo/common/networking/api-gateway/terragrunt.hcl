@@ -83,6 +83,9 @@ inputs = {
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
       }
+      request_parameters = {
+        "route.request.header.Host" = "api.camelcase.club"
+      }
       custom_domain_key = "api" # Tied to api.camelcase.club
     }
 
@@ -95,6 +98,9 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
+      }
+      request_parameters = {
+        "route.request.header.Host" = "auth.camelcase.club"
       }
       custom_domain_key = "auth" # Tied to auth.camelcase.club
     }
