@@ -61,7 +61,7 @@ inputs = {
 
   domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
 
-  
+
   # VPC Link
   vpc_links = {
     my-vpc = {
