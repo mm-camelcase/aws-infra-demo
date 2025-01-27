@@ -134,12 +134,16 @@ inputs = {
       }
 
       environment = [{
-        name  = "KEYCLOAK_ADMIN"
+        name  = "KC_BOOTSTRAP_ADMIN_USERNAME"
         value = "admin"
         },
         {
-          name  = "KEYCLOAK_ADMIN_PASSWORD"
+          name  = "KC_BOOTSTRAP_ADMIN_PASSWORD"
           value = "securepassword123"
+        },
+        {
+          name  = "KC_HEALTH_ENABLED"
+          value = "true"
         }
       ]
 
