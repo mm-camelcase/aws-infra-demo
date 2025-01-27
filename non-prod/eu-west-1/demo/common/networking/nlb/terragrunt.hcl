@@ -117,6 +117,15 @@ inputs = {
         target_group_key = "user_service"
       }
     }
+
+    tcp_keycloak_service = {
+      port     = 8080
+      protocol = "TCP"
+
+      forward = {
+        target_group_key = "keycloak_service"
+      }
+    }
   }
 
   target_groups = {
@@ -181,6 +190,28 @@ inputs = {
         protocol            = "HTTP"             # HTTP-based health check
         timeout             = 15                 # Increase timeout to 15 seconds for slower responses
         unhealthy_threshold = 5                  # Allow up to 5 failures during startup
+      }
+
+      create_attachment = false
+    }
+
+    keycloak_service = {
+      protocol                          = "TCP"
+      port                              = 8080
+      target_type                       = "ip"
+      deregistration_delay              = 5
+      load_balancing_cross_zone_enabled = true
+
+      health_check = {
+        enabled             = true
+        healthy_threshold   = 2         # Number of successes before marking as healthy
+        interval            = 30        # Reduce the interval for faster retries
+        matcher             = "200"     # Expect HTTP 200 OK
+        path                = "/health" # Health check endpoint
+        port                = "9000"    # Target port for health checks
+        protocol            = "HTTP"    # HTTP-based health check
+        timeout             = 15        # Increase timeout to 15 seconds for slower responses
+        unhealthy_threshold = 5         # Allow up to 5 failures during startup
       }
 
       create_attachment = false
