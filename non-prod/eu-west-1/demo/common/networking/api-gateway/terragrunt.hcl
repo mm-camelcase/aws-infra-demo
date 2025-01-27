@@ -82,6 +82,9 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
+        request_parameters = {
+          "route.request.header.Host" = "api.camelcase.club"
+        }
       }
       request_parameters = {
         "route.request.header.Host" = "api.camelcase.club"
