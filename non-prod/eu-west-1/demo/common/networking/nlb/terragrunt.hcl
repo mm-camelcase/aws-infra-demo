@@ -119,7 +119,7 @@ inputs = {
     }
 
     tcp_keycloak_service = {
-      port     = 8080
+      port     = 8090
       protocol = "TCP"
 
       forward = {
@@ -197,7 +197,7 @@ inputs = {
 
     keycloak_service = {
       protocol                          = "TCP"
-      port                              = 8080
+      port                              = 8090
       target_type                       = "ip"
       deregistration_delay              = 5
       load_balancing_cross_zone_enabled = true
