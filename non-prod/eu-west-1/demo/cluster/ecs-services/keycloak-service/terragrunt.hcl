@@ -226,6 +226,14 @@ inputs = {
       description              = "Bastion"
       source_security_group_id = dependency.bastion-sg.outputs.security_group_id
     }
+    ingress_nlb = {
+      type                     = "ingress"
+      from_port                = local.container_port
+      to_port                  = local.admin_port
+      protocol                 = "tcp"
+      description              = "nlb"
+      source_security_group_id = dependency.nlb.outputs.security_group_id
+    }
     # ingress_nlb = {
     #   type                     = "ingress"
     #   from_port                = local.container_port
