@@ -55,18 +55,13 @@ inputs = {
   # Disable creation of the ACM certificate for the custom domain
   create_certificate = false
 
-  domain_name = local.api_domain
+  //domain_name = local.api_domain
+  domain_name = "*.camelcase.club"
+  subdomains  = ["api", "auth"]
 
   domain_name_certificate_arn = dependency.cert.outputs.certificate_arn
 
-  # domain_name_configuration = {
-  #   certificate_arn = dependency.cert.outputs.certificate_arn
-  #   endpoint_type   = "REGIONAL"
-  #   security_policy = "TLS_1_2"
-  #   #ownership_verification_certificate_arn = var.domain_name_ownership_verification_certificate_arn
-  # }
-
-
+  
   # VPC Link
   vpc_links = {
     my-vpc = {
@@ -88,6 +83,20 @@ inputs = {
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
       }
+      custom_domain_key = "api" # Tied to api.camelcase.club
+    }
+
+    # Route for Keycloak service (auth.camelcase.club)
+    "ANY /auth-service" = {
+      integration = {
+        connection_type      = "VPC_LINK"
+        uri                  = dependency.nlb.outputs.listeners["tcp_auth_service"].arn # Keycloak listener ARN
+        type                 = "HTTP_PROXY"
+        method               = "ANY"
+        timeout_milliseconds = 12000
+        vpc_link_key         = "my-vpc"
+      }
+      custom_domain_key = "auth" # Tied to auth.camelcase.club
     }
 
     # Example: A catch-all default route (optional)
