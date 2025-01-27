@@ -71,6 +71,8 @@ inputs = {
     }
   }
 
+  route_selection_expression = "$request.header.Host"
+
   # Routes & Integration(s)
   routes = {
     # Default route to ECS service via NLB
@@ -82,9 +84,19 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
-
       }
+    }
 
+    # Route for Keycloak service (auth.camelcase.club)
+    "auth.camelcase.club" = {
+      integration = {
+        connection_type      = "VPC_LINK"
+        uri                  = dependency.nlb.outputs.listeners["tcp_keycloak_service"].arn # Keycloak listener ARN
+        type                 = "HTTP_PROXY"
+        method               = "ANY"
+        timeout_milliseconds = 12000
+        vpc_link_key         = "my-vpc"
+      }
     }
 
     # Route for Keycloak service (auth.camelcase.club)
