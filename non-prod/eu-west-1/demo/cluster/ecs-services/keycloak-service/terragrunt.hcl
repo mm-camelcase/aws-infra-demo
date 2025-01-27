@@ -25,7 +25,7 @@ locals {
   env            = local.env_config.locals.env
   spring_profile = local.env_config.locals.spring_profile
   region         = local.region_config.locals.aws_region
-  container_port = 8080
+  container_port = 8090
   admin_port     = 9000
   host_port      = 8080
 
@@ -149,7 +149,7 @@ inputs = {
 
       #"command": ["start", "--hostname", "keycloak.local", "--db-url", "jdbc:postgresql://db:5432/keycloak", "--db-username", "keycloak", "--db-password", "secure-db-password"]
 
-      command = ["start-dev", "--hostname", "https://localhost:3000"]
+      command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
 
       # secrets = [
       #   {
