@@ -82,14 +82,9 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
-        request_parameters = {
-          "route.request.header.Host" = "api.camelcase.club"
-        }
+
       }
-      request_parameters = {
-        "route.request.header.Host" = "api.camelcase.club"
-      }
-      custom_domain_key = "api" # Tied to api.camelcase.club
+
     }
 
     # Route for Keycloak service (auth.camelcase.club)
@@ -101,12 +96,14 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
-        //uri                  = "https://auth.camelcase.club"
+        request_parameters = {
+          "integration.request.header.Host" = "'auth.camelcase.club'"
+        }
       }
-      # request_parameters = {
-      #   "route.request.header.Host" = "auth.camelcase.club"
-      # }
-      custom_domain_key = "auth" # Tied to auth.camelcase.club
+      request_parameter = {
+        request_parameter_key = "integration.request.header.Host"
+        required              = true
+      }
     }
 
     # Example: A catch-all default route (optional)
