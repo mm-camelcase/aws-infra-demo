@@ -26,6 +26,7 @@ locals {
   spring_profile = local.env_config.locals.spring_profile
   region         = local.region_config.locals.aws_region
   container_port = 8080
+  admin_port     = 9000
   host_port      = 8080
 
 
@@ -211,7 +212,7 @@ inputs = {
     ingress_bastion_services = {
       type                     = "ingress"
       from_port                = local.container_port
-      to_port                  = local.container_port
+      to_port                  = local.admin_port
       protocol                 = "tcp"
       description              = "Bastion"
       source_security_group_id = dependency.bastion-sg.outputs.security_group_id
