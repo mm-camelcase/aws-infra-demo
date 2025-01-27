@@ -7,19 +7,19 @@ terraform {
 }
 
 dependency "vpc" {
-  config_path = "../vpc"
+  config_path = "../../vpc"
 }
 
 dependency "nlb" {
-  config_path = "../nlb"
+  config_path = "../../nlb"
 }
 
 dependency "gateway-sg" {
-  config_path = "../../security/groups/gateway-sg"
+  config_path = "../../../security/groups/gateway-sg"
 }
 
 dependency "cert" {
-  config_path = "../../security/cert"
+  config_path = "../../../security/cert"
 }
 
 locals {
