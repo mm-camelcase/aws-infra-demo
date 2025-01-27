@@ -27,6 +27,8 @@ on:
           - 'common/networking/bastion'
           - 'common/networking/bastion-eip'
           - 'common/networking/api-gateway'
+          - 'common/networking/auth/api-gateway'
+          - 'common/networking/api/api-gateway'
           - 'cluster/ecs-cluster'
           - 'cluster/service-discovery/cloud-map'
           - 'cluster/ecs-services/user-service'
