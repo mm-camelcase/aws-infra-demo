@@ -33,7 +33,7 @@ resource "aws_apigatewayv2_integration" "ecs_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
   integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
-  //vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
+  connection_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
   integration_uri       = var.api_listener_arn
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
@@ -46,7 +46,7 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
   
-  //vpc_link_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
+  connection_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
   integration_uri       = var.auth_listener_arn
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
