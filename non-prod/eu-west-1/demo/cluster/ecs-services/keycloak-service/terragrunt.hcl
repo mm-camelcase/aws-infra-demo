@@ -26,9 +26,8 @@ locals {
   spring_profile = local.env_config.locals.spring_profile
   region         = local.region_config.locals.aws_region
   container_port = 8090
+  host_port      = 8090
   admin_port     = 9000
-  host_port      = 8080
-
 
 }
 
