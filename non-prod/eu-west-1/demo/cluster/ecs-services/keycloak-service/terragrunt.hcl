@@ -144,12 +144,18 @@ inputs = {
         {
           name  = "KC_HEALTH_ENABLED"
           value = "true"
+        },
+        {
+          name  = "KC_HTTP_PORT"
+          value = "${local.container_port}"
         }
       ]
 
       #"command": ["start", "--hostname", "keycloak.local", "--db-url", "jdbc:postgresql://db:5432/keycloak", "--db-username", "keycloak", "--db-password", "secure-db-password"]
 
-      command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
+      #command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
+
+      command = ["start-dev"]
 
       # secrets = [
       #   {
