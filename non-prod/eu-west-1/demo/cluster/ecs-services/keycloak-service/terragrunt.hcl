@@ -139,6 +139,10 @@ inputs = {
         {
           name  = "KEYCLOAK_ADMIN_PASSWORD"
           value = "securepassword123"
+        },
+        {
+          name  = "KC_FEATURES",
+          value = "health-enabled"
         }
       ]
 
