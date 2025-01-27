@@ -62,7 +62,7 @@ resource "aws_apigatewayv2_route" "ecs_route" {
   api_id      = aws_apigatewayv2_api.main_api.id
   route_key   = "ANY /ecs-service/*"
   target      = "integrations/${aws_apigatewayv2_integration.ecs_integration.id}"
-  tags = var.tags
+  
 }
 
 # Route for Auth service
@@ -70,7 +70,7 @@ resource "aws_apigatewayv2_route" "auth_route" {
   api_id      = aws_apigatewayv2_api.main_api.id
   route_key   = "ANY /auth-service/*"
   target      = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
-  tags = var.tags
+  
 }
 
 # ----------------------
@@ -121,7 +121,7 @@ resource "aws_apigatewayv2_api_mapping" "ecs_mapping" {
   api_id         = aws_apigatewayv2_api.main_api.id
   stage          = aws_apigatewayv2_stage.main_stage.id
   api_mapping_key = "ecs-service"
-  tags = var.tags
+
 }
 
 # Map Auth service domain to the API
@@ -130,7 +130,7 @@ resource "aws_apigatewayv2_api_mapping" "auth_mapping" {
   api_id         = aws_apigatewayv2_api.main_api.id
   stage          = aws_apigatewayv2_stage.main_stage.id
   api_mapping_key = "auth-service"
-  tags = var.tags
+ 
 }
 
 
