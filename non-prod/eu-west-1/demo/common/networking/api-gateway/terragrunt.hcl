@@ -101,7 +101,7 @@ inputs = {
         method               = "ANY"
         timeout_milliseconds = 12000
         vpc_link_key         = "my-vpc"
-        uri                  = "https://auth.camelcase.club"
+        //uri                  = "https://auth.camelcase.club"
       }
       # request_parameters = {
       #   "route.request.header.Host" = "auth.camelcase.club"
