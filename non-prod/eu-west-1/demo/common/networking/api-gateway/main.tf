@@ -38,9 +38,9 @@ resource "aws_apigatewayv2_integration" "user_service_integration" {
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
 
-  request_parameters = {
-    "overwrite:path" = "$request.path" # Forwards the entire path
-  }
+#   request_parameters = {
+#     "overwrite:path" = "$request.path" # Forwards the entire path
+#   }
   
 }
 
@@ -178,7 +178,7 @@ resource "aws_apigatewayv2_api_mapping" "ecs_mapping" {
   domain_name    = aws_apigatewayv2_domain_name.ecs_domain.id
   api_id         = aws_apigatewayv2_api.main_api.id
   stage          = aws_apigatewayv2_stage.main_stage.id
-  api_mapping_key = "api/users"
+  api_mapping_key = "internal"
 
 }
 
