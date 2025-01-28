@@ -147,6 +147,10 @@ inputs = {
         {
           name  = "KC_HTTP_PORT"
           value = "${local.container_port}"
+        },
+        {
+          name  = "KC_PROXY_HEADERS"
+          value = "forwarded"
         }
       ]
 
