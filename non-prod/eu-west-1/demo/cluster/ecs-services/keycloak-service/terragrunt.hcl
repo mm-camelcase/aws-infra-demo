@@ -151,6 +151,14 @@ inputs = {
         {
           name  = "KC_PROXY_HEADERS"
           value = "forwarded"
+        },
+        {
+          name  = "KC_FEATURES"
+          value = "hostname:v2"
+        },
+        {
+          name  = "KC_HOSTNAME"
+          value = "https://auth.camelcase.club"
         }
       ]
 
