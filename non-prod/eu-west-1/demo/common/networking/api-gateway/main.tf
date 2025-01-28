@@ -85,6 +85,29 @@ resource "aws_apigatewayv2_route" "auth_route" {
 //  tags = var.tags
 //}
 
+# API Gateway Stage with Logging
+resource "aws_apigatewayv2_stage" "default_stage" {
+  api_id      = aws_apigatewayv2_api.main_api.id
+  name        = "$default"
+  auto_deploy = true
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
+    format = jsonencode({
+      requestId       = "$context.requestId",
+      ip              = "$context.identity.sourceIp",
+      requestTime     = "$context.requestTime",
+      httpMethod      = "$context.httpMethod",
+      routeKey        = "$context.routeKey",
+      status          = "$context.status",
+      protocol        = "$context.protocol",
+      responseLength  = "$context.responseLength"
+    })
+  }
+
+  tags = var.tags
+}
+
 # ----------------------
 # Custom Domains
 # ----------------------
@@ -181,26 +204,7 @@ resource "aws_iam_role_policy_attachment" "api_gateway_logging_attachment" {
   policy_arn = aws_iam_policy.api_gateway_logging_policy.arn
 }
 
-# API Gateway Stage with Logging
-resource "aws_apigatewayv2_stage" "default_stage" {
-  api_id      = aws_apigatewayv2_api.main_api.id
-  name        = "$default"
-  auto_deploy = true
 
-  access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
-    format = jsonencode({
-      requestId       = "$context.requestId",
-      ip              = "$context.identity.sourceIp",
-      requestTime     = "$context.requestTime",
-      httpMethod      = "$context.httpMethod",
-      routeKey        = "$context.routeKey",
-      status          = "$context.status",
-      protocol        = "$context.protocol",
-      responseLength  = "$context.responseLength"
-    })
-  }
-}
 
 
 
