@@ -133,4 +133,74 @@ resource "aws_apigatewayv2_api_mapping" "auth_mapping" {
  
 }
 
+# ----------------------
+# Logging
+# ----------------------
+
+# CloudWatch Log Group
+resource "aws_cloudwatch_log_group" "api_gateway_logs" {
+  name              = "/aws/apigateway/access-logs"
+  retention_in_days = 7
+}
+
+# IAM Role and Policy for Logging
+resource "aws_iam_role" "api_gateway_logging_role" {
+  name = "api-gateway-logging-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "api_gateway_logging_policy" {
+  name = "api-gateway-logging-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+        Resource = "${aws_cloudwatch_log_group.api_gateway_logs.arn}:*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "api_gateway_logging_attachment" {
+  role       = aws_iam_role.api_gateway_logging_role.name
+  policy_arn = aws_iam_policy.api_gateway_logging_policy.arn
+}
+
+# API Gateway Stage with Logging
+resource "aws_apigatewayv2_stage" "default_stage" {
+  api_id      = aws_apigatewayv2_api.main_api.id
+  name        = "$default"
+  auto_deploy = true
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
+    format = jsonencode({
+      requestId       = "$context.requestId",
+      ip              = "$context.identity.sourceIp",
+      requestTime     = "$context.requestTime",
+      httpMethod      = "$context.httpMethod",
+      routeKey        = "$context.routeKey",
+      status          = "$context.status",
+      protocol        = "$context.protocol",
+      responseLength  = "$context.responseLength"
+    })
+  }
+}
+
+
 
