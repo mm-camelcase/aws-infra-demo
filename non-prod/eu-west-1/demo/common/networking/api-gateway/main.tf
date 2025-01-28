@@ -86,7 +86,7 @@ resource "aws_apigatewayv2_route" "auth_route" {
 //}
 
 # API Gateway Stage with Logging
-resource "aws_apigatewayv2_stage" "default_stage" {
+resource "aws_apigatewayv2_stage" "main_stage" {
   api_id      = aws_apigatewayv2_api.main_api.id
   name        = "$default"
   auto_deploy = true
