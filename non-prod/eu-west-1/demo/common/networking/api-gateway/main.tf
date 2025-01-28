@@ -173,7 +173,7 @@ resource "aws_apigatewayv2_api_mapping" "ecs_mapping" {
   domain_name    = aws_apigatewayv2_domain_name.ecs_domain.id
   api_id         = aws_apigatewayv2_api.main_api.id
   stage          = aws_apigatewayv2_stage.main_stage.id
-  api_mapping_key = "ecs-service"
+  api_mapping_key = "api/users"
 
 }
 
@@ -182,7 +182,7 @@ resource "aws_apigatewayv2_api_mapping" "auth_mapping" {
   domain_name    = aws_apigatewayv2_domain_name.auth_domain.id
   api_id         = aws_apigatewayv2_api.main_api.id
   stage          = aws_apigatewayv2_stage.main_stage.id
-  api_mapping_key = "auth-service"
+  #api_mapping_key = "auth-service"
  
 }
 
