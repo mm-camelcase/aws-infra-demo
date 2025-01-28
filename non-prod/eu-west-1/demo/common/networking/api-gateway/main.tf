@@ -135,7 +135,8 @@ resource "aws_apigatewayv2_stage" "main_stage" {
       routeKey        = "$context.routeKey",
       status          = "$context.status",
       protocol        = "$context.protocol",
-      responseLength  = "$context.responseLength"
+      responseLength  = "$context.responseLength",
+      integrationError = "$context.integrationErrorMessage"
     })
   }
 
