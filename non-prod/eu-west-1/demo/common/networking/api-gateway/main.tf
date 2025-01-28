@@ -78,12 +78,12 @@ resource "aws_apigatewayv2_route" "auth_route" {
 # ----------------------
 
 # Create a default stage for the API
-resource "aws_apigatewayv2_stage" "main_stage" {
-  api_id      = aws_apigatewayv2_api.main_api.id
-  name        = "$default"
-  auto_deploy = true
-  tags = var.tags
-}
+//resource "aws_apigatewayv2_stage" "main_stage" {
+//  api_id      = aws_apigatewayv2_api.main_api.id
+//  name        = "$default"
+//  auto_deploy = true
+//  tags = var.tags
+//}
 
 # ----------------------
 # Custom Domains
