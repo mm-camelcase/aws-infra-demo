@@ -58,17 +58,47 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 # ----------------------
 
 # Route for ECS service
-resource "aws_apigatewayv2_route" "ecs_route" {
-  api_id      = aws_apigatewayv2_api.main_api.id
-  route_key   = "ANY /"
-  target      = "integrations/${aws_apigatewayv2_integration.ecs_integration.id}"
+# resource "aws_apigatewayv2_route" "ecs_route" {
+#   api_id      = aws_apigatewayv2_api.main_api.id
+#   route_key   = "ANY /"
+#   target      = "integrations/${aws_apigatewayv2_integration.ecs_integration.id}"
   
+# }
+
+resource "aws_apigatewayv2_route" "get_user_by_id" {
+  api_id    = aws_apigatewayv2_api.main_api.id
+  route_key = "GET /api/users/{id}" # GET route for fetching a user by ID
+  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "update_user" {
+  api_id    = aws_apigatewayv2_api.main_api.id
+  route_key = "PUT /api/users/{id}" # PUT route for updating a user by ID
+  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "delete_user" {
+  api_id    = aws_apigatewayv2_api.main_api.id
+  route_key = "DELETE /api/users/{id}" # DELETE route for deleting a user by ID
+  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "get_all_users" {
+  api_id    = aws_apigatewayv2_api.main_api.id
+  route_key = "GET /api/users" # GET route for fetching all users
+  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+}
+
+resource "aws_apigatewayv2_route" "create_user" {
+  api_id    = aws_apigatewayv2_api.main_api.id
+  route_key = "POST /api/users" # POST route for creating a new user
+  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
 }
 
 # Route for Auth service
 resource "aws_apigatewayv2_route" "auth_route" {
   api_id      = aws_apigatewayv2_api.main_api.id
-  route_key   = "ANY /admin/{proxy+}"
+  route_key   = "ANY /{proxy+}"
   target      = "integrations/${aws_apigatewayv2_integration.auth_integration.id}"
   
 }
