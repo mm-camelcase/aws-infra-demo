@@ -37,6 +37,10 @@ resource "aws_apigatewayv2_integration" "user_service_integration" {
   integration_uri       = var.api_listener_arn
   integration_method    = "ANY"
   timeout_milliseconds  = 12000
+
+  request_parameters = {
+    "overwrite:path" = "$request.path" # Forwards the entire path
+  }
   
 }
 
