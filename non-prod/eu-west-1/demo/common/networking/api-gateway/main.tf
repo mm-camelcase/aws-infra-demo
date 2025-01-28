@@ -29,7 +29,7 @@ resource "aws_apigatewayv2_api" "main_api" {
 # ----------------------
 
 # Integration for ECS service
-resource "aws_apigatewayv2_integration" "ecs_integration" {
+resource "aws_apigatewayv2_integration" "user_service_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
   integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
