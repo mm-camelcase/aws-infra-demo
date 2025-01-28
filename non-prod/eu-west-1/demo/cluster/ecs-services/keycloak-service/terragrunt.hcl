@@ -150,7 +150,7 @@ inputs = {
         },
         {
           name  = "KC_PROXY_HEADERS"
-          value = "xforwarded"
+          value = "forwarded"
         }
       ]
 
