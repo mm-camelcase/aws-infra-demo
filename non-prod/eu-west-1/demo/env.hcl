@@ -2,5 +2,5 @@
 # feed forward to the child modules.
 locals {
   env            = "demo"
-  spring_profile = "dev"
+  spring_profile = "demo"
 }
