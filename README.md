@@ -13,3 +13,26 @@ aws ecs execute-command \
   --command "sh" \
   --interactive \
   --region eu-west-1
+
+# keycloak urls
+  https://auth.camelcase.club/realms/demo-realm/.well-known/openid-configuration
+
+
+# API Tests
+
+## token
+
+curl -X POST "https://auth.camelcase.club/realms/demo-realm/protocol/openid-connect/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "client_id=static-app" \
+     -d "client_secret=AYyxGdiab7SoxrGCbZO1r2akiWsndDPC" \
+     -d "grant_type=password" \
+     -d "username=mark@camelcase.email" \
+     -d "password=Opt1plex!" \
+     -o token.json
+
+## api
+
+curl -X GET "http://localhost:8080/api/users" \
+     -H "Authorization: Bearer $(jq -r '.access_token' token.json)" \
+     -H "accept: */*"
