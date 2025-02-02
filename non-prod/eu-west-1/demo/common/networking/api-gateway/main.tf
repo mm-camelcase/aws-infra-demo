@@ -22,8 +22,8 @@ resource "aws_apigatewayv2_api" "main_api" {
   protocol_type            = "HTTP"
   //route_selection_expression = "${request.method} ${request.path}"
   cors_configuration {
-    //allow_origins = ["https://api.camelcase.club"]
-    allow_origins = ["*"]
+    allow_origins = ["https://app.camelcase.club", "https://auth.camelcase.club", "https://api.camelcase.club"]
+    //allow_origins = ["*"]
     allow_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST" ,"PUT"]
     allow_headers = ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"]
   }
