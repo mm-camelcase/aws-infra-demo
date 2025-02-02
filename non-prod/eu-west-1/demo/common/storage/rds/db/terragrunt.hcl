@@ -69,7 +69,7 @@ inputs = {
   #vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id, dependency.nlb-sg.outputs.security_group_id]
 
   # Define the option group
-  option_group_name = "${local.name}-opt-grp"
+  # option_group_name = "${local.name}-opt-grp"
   # options = [
   #   {
   #     option_name = "SQLSERVER_BACKUP_RESTORE"
@@ -86,15 +86,15 @@ inputs = {
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
   create_cloudwatch_log_group     = true
 
-  backup_retention_period = 1
+  #backup_retention_period = 1
   skip_final_snapshot     = true
   deletion_protection     = false
 
-  performance_insights_enabled          = false
-  performance_insights_retention_period = 7
-  create_monitoring_role                = true
-  monitoring_role_name                  = "${local.name}-monitoring-role"
-  monitoring_interval                   = 60
+  # performance_insights_enabled          = false
+  # performance_insights_retention_period = 7
+  # create_monitoring_role                = true
+  # monitoring_role_name                  = "${local.name}-monitoring-role"
+  # monitoring_interval                   = 60
 
 
 }
