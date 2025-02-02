@@ -63,7 +63,7 @@ inputs = {
 
   manage_master_user_password = false
   #password                    = dependency.param-store.outputs.parameters["/${local.env_config.locals.spring_profile}/common/db/core-mssql/password"]
-  passsword = "random123"
+  passsword = "MySecureP@ssword123"
 
   db_subnet_group_name = dependency.vpc.outputs.database_subnet_group_name
   #vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id, dependency.nlb-sg.outputs.security_group_id]
