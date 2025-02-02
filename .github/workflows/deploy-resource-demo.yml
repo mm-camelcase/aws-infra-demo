@@ -29,6 +29,7 @@ on:
           - 'common/networking/api-gateway'
           - 'common/networking/api-gateway/auth'
           - 'common/networking/api-gateway/api'
+          - 'common/storage/rds/db'
           - 'cluster/ecs-cluster'
           - 'cluster/service-discovery/cloud-map'
           - 'cluster/ecs-services/user-service'
