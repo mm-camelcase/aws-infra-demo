@@ -87,8 +87,8 @@ inputs = {
   create_cloudwatch_log_group     = true
 
   #backup_retention_period = 1
-  skip_final_snapshot     = true
-  deletion_protection     = false
+  skip_final_snapshot = true
+  deletion_protection = false
 
   # performance_insights_enabled          = false
   # performance_insights_retention_period = 7
