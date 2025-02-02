@@ -21,6 +21,12 @@ resource "aws_apigatewayv2_api" "main_api" {
   name                     = var.name
   protocol_type            = "HTTP"
   //route_selection_expression = "${request.method} ${request.path}"
+  cors_configuration {
+    allow_origins = ["https://api.camelcase.club"]
+    allow_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST" ,"PUT"]
+    allow_headers = ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"]
+  }
+
   tags = var.tags
 }
 
@@ -43,12 +49,12 @@ resource "aws_apigatewayv2_integration" "user_service_integration" {
   }
 
   # Add CORS response headers
-  response_parameters = {
-    "200.response.header.Access-Control-Allow-Origin"      = "'https://app.camelcase.club'"
-    "200.response.header.Access-Control-Allow-Methods"     = "'GET, POST, PUT, DELETE, OPTIONS'"
-    "200.response.header.Access-Control-Allow-Headers"     = "'Authorization, Content-Type'"
-    "200.response.header.Access-Control-Allow-Credentials" = "'true'"
-  }
+#   response_parameters = {
+#     "200.response.header.Access-Control-Allow-Origin"      = "'https://app.camelcase.club'"
+#     "200.response.header.Access-Control-Allow-Methods"     = "'GET, POST, PUT, DELETE, OPTIONS'"
+#     "200.response.header.Access-Control-Allow-Headers"     = "'Authorization, Content-Type'"
+#     "200.response.header.Access-Control-Allow-Credentials" = "'true'"
+#   }
   
 }
 
