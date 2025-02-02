@@ -62,6 +62,7 @@ inputs = {
   port     = 1433
 
   manage_master_user_password = true
+  master_user_secret_kms_key_id = "alias/aws/rds"
   #password                    = dependency.param-store.outputs.parameters["/${local.env_config.locals.spring_profile}/common/db/core-mssql/password"]
   #passsword = "Postgres123"
 
