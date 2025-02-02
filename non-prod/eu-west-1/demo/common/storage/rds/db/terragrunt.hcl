@@ -83,7 +83,7 @@ inputs = {
   # ]
 
   maintenance_window              = "Sat:00:00-Sat:03:00"
-  enabled_cloudwatch_logs_exports = ["error"]
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade", "general", "slowquery"]
   create_cloudwatch_log_group     = true
 
   backup_retention_period = 1
