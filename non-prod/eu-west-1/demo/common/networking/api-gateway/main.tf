@@ -26,6 +26,7 @@ resource "aws_apigatewayv2_api" "main_api" {
     //allow_origins = ["*"]
     allow_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST" ,"PUT"]
     allow_headers = ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"]
+    allow_credentials = true
   }
 
   tags = var.tags
