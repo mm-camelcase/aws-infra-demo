@@ -23,6 +23,7 @@ on:
           - 'common/networking/nlb'
           - 'common/security/groups/bastion-sg'
           - 'common/security/groups/bastion-to-rds'
+          - 'common/security/groups/ecs-to-rds'
           - 'common/security/groups/ecs-services'
           - 'common/security/groups/gateway-sg'
           - 'common/networking/bastion'

@@ -36,3 +36,18 @@ curl -X POST "https://auth.camelcase.club/realms/demo-realm/protocol/openid-conn
 curl -X GET "http://localhost:8080/api/users" \
      -H "Authorization: Bearer $(jq -r '.access_token' token.json)" \
      -H "accept: */*"
+
+
+# DB
+
+```
+ec2_bridge_id=i-008045bbe4f75517b   
+db_url=demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com
+
+
+## PostgreSQL
+aws ssm start-session \
+    --target $ec2_bridge_id \
+    --document-name AWS-StartPortForwardingSessionToRemoteHost \
+    --parameters "{\"host\":[\"${db_url}\"],\"portNumber\":[\"5432\"], \"localPortNumber\":[\"5432\"]}"
+```
