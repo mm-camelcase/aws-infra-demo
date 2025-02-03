@@ -1,5 +1,5 @@
 include {
-  path = find_in_parent_folders()
+  path = find_in_parent_folders("root.hcl")
 }
 
 terraform {
@@ -7,7 +7,7 @@ terraform {
 }
 
 dependency "vpc" {
-  config_path = "../../../network/vpc"
+  config_path = "../../../networking/vpc"
 }
 
 dependency "bastion-sg" {
