@@ -26,6 +26,7 @@ on:
           - 'common/security/groups/ecs-to-rds'
           - 'common/security/groups/ecs-services'
           - 'common/security/groups/gateway-sg'
+          - 'common/security/group-rules/ecs-to-rds'
           - 'common/networking/bastion'
           - 'common/networking/bastion-eip'
           - 'common/networking/api-gateway'
