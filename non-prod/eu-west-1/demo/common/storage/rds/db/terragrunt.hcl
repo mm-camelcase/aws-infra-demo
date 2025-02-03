@@ -16,9 +16,9 @@ dependency "vpc" {
 #   config_path = "../../../security/groups/ecs-to-rds"
 # }
 
-# dependency "bastion-to-rds-sg" {
-#   config_path = "../../../security/groups/bastion-to-rds"
-# }
+dependency "bastion-to-rds-sg" {
+  config_path = "../../../security/groups/bastion-to-rds"
+}
 
 # dependency "nlb-sg" {
 #   config_path = "../../../security/groups/nlb-to-rds"
@@ -68,6 +68,8 @@ inputs = {
 
   db_subnet_group_name = dependency.vpc.outputs.database_subnet_group_name
   #vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id, dependency.nlb-sg.outputs.security_group_id]
+  vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id]
+
 
   # Define the option group
   # option_group_name = "${local.name}-opt-grp"
