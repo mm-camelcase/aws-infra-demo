@@ -59,7 +59,7 @@ inputs = {
 
   #username = dependency.param-store.outputs.parameters["/${local.env_config.locals.spring_profile}/common/db/core-mssql/user"]
   username = "mm123"
-  port     = 1433
+  port     = 5432
 
   manage_master_user_password = true
   #master_user_secret_kms_key_id = "alias/aws/rds"
