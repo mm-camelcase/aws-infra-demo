@@ -148,50 +148,22 @@ inputs = {
           name  = "JAVA_TOOL_OPTIONS"
           value = ""
         },
-        # {
-        #   name  = "RABBIT_HOST"
-        #   value = dependency.service-discovery.outputs.rabbit_mq_service_discovery_url
-        # },
-        # {
-        #   name  = "RABBIT_PORT"
-        #   value = 5672
-        # },
-        # {
-        #   name  = "MONGO_HOST"
-        #   value = dependency.service-discovery.outputs.mongo_db_service_discovery_url
-        # },
-        # {
-        #   name  = "MONGO_PORT"
-        #   value = 27017
-        # },
-        # {
-        #   name  = "TRADE_SERVICE_URL"
-        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.trade_service_discovery_url, 8072)
-        # },
-        # {
-        #   name  = "CORE_SERVICES_URL"
-        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.core_service_discovery_url, 8071)
-        # },
-        # {
-        #   name  = "CHECKLIST_URL"
-        #   value = format("%s%s:%s", "http://", dependency.service-discovery.outputs.checklist_api_service_discovery_url, 3003)
-        # },
-        # {
-        #   name  = "HOST_NAME"
-        #   value = "ecs-${local.env}-${local.acc_config.locals.resource_prefix}"
-        # },
-        # {
-        #   name  = "DD_ENV"
-        #   value = local.env
-        # },
-        # {
-        #   name  = "DD_SERVICE"
-        #   value = local.name
-        # },
-        # {
-        #   name  = "DD_VERSION"
-        #   value = local.image_version
-        # }
+        {
+          name  = "RDS_HOSTNAME"
+          value = "demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com"
+        },
+        {
+          name  = "RDS_DB_NAME"
+          value = "user_service_db"
+        },
+        {
+          name  = "RDS_USERNAME"
+          value = "app_user"
+        },
+        {
+          name  = "RDS_PASSWORD"
+          value = "secure-password"
+        }
       ]
 
       # secrets = [

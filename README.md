@@ -51,3 +51,66 @@ aws ssm start-session \
     --document-name AWS-StartPortForwardingSessionToRemoteHost \
     --parameters "{\"host\":[\"${db_url}\"],\"portNumber\":[\"5432\"], \"localPortNumber\":[\"5432\"]}"
 ```
+
+
+# login
+```
+psql -h localhost  -U mm123 -d postgres
+```
+
+
+# create dbs
+```
+psql -h localhost  -U mm123 -d postgres
+```
+
+# create service db
+
+1. Create the User and Grant Database Access
+
+```
+CREATE DATABASE user_service_db;
+CREATE USER app_user WITH PASSWORD 'secure-password';
+GRANT CONNECT ON DATABASE user_service_db TO app_user;
+```
+
+2. Switch to user_service_db
+
+```
+\c user_service_db;
+```
+
+3. Grant Schema and Table Privileges
+
+```
+GRANT USAGE ON SCHEMA public TO app_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_user;
+```
+
+# create keycloak db
+
+1. Create the User and Grant Database Access
+
+```
+CREATE DATABASE keycloak_db;
+CREATE USER keycloak_user WITH PASSWORD 'keycloak-password';
+GRANT CONNECT ON DATABASE keycloak_db TO keycloak_user;
+
+```
+
+2. Switch to user_service_db
+
+```
+\c user_service_db;
+```
+
+3. Grant Schema and Table Privileges
+
+```
+GRANT USAGE ON SCHEMA public TO app_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_user;
+```
