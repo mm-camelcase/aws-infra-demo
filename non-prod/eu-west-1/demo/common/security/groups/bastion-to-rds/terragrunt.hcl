@@ -30,8 +30,8 @@ inputs = {
   # Define ingress rule for MSSQL core db
   ingress_with_source_security_group_id = [
     {
-      from_port                = 1433,
-      to_port                  = 1433,
+      from_port                = 5432,
+      to_port                  = 5432,
       protocol                 = "tcp",
       description              = "Bastion",
       source_security_group_id = dependency.bastion-sg.outputs.security_group_id
