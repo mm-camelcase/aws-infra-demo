@@ -179,6 +179,10 @@ inputs = {
         {
           name  = "KC_DB"
           value = "postgres"
+        },
+        {
+          name  = "KC_HTTP_ENABLED"
+          value = "true"
         }
       ]
 
