@@ -147,22 +147,41 @@ inputs = {
         {
           name  = "JAVA_TOOL_OPTIONS"
           value = ""
+        }
+        # {
+        #   name  = "RDS_HOSTNAME"
+        #   value = "demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com"
+        # },
+        # {
+        #   name  = "RDS_USER_DB_NAME"
+        #   value = "user_service_db"
+        # },
+        # {
+        #   name  = "RDS_USER_DB_USERNAME"
+        #   value = "app_user"
+        # },
+        # {
+        #   name  = "RDS_USER_DB_PASSWORD"
+        #   value = "secure-password"
+        # }
+      ]
+
+      secrets = [
+        {
+          name      = "RDS_HOSTNAME"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/sql-jdbc-url")
         },
         {
-          name  = "RDS_HOSTNAME"
-          value = "demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com"
+          name      = "RDS_USER_DB_NAME"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-name")
         },
         {
-          name  = "RDS_USER_DB_NAME"
-          value = "user_service_db"
+          name      = "RDS_USER_DB_USERNAME"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-username")
         },
         {
-          name  = "RDS_USER_DB_USERNAME"
-          value = "app_user"
-        },
-        {
-          name  = "RDS_USER_DB_PASSWORD"
-          value = "secure-password"
+          name      = "RDS_USER_DB_PASSWORD"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-password")
         }
       ]
 
