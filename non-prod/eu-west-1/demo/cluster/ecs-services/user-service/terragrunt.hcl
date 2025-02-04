@@ -153,15 +153,15 @@ inputs = {
           value = "demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com"
         },
         {
-          name  = "RDS_DB_NAME"
+          name  = "RDS_USER_DB_NAME"
           value = "user_service_db"
         },
         {
-          name  = "RDS_USERNAME"
+          name  = "RDS_USER_DB_USERNAME"
           value = "app_user"
         },
         {
-          name  = "RDS_PASSWORD"
+          name  = "RDS_USER_DB_PASSWORD"
           value = "secure-password"
         }
       ]
