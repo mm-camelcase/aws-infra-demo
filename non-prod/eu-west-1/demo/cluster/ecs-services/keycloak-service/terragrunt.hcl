@@ -171,6 +171,14 @@ inputs = {
         {
           name  = "KC_DB_PASSWORD"
           value = "keycloak-password"
+        },
+        {
+          name  = "KC_DB_DRIVER"
+          value = "org.postgresql.Driver"
+        },
+        {
+          name  = "KC_DB"
+          value = "postgres"
         }
       ]
 
@@ -178,9 +186,9 @@ inputs = {
 
       #command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
 
-      command = ["start-dev"] # dev mode, ephemeral container local in mem db
+      #command = ["start-dev"] # dev mode, ephemeral container local in mem db
 
-      #command = ["start"]
+      command = ["start"]
 
       # secrets = [
       #   {
