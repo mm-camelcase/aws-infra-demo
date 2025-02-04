@@ -159,6 +159,18 @@ inputs = {
         {
           name  = "KC_HOSTNAME"
           value = "https://auth.camelcase.club"
+        },
+        {
+          name  = "KC_DB_URL"
+          value = "jdbc:postgresql://demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com:5432/keycloak_db"
+        },
+        {
+          name  = "KC_DB_USERNAME"
+          value = "keycloak_user"
+        },
+        {
+          name  = "KC_DB_PASSWORD"
+          value = "keycloak-password"
         }
       ]
 
@@ -166,7 +178,9 @@ inputs = {
 
       #command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
 
-      command = ["start-dev"]
+      command = ["start-dev"] # dev mode, ephemeral container local in mem db
+
+      #command = ["start"]
 
       # secrets = [
       #   {

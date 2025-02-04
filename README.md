@@ -83,10 +83,17 @@ GRANT CONNECT ON DATABASE user_service_db TO app_user;
 3. Grant Schema and Table Privileges
 
 ```
-GRANT USAGE ON SCHEMA public TO app_user;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_user;
+//GRANT USAGE ON SCHEMA public TO app_user;
+//GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
+//ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
+//GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_user;
+
+GRANT USAGE, CREATE ON SCHEMA public TO app_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO app_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO app_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO app_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO app_user;
+
 ```
 
 # create keycloak db
@@ -103,14 +110,54 @@ GRANT CONNECT ON DATABASE keycloak_db TO keycloak_user;
 2. Switch to user_service_db
 
 ```
-\c user_service_db;
+\c keycloak_db;
 ```
 
 3. Grant Schema and Table Privileges
 
 ```
-GRANT USAGE ON SCHEMA public TO app_user;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_user;
+//GRANT USAGE ON SCHEMA public TO keycloak_user;
+//GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO keycloak_user;
+//ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO keycloak_user;
+//GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO keycloak_user;
+
+GRANT USAGE, CREATE ON SCHEMA public TO keycloak_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO keycloak_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO keycloak_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO keycloak_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO keycloak_user;
+
+
 ```
+
+
+
+# Keycloak export
+
+Realm-settings --> Action --> Partial export 
+
+select 
+- include groups and roles
+- Include clients
+
+# User
+
+Username mark
+Email mark@camelcase.email
+First name Mark
+Last name Mitchell
+
+email verified
+
+role mapping --> api-viewer
+
+
+=-----
+
+## imprrt
+
+- create raelm
+    name demo-realm & import file
+
+
+-  create user and assign api-viewer role
