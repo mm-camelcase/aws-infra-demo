@@ -28,6 +28,7 @@ locals {
   container_port = 8090
   host_port      = 8090
   admin_port     = 9000
+  auth_domain    = local.env_config.locals.auth_domain
 
 }
 
@@ -158,11 +159,11 @@ inputs = {
         },
         {
           name  = "KC_HOSTNAME"
-          value = "https://auth.camelcase.club"
+          value = "https://${local.auth_domain}"
         },
         {
           name  = "KC_DB_URL"
-          value = "jdbc:postgresql://demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com:5432/keycloak_db"
+          value = "jdbc:postgresql://${KC_DB_URL}:5432/keycloak_db"
         },
         {
           name  = "KC_DB_USERNAME"
@@ -193,6 +194,26 @@ inputs = {
       #command = ["start-dev"] # dev mode, ephemeral container local in mem db
 
       command = ["start"]
+
+      secrets = [
+        {
+          name      = "KC_DB_URL"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/sql-jdbc-url")
+
+        }
+        # {
+        #   name      = "RDS_USER_DB_NAME"
+        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-name")
+        # },
+        # {
+        #   name      = "RDS_USER_DB_USERNAME"
+        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-username")
+        # },
+        # {
+        #   name      = "RDS_USER_DB_PASSWORD"
+        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-password")
+        # }
+      ]
 
       # secrets = [
       #   {

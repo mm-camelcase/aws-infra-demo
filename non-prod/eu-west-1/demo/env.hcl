@@ -3,4 +3,9 @@
 locals {
   env            = "demo"
   spring_profile = "demo"
+
+  auth_domain     = "auth.camelcase.club"
+  app_domain      = "auth.camelcase.club"
+  api_domain      = "api.camelcase.club"
+  wildcard_domain = "*.camelcase.club"
 }
