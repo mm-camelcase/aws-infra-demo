@@ -218,7 +218,7 @@ inputs = {
           valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-master-password")
         },
         {
-          name           = "KC_DB_USERNAME"
+          name      = "KC_DB_USERNAME"
           valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-username")
         },
         {
