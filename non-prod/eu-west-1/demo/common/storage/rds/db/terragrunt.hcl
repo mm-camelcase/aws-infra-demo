@@ -20,14 +20,6 @@ dependency "bastion-to-rds-sg" {
   config_path = "../../../security/groups/bastion-to-rds"
 }
 
-# dependency "nlb-sg" {
-#   config_path = "../../../security/groups/nlb-to-rds"
-# }
-
-# dependency "param-store" {
-#   config_path = "../../../storage/parameter-store"
-# }
-
 
 locals {
   # example showing how to find and read a config file from a parent folder
@@ -47,11 +39,6 @@ inputs = {
 
   allocated_storage     = 5
   max_allocated_storage = 20
-
-  # storage_type       = "gp3"
-  # iops               = 3000
-  # storage_throughput = 125
-
   publicly_accessible = false
 
   # Encryption at rest is not available for DB instances running SQL Server Express Edition
@@ -62,29 +49,9 @@ inputs = {
   port     = 5432
 
   manage_master_user_password = true
-  #master_user_secret_kms_key_id = "alias/aws/rds"
-  #password                    = dependency.param-store.outputs.parameters["/${local.env_config.locals.spring_profile}/common/db/core-mssql/password"]
-  #passsword = "Postgres123"
-
+  
   db_subnet_group_name = dependency.vpc.outputs.database_subnet_group_name
-  #vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id, dependency.nlb-sg.outputs.security_group_id]
-  #vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id]
   vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id]
-
-
-  # Define the option group
-  # option_group_name = "${local.name}-opt-grp"
-  # options = [
-  #   {
-  #     option_name = "SQLSERVER_BACKUP_RESTORE"
-  #     option_settings = [
-  #       {
-  #         name  = "IAM_ROLE_ARN"
-  #         value = "arn:aws:iam::262847506086:role/service-role/AWSRestore"
-  #       }
-  #     ]
-  #   }
-  # ]
 
   maintenance_window              = "Sat:00:00-Sat:03:00"
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
@@ -93,13 +60,6 @@ inputs = {
   #backup_retention_period = 1
   skip_final_snapshot = true
   deletion_protection = false
-
-  # performance_insights_enabled          = false
-  # performance_insights_retention_period = 7
-  # create_monitoring_role                = true
-  # monitoring_role_name                  = "${local.name}-monitoring-role"
-  # monitoring_interval                   = 60
-
 
 }
 
