@@ -28,6 +28,21 @@ variable "cert_arn" {
   description = "Cert"
 }
 
+variable "auth_domain" {
+  type        = string
+  description = "keycloak auth domain"
+}
+
+variable "app_domain" {
+  type        = string
+  description = "demo app domain"
+}
+
+variable "api_domain" {
+  type        = string
+  description = "api domain"
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags for the resource"

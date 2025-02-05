@@ -107,7 +107,7 @@ GRANT CONNECT ON DATABASE keycloak_db TO keycloak_user;
 
 ```
 
-2. Switch to user_service_db
+2. Switch to keycloak_db
 
 ```
 \c keycloak_db;
@@ -156,7 +156,7 @@ role mapping --> api-viewer
 
 ## imprrt
 
-- create raelm
+- create raelm (throws error but works)
     name demo-realm & import file
 
 

@@ -39,10 +39,6 @@ dependency "service-discovery" {
   config_path = "../../service-discovery/cloud-map"
 }
 
-# dependency "alb" {
-#   config_path = "../../../network/alb"
-# }
-
 dependency "nlb" {
   config_path = "../../../common/networking/nlb"
 }
@@ -50,18 +46,6 @@ dependency "nlb" {
 dependency "vpc" {
   config_path = "../../../common/networking/vpc"
 }
-
-# dependency "param-store" {
-#   config_path = "../../../storage/parameter-store"
-# }
-
-# dependency "jump-box" {
-#   config_path = "../../../network/bastion"
-# }
-
-# dependency "jump-box-sg" {
-#   config_path = "../../../security/groups/bastion-sg"
-# }
 
 dependency "ecs-services-sg" {
   config_path = "../../../common/security/groups/ecs-services"
@@ -105,24 +89,6 @@ inputs = {
       readonly_root_filesystem  = false
       enable_cloudwatch_logging = true
 
-      # log_configuration = {
-      #   logDriver = "awsfirelens"
-      #   options = {
-      #     Name           = "datadog"
-      #     Host           = "http-intake.logs.datadoghq.eu"
-      #     dd_service     = local.name
-      #     dd_source      = "java"
-      #     dd_message_key = "@message"
-      #     dd_tags        = "env:${local.env},service:${local.name},version:${local.image_version}"
-      #     TLS            = "on"
-      #     provider       = "ecs"
-      #   }
-      #   secretOptions : [{
-      #     name : "apikey"
-      #     valueFrom : format("${local.param_base_path}/common/datadog/dd-api-key")
-      #   }]
-      # }
-
       linux_parameters = {
         capabilities = {
           # best practice security measure (restricts the container from using raw and packet sockets)
@@ -136,10 +102,6 @@ inputs = {
         name  = "SPRING_PROFILES_ACTIVE"
         value = local.spring_profile
         },
-        # {
-        #   name  = "FORCE_REDEPLOY"
-        #   value = "${timestamp()}"
-        # },
         {
           name  = "JAVA_OPTS"
           value = "-Xmx1600m"
@@ -148,22 +110,6 @@ inputs = {
           name  = "JAVA_TOOL_OPTIONS"
           value = ""
         }
-        # {
-        #   name  = "RDS_HOSTNAME"
-        #   value = "demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com"
-        # },
-        # {
-        #   name  = "RDS_USER_DB_NAME"
-        #   value = "user_service_db"
-        # },
-        # {
-        #   name  = "RDS_USER_DB_USERNAME"
-        #   value = "app_user"
-        # },
-        # {
-        #   name  = "RDS_USER_DB_PASSWORD"
-        #   value = "secure-password"
-        # }
       ]
 
       secrets = [
@@ -185,21 +131,6 @@ inputs = {
         }
       ]
 
-      # secrets = [
-      #   {
-      #     name      = "SQLDB_URL"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/sql-jdbc-url")
-      #   },
-      #   {
-      #     name      = "SQL_USER"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/user")
-      #   },
-      #   {
-      #     name      = "SQL_PASS"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
-      #   }
-      # ]
-
       mount_points = [
         {
           sourceVolume  = "tmp-dir"
@@ -216,8 +147,7 @@ inputs = {
       #   startPeriod = 170
       # }
     }
-    #datadog-agent = local.common_config.locals.sidecars.datadog_container
-    #fluent-bit = local.common_config.locals.sidecars.fluentbit_container
+
   }
 
   volume = {

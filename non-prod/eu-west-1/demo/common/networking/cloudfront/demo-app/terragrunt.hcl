@@ -10,8 +10,8 @@ locals {
   acc_config = read_terragrunt_config(find_in_parent_folders("account.hcl"))
   env_config = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 
-  comment   = "Demo App"
-  subdomain = "app.camelcase.club"
+  comment    = "Demo App"
+  app_domain = local.env_config.locals.app_domain
 
   # domain name of bucket that this CloudFront distribution will serve (will generate here to avoid circular dependency)
   bucket_domain_name = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, "demo-app.s3.amazonaws.com")
@@ -28,7 +28,7 @@ dependency "cert" {
 inputs = {
   comment = local.comment
   enabled = true
-  aliases = [local.subdomain]
+  aliases = [local.app_domain]
   //web_acl_id          = dependency.waf.outputs.aws_wafv2_arn
   default_root_object = "index.html"
 

@@ -15,10 +15,8 @@ locals {
   region_config = read_terragrunt_config(find_in_parent_folders("region.hcl"))
   common_config = read_terragrunt_config(find_in_parent_folders("common/core-params.hcl"))
 
-  repo_base    = local.common_config.locals.repo_base
-  service_name = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, local.name)
-  //image           = format("%s/%s", local.common_config.locals.repo_base, local.name)
-  //image_version   = read_terragrunt_config(find_in_parent_folders("service-versions.hcl")).locals.services[local.name]
+  repo_base       = local.common_config.locals.repo_base
+  service_name    = format("%s-%s-%s", local.env_config.locals.env, local.acc_config.locals.resource_prefix, local.name)
   param_base_path = local.common_config.locals.param_base_path
   acc_kms_keys    = local.common_config.locals.acc_kms_keys
 
@@ -40,10 +38,6 @@ dependency "service-discovery" {
   config_path = "../../service-discovery/cloud-map"
 }
 
-# dependency "alb" {
-#   config_path = "../../../network/alb"
-# }
-
 dependency "nlb" {
   config_path = "../../../common/networking/nlb"
 }
@@ -51,14 +45,6 @@ dependency "nlb" {
 dependency "vpc" {
   config_path = "../../../common/networking/vpc"
 }
-
-# dependency "param-store" {
-#   config_path = "../../../storage/parameter-store"
-# }
-
-# dependency "jump-box" {
-#   config_path = "../../../network/bastion"
-# }
 
 dependency "bastion-sg" {
   config_path = "../../../common/security/groups/bastion-sg"
@@ -106,24 +92,6 @@ inputs = {
       readonly_root_filesystem  = false
       enable_cloudwatch_logging = true
 
-      # log_configuration = {
-      #   logDriver = "awsfirelens"
-      #   options = {
-      #     Name           = "datadog"
-      #     Host           = "http-intake.logs.datadoghq.eu"
-      #     dd_service     = local.name
-      #     dd_source      = "java"
-      #     dd_message_key = "@message"
-      #     dd_tags        = "env:${local.env},service:${local.name},version:${local.image_version}"
-      #     TLS            = "on"
-      #     provider       = "ecs"
-      #   }
-      #   secretOptions : [{
-      #     name : "apikey"
-      #     valueFrom : format("${local.param_base_path}/common/datadog/dd-api-key")
-      #   }]
-      # }
-
       linux_parameters = {
         capabilities = {
           # best practice security measure (restricts the container from using raw and packet sockets)
@@ -134,14 +102,6 @@ inputs = {
       }
 
       environment = [
-        # {
-        # name  = "KC_BOOTSTRAP_ADMIN_USERNAME"
-        # value = "admin"
-        # },
-        # {
-        #   name  = "KC_BOOTSTRAP_ADMIN_PASSWORD"
-        #   value = "securepassword123"
-        # },
         {
           name  = "KC_HEALTH_ENABLED"
           value = "true"
@@ -162,22 +122,10 @@ inputs = {
           name  = "KC_HOSTNAME"
           value = "https://${local.auth_domain}"
         },
-        # {
-        #   name  = "KC_DB_URL"
-        #   value = "jdbc:postgresql://${KC_DB_DOMAIN}:5432/keycloak_db"
-        # },
         {
           name  = "KC_DB_URL_PORT"
           value = "5432"
         },
-        # {
-        #   name  = "KC_DB_USERNAME"
-        #   value = "keycloak_user"
-        # },
-        # {
-        #   name  = "KC_DB_PASSWORD"
-        #   value = "keycloak-password"
-        # },
         {
           name  = "KC_DB_DRIVER"
           value = "org.postgresql.Driver"
@@ -191,10 +139,6 @@ inputs = {
           value = "true"
         }
       ]
-
-      #"command": ["start", "--hostname", "keycloak.local", "--db-url", "jdbc:postgresql://db:5432/keycloak", "--db-username", "keycloak", "--db-password", "secure-db-password"]
-
-      #command = ["start-dev", "--hostname", "https://localhost:${local.container_port}"]
 
       #command = ["start-dev"] # dev mode, ephemeral container local in mem db
 
@@ -227,20 +171,6 @@ inputs = {
         }
       ]
 
-      # secrets = [
-      #   {
-      #     name      = "SQLDB_URL"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/sql-jdbc-url")
-      #   },
-      #   {
-      #     name      = "SQL_USER"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/user")
-      #   },
-      #   {
-      #     name      = "SQL_PASS"
-      #     valueFrom = format("%s/%s", local.param_base_path, "common/db/core-mssql/password")
-      #   }
-      # ]
 
       mount_points = [
         {
@@ -258,17 +188,12 @@ inputs = {
       #   startPeriod = 170
       # }
     }
-    #datadog-agent = local.common_config.locals.sidecars.datadog_container
-    #fluent-bit = local.common_config.locals.sidecars.fluentbit_container
+
   }
 
   volume = {
     "tmp-dir" = {}
   }
-
-  # service_registries = {
-  #   registry_arn = dependency.service-discovery.outputs.user_service_discovery_arn
-  # }
 
   load_balancer = {
     service = {
@@ -305,14 +230,6 @@ inputs = {
       description              = "nlb"
       source_security_group_id = dependency.nlb.outputs.security_group_id
     }
-    # ingress_nlb = {
-    #   type                     = "ingress"
-    #   from_port                = local.container_port
-    #   to_port                  = local.container_port
-    #   protocol                 = "tcp"
-    #   description              = "nlb"
-    #   source_security_group_id = dependency.nlb.outputs.security_group_id
-    # }
     egress_all = {
       type        = "egress"
       from_port   = 0

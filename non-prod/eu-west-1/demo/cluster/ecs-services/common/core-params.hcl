@@ -4,8 +4,7 @@ locals {
   env_config    = read_terragrunt_config(find_in_parent_folders("env.hcl"))
   region_config = read_terragrunt_config(find_in_parent_folders("region.hcl"))
 
-  repo_base = "${local.acc_config.locals.aws_account_id}.dkr.ecr.${local.region_config.locals.aws_region}.amazonaws.com"
-  #param_base_path = "arn:aws:ssm:${local.region_config.locals.aws_region}:${local.acc_config.locals.aws_account_id}:parameter/${local.env_config.locals.env}"
+  repo_base       = "${local.acc_config.locals.aws_account_id}.dkr.ecr.${local.region_config.locals.aws_region}.amazonaws.com"
   param_base_path = "arn:aws:ssm:${local.region_config.locals.aws_region}:${local.acc_config.locals.aws_account_id}:parameter/${local.env_config.locals.spring_profile}"
   acc_kms_keys    = "arn:aws:kms:${local.region_config.locals.aws_region}:${local.acc_config.locals.aws_account_id}:key/*"
 

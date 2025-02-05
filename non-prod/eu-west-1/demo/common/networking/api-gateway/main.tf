@@ -3,12 +3,6 @@
 # ----------------------
 resource "aws_apigatewayv2_vpc_link" "my_vpc_link" {
   name = var.name
-
-  //subnet_ids = [
-  //aws_subnet.subnet1.id,
-  //aws_subnet.subnet2.id
-  //]
-
   subnet_ids = var.subnet_ids
   security_group_ids = [var.gateway-sg-id]
   tags = var.tags
@@ -20,10 +14,8 @@ resource "aws_apigatewayv2_vpc_link" "my_vpc_link" {
 resource "aws_apigatewayv2_api" "main_api" {
   name                     = var.name
   protocol_type            = "HTTP"
-  //route_selection_expression = "${request.method} ${request.path}"
   cors_configuration {
-    allow_origins = ["https://app.camelcase.club", "https://auth.camelcase.club", "https://api.camelcase.club"]
-    //allow_origins = ["*"]
+    allow_origins = ["https://${var.app_domain}", "https://${var.auth_domain}", "https://${api.app_domain}"]
     allow_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST" ,"PUT"]
     allow_headers = ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key", "X-Amz-Security-Token"]
     allow_credentials = true
@@ -49,14 +41,6 @@ resource "aws_apigatewayv2_integration" "user_service_integration" {
   request_parameters = {
     "overwrite:path" = "$request.path" # Forwards the entire path
   }
-
-  # Add CORS response headers
-#   response_parameters = {
-#     "200.response.header.Access-Control-Allow-Origin"      = "'https://app.camelcase.club'"
-#     "200.response.header.Access-Control-Allow-Methods"     = "'GET, POST, PUT, DELETE, OPTIONS'"
-#     "200.response.header.Access-Control-Allow-Headers"     = "'Authorization, Content-Type'"
-#     "200.response.header.Access-Control-Allow-Credentials" = "'true'"
-#   }
   
 }
 
@@ -65,7 +49,6 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
   integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
-  
   connection_id           = aws_apigatewayv2_vpc_link.my_vpc_link.id
   integration_uri       = var.auth_listener_arn
   integration_method    = "ANY"
@@ -76,14 +59,6 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 # ----------------------
 # Routes
 # ----------------------
-
-# Route for ECS service
-# resource "aws_apigatewayv2_route" "ecs_route" {
-#   api_id      = aws_apigatewayv2_api.main_api.id
-#   route_key   = "ANY /"
-#   target      = "integrations/${aws_apigatewayv2_integration.ecs_integration.id}"
-  
-# }
 
 resource "aws_apigatewayv2_route" "get_user_by_id" {
   api_id    = aws_apigatewayv2_api.main_api.id
@@ -126,14 +101,6 @@ resource "aws_apigatewayv2_route" "auth_route" {
 # ----------------------
 # Stages
 # ----------------------
-
-# Create a default stage for the API
-//resource "aws_apigatewayv2_stage" "main_stage" {
-//  api_id      = aws_apigatewayv2_api.main_api.id
-//  name        = "$default"
-//  auto_deploy = true
-//  tags = var.tags
-//}
 
 # API Gateway Stage with Logging
 resource "aws_apigatewayv2_stage" "main_stage" {
