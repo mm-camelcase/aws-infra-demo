@@ -23,8 +23,6 @@ locals {
   # vpc_cidr   = "10.3.0.0/16" # staging-vpc
   # vpc_cidr   = "10.1.0.0/16" # prod-vpc
 
-
-
 }
 
 inputs = {
@@ -33,13 +31,9 @@ inputs = {
   azs                = dependency.az.outputs.available_azs
   enable_nat_gateway = true
   single_nat_gateway = true
-  // todo: 1 az is fine
-  #private_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k)]
-  private_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 6)] // new vpc
-  #public_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 4)]
-  public_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k)] // new vpc
-  #database_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 8)]
-  database_subnets = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 12)] // new vpc
+  private_subnets    = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
+  public_subnets     = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k)]
+  database_subnets   = [for k, v in dependency.az.outputs.available_azs : cidrsubnet(local.vpc_cidr, 8, k + 12)]
 
   # https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest#public-access-to-rds-instances
   create_database_subnet_group           = true
