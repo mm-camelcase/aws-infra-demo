@@ -163,7 +163,7 @@ inputs = {
         },
         {
           name  = "KC_DB_URL"
-          value = "jdbc:postgresql://${KC_DB_URL}:5432/keycloak_db"
+          value = "jdbc:postgresql://${KC_DB_DOMAIN}:5432/keycloak_db"
         },
         {
           name  = "KC_DB_USERNAME"
@@ -197,7 +197,7 @@ inputs = {
 
       secrets = [
         {
-          name      = "KC_DB_URL"
+          name      = "KC_DB_DOMAIN"
           valueFrom = format("%s/%s", local.param_base_path, "common/rds/sql-jdbc-url")
 
         }
