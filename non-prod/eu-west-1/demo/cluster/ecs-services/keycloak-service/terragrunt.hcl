@@ -29,7 +29,7 @@ locals {
   host_port      = 8090
   admin_port     = 9000
   auth_domain    = local.env_config.locals.auth_domain
-  db_url = run_cmd("aws", "ssm", "get-parameter", "--name", "/demo/common/rds/sql-jdbc-url", "--query", "Parameter.Value", "--output", "text")
+  db_url         = run_cmd("aws", "ssm", "get-parameter", "--name", "/demo/common/rds/sql-jdbc-url", "--query", "Parameter.Value", "--output", "text")
 
 }
 
