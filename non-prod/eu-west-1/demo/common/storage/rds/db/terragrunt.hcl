@@ -39,7 +39,7 @@ inputs = {
 
   allocated_storage     = 5
   max_allocated_storage = 20
-  publicly_accessible = false
+  publicly_accessible   = false
 
   # Encryption at rest is not available for DB instances running SQL Server Express Edition
   storage_encrypted = false
@@ -49,8 +49,8 @@ inputs = {
   port     = 5432
 
   manage_master_user_password = true
-  
-  db_subnet_group_name = dependency.vpc.outputs.database_subnet_group_name
+
+  db_subnet_group_name   = dependency.vpc.outputs.database_subnet_group_name
   vpc_security_group_ids = [dependency.bastion-to-rds-sg.outputs.security_group_id, dependency.ecs-sg.outputs.security_group_id]
 
   maintenance_window              = "Sat:00:00-Sat:03:00"
