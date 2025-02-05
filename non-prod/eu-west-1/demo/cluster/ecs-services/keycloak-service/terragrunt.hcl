@@ -29,7 +29,6 @@ locals {
   host_port      = 8090
   admin_port     = 9000
   auth_domain    = local.env_config.locals.auth_domain
-  db_url         = run_cmd("aws", "ssm", "get-parameter", "--name", "/demo/common/rds/sql-jdbc-url", "--query", "Parameter.Value", "--output", "text")
 
 }
 
@@ -134,14 +133,15 @@ inputs = {
         }
       }
 
-      environment = [{
-        name  = "KC_BOOTSTRAP_ADMIN_USERNAME"
-        value = "admin"
-        },
-        {
-          name  = "KC_BOOTSTRAP_ADMIN_PASSWORD"
-          value = "securepassword123"
-        },
+      environment = [
+        # {
+        # name  = "KC_BOOTSTRAP_ADMIN_USERNAME"
+        # value = "admin"
+        # },
+        # {
+        #   name  = "KC_BOOTSTRAP_ADMIN_PASSWORD"
+        #   value = "securepassword123"
+        # },
         {
           name  = "KC_HEALTH_ENABLED"
           value = "true"
@@ -162,18 +162,22 @@ inputs = {
           name  = "KC_HOSTNAME"
           value = "https://${local.auth_domain}"
         },
+        # {
+        #   name  = "KC_DB_URL"
+        #   value = "jdbc:postgresql://${KC_DB_DOMAIN}:5432/keycloak_db"
+        # },
         {
-          name  = "KC_DB_URL"
-          value = "jdbc:postgresql://${KC_DB_DOMAIN}:5432/keycloak_db"
+          name  = "KC_DB_URL_PORT"
+          value = "5432"
         },
-        {
-          name  = "KC_DB_USERNAME"
-          value = "keycloak_user"
-        },
-        {
-          name  = "KC_DB_PASSWORD"
-          value = "keycloak-password"
-        },
+        # {
+        #   name  = "KC_DB_USERNAME"
+        #   value = "keycloak_user"
+        # },
+        # {
+        #   name  = "KC_DB_PASSWORD"
+        #   value = "keycloak-password"
+        # },
         {
           name  = "KC_DB_DRIVER"
           value = "org.postgresql.Driver"
@@ -198,10 +202,29 @@ inputs = {
 
       secrets = [
         {
-          name      = "KC_DB_DOMAIN"
+          name      = "KC_DB_URL_HOST"
           valueFrom = format("%s/%s", local.param_base_path, "common/rds/sql-jdbc-url")
-
-        }
+        },
+        {
+          name      = "KC_DB_URL_DATABASE"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-name")
+        },
+        {
+          name      = "KC_BOOTSTRAP_ADMIN_USERNAME"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-master-username")
+        },
+        {
+          name      = "KC_BOOTSTRAP_ADMIN_PASSWORD"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-master-password")
+        },
+        {
+          name           = "KC_DB_USERNAME"
+          vavalueFromlue = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-username")
+        },
+        {
+          name      = "KC_DB_PASSWORD"
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-password")
+        },
         # {
         #   name      = "RDS_USER_DB_NAME"
         #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-name")
