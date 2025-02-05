@@ -219,24 +219,12 @@ inputs = {
         },
         {
           name           = "KC_DB_USERNAME"
-          vavalueFromlue = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-username")
+          valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-username")
         },
         {
           name      = "KC_DB_PASSWORD"
           valueFrom = format("%s/%s", local.param_base_path, "common/rds/keycloak-db-password")
-        },
-        # {
-        #   name      = "RDS_USER_DB_NAME"
-        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-name")
-        # },
-        # {
-        #   name      = "RDS_USER_DB_USERNAME"
-        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-username")
-        # },
-        # {
-        #   name      = "RDS_USER_DB_PASSWORD"
-        #   valueFrom = format("%s/%s", local.param_base_path, "common/rds/user-db-password")
-        # }
+        }
       ]
 
       # secrets = [
