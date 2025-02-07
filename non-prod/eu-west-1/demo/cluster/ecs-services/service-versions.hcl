@@ -1,5 +1,6 @@
 locals {
   services = {
-    user-service = "latest"
+    user-service = "latest",
+    todo-service = "latest"
   }
 }
