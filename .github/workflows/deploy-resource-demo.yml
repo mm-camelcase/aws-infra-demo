@@ -33,7 +33,6 @@ on:
           - 'common/storage/rds/db'
           - 'cluster/ecs-cluster'
           - 'cluster/service-discovery/cloud-map'
-          - 'cluster/ecs-services/user-service'
           - 'cluster/ecs-services/todo-service'
           - 'cluster/ecs-services/keycloak-service'
           - 'common/security/cert'
