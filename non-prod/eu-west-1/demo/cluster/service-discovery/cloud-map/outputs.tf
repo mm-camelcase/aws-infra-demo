@@ -10,6 +10,14 @@ output "user_service_discovery_url" {
   value = format("%s.%s", var.user_service_name, var.name)
 }
 
+output "todo_service_discovery_arn" {
+  value = aws_service_discovery_service.todo_service.arn
+}
+
+output "todo_service_discovery_url" {
+  value = format("%s.%s", var.todo_service_name, var.name)
+}
+
 output "core_db_discovery_arn" {
   value = aws_service_discovery_service.core-db.arn
 }

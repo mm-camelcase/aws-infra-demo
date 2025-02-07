@@ -64,7 +64,7 @@ psql -h localhost  -U mm123 -d postgres
 psql -h localhost  -U mm123 -d postgres
 ```
 
-# create service db
+# create user service db
 
 1. Create the User and Grant Database Access
 
@@ -93,6 +93,38 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO app_user;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO app_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO app_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO app_user;
+
+```
+
+# create todo service db
+
+1. Create the User and Grant Database Access
+
+```
+CREATE DATABASE todo_service_db;
+CREATE USER todo_user WITH PASSWORD 'secure-password';
+GRANT CONNECT ON DATABASE todo_service_db TO todo_user;
+```
+
+2. Switch to todo_service_db
+
+```
+\c todo_service_db;
+```
+
+3. Grant Schema and Table Privileges
+
+```
+//GRANT USAGE ON SCHEMA public TO todo_user;
+//GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO todo_user;
+//ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO todo_user;
+//GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO todo_user;
+
+GRANT USAGE, CREATE ON SCHEMA public TO todo_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO todo_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO todo_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO todo_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO todo_user;
 
 ```
 

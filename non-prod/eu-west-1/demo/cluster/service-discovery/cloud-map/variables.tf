@@ -13,6 +13,12 @@ variable "user_service_name" {
   default     = "user-service"
 }
 
+variable "todo_service_name" {
+  type        = string
+  description = "Service name for todo-service in CloudMap"
+  default     = "todo-service"
+}
+
 variable "core_db_name" {
   type        = string
   description = "Service name for user-service in CloudMap"
