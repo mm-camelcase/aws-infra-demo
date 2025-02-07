@@ -74,7 +74,7 @@ resource "aws_apigatewayv2_route" "update_todo" {
 
 resource "aws_apigatewayv2_route" "delete_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "DELETE /api/todo/{id}" # DELETE route for deleting a todo by ID
+  route_key = "DELETE /api/todos/{id}" # DELETE route for deleting a todo by ID
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
