@@ -29,7 +29,7 @@ resource "aws_apigatewayv2_api" "main_api" {
 # ----------------------
 
 # Integration for ECS service
-resource "aws_apigatewayv2_integration" "user_service_integration" {
+resource "aws_apigatewayv2_integration" "todo_service_integration" {
   api_id                = aws_apigatewayv2_api.main_api.id
   integration_type = "HTTP_PROXY"
   connection_type       = "VPC_LINK"
@@ -60,34 +60,34 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 # Routes
 # ----------------------
 
-resource "aws_apigatewayv2_route" "get_user_by_id" {
+resource "aws_apigatewayv2_route" "get_todo_by_id" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "GET /api/users/{id}" # GET route for fetching a user by ID
-  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+  route_key = "GET /api/todos/{id}" # GET route for fetching a todo by ID
+  target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
-resource "aws_apigatewayv2_route" "update_user" {
+resource "aws_apigatewayv2_route" "update_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "PUT /api/users/{id}" # PUT route for updating a user by ID
-  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+  route_key = "PUT /api/todos/{id}" # PUT route for updating a todo by ID
+  target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
-resource "aws_apigatewayv2_route" "delete_user" {
+resource "aws_apigatewayv2_route" "delete_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "DELETE /api/users/{id}" # DELETE route for deleting a user by ID
-  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+  route_key = "DELETE /api/todo/{id}" # DELETE route for deleting a todo by ID
+  target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
-resource "aws_apigatewayv2_route" "get_all_users" {
+resource "aws_apigatewayv2_route" "get_all_todos" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "GET /api/users" # GET route for fetching all users
-  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+  route_key = "GET /api/todos" # GET route for fetching all todos
+  target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
-resource "aws_apigatewayv2_route" "create_user" {
+resource "aws_apigatewayv2_route" "create_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
-  route_key = "POST /api/users" # POST route for creating a new user
-  target    = "integrations/${aws_apigatewayv2_integration.user_service_integration.id}"
+  route_key = "POST /api/todos" # POST route for creating a new todo
+  target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
 }
 
 # Route for Auth service
