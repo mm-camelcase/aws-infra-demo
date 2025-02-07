@@ -69,12 +69,21 @@ inputs = {
 
   listeners = {
 
-    tcp_user_service = {
+    # tcp_user_service = {
+    #   port     = 8080
+    #   protocol = "TCP"
+
+    #   forward = {
+    #     target_group_key = "user_service"
+    #   }
+    # }
+
+    tcp_todo_service = {
       port     = 8080
       protocol = "TCP"
 
       forward = {
-        target_group_key = "user_service"
+        target_group_key = "todo_service"
       }
     }
 
@@ -90,7 +99,29 @@ inputs = {
 
   target_groups = {
 
-    user_service = {
+    # user_service = {
+    #   protocol                          = "TCP"
+    #   port                              = 8080
+    #   target_type                       = "ip"
+    #   deregistration_delay              = 5
+    #   load_balancing_cross_zone_enabled = true
+
+    #   health_check = {
+    #     enabled             = true
+    #     healthy_threshold   = 2                  # Number of successes before marking as healthy
+    #     interval            = 30                 # Reduce the interval for faster retries
+    #     matcher             = "200"              # Expect HTTP 200 OK
+    #     path                = "/actuator/health" # Health check endpoint
+    #     port                = "8080"             # Target port for health checks
+    #     protocol            = "HTTP"             # HTTP-based health check
+    #     timeout             = 15                 # Increase timeout to 15 seconds for slower responses
+    #     unhealthy_threshold = 5                  # Allow up to 5 failures during startup
+    #   }
+
+    #   create_attachment = false
+    # }
+
+    todo_service = {
       protocol                          = "TCP"
       port                              = 8080
       target_type                       = "ip"
