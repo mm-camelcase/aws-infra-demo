@@ -35,7 +35,7 @@ locals {
 inputs = {
   name              = local.name
   subnet_ids        = dependency.vpc.outputs.private_subnets
-  api_listener_arn  = dependency.nlb.outputs.listeners["tcp_user_service"].arn
+  api_listener_arn  = dependency.nlb.outputs.listeners["tcp_todo_service"].arn
   auth_listener_arn = dependency.nlb.outputs.listeners["tcp_keycloak_service"].arn
   cert_arn          = dependency.cert.outputs.certificate_arn
   gateway-sg-id     = dependency.gateway-sg.outputs.security_group_id
