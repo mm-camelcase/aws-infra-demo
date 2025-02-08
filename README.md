@@ -1,5 +1,7 @@
 # aws-infra-demo
 
+![Dev Env](assets/images/infra.jpeg)
+
 
 env=demo
 service_name=keycloak-service
