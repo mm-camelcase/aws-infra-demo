@@ -1,6 +1,6 @@
 # aws-infra-demo
 
-![Dev Env](assets/images/infra.jpeg)
+![Infrastructure](assets/images/infra.jpeg)
 
 
 env=demo
