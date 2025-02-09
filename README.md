@@ -85,7 +85,7 @@ The application and its services are accessible through the following domain set
 - Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**.
 - The entire setup is protected by **AWS WAF** to mitigate threats.
 
-
+## The rest
 
 env=demo
 service_name=keycloak-service
