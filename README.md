@@ -5,7 +5,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 ## Table of Contents
 
-- [About the Demo Infrastructure](##about-the-demo-infrastructure)
+- [About the Demo Infrastructure](#about-the-demo-infrastructure)
 - [Architecture](#architecture)
 - [Application Flow](#application-flow)
 - [Key Features](#key-features)
