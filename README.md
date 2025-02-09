@@ -7,9 +7,10 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 - [About the Demo Infrastructure](#about-the-demo-infrastructure)
 - [Architecture](#architecture)
-  - [High-Level Architecture](#High-Level-Architecture)
+  - [Key Features](#key-features)
+  - [High-Level Architecture](#high-level-architecture)
 - [Application Flow](#application-flow)
-- [Key Features](#key-features)
+- [Domain Configuration](#domain-donfiguration)
 - [Environment Details](#environment-details)
 - [Accessing Cloud Resources](#accessing-cloud-resources)
 - [Workflows](#workflows)
@@ -30,7 +31,7 @@ This diagram represents the services within a VPC connected to public and privat
 
 ### Key Features
 
-#### **1. Networking:**
+**1. Networking:**
 
 - Private and public subnets for security and scalability.
 - Load Balancing: NLB for internal services, CloudFront for static content.
@@ -67,6 +68,22 @@ This diagram represents the services within a VPC connected to public and privat
 |-------------------------------------|-------------------------------------|
 | <li> **Hosting & Security:** The Vue.js application is hosted in S3, served via CloudFront, and protected by AWS WAF to mitigate web threats.  </li> <li>**User Authentication:** A Keycloak-based login, implementing OAuth 2.0 Authorization Code Flow</li>  <li>**Backend Communication:** After authentication, the frontend interacts with a Spring Boot service running on ECS Fargate. API requests are secured using OAuth 2.0, ensuring resource protection and controlled access. </li> |   <img src="assets/images/app.gif" width="400"/>  |
 
+
+## Domain Configuration
+
+The application and its services are accessible through the following domain setup:
+
+| **Service** | **URL** |
+|------------|----------------------------|
+| **Frontend (Vue App)** | [app.camelcase.club](https://app.camelcase.club) |
+| **Authentication (Keycloak)** | [auth.camelcase.club](https://auth.camelcase.club) |
+| **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |
+
+### Routing & Security
+- The **Vue app** is hosted in **S3** and served via **CloudFront**.
+- Authentication is managed via **Keycloak** at `auth.camelcase.club`.
+- Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**.
+- The entire setup is protected by **AWS WAF** to mitigate threats.
 
 
 
