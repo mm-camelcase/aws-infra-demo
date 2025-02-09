@@ -3,6 +3,23 @@
 ## About the Demo Infrastructure
 This repository showcases an end-to-end architecture that spans networking, security, services, and the deployment of a static application. The demo infrastructure serves as a complete reference implementation that highlights best practices for building secure, scalable, and well-orchestrated cloud solutions.
 
+## Table of Contents
+
+- [About the Demo Infrastructure](##about-the-demo-infrastructure)
+- [Architecture](#architecture)
+- [Application Flow](#application-flow)
+- [Key Features](#key-features)
+  - [Networking](#networking)
+  - [Security](#security)
+  - [Access Management](#access-management)
+  - [Static Application](#static-application)
+  - [Service Security](#service-security)
+  - [Automation](#automation)
+- [Environment Details](#environment-details)
+- [Accessing Cloud Resources](#accessing-cloud-resources)
+- [Workflows](#workflows)
+- [Local Setup](#local-setup)
+- [FAQ](#faq)
 
 
 ## Architecture
@@ -14,7 +31,7 @@ The overall architecture is depicted in the following diagram:
 ![Infrastructure](assets/images/infra.jpeg)
 
 
-This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. It also integrates managed services for observability and security.
+This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. 
 
 ### Key Features
 
