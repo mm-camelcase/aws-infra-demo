@@ -74,7 +74,7 @@ This diagram represents the services within a VPC connected to public and privat
 The application and its services are accessible through the following domain setup:
 
 | **Service** | **URL** | **Details** |
-|------------|----------------------------|
+|------------|----------------------------|--------------|
 | **Frontend (Vue App)** | [app.camelcase.club](https://app.camelcase.club) | The **Vue app** is hosted in **S3** and served via **CloudFront**, protected by by **AWS WAF**  |
 | **Authentication (Keycloak)** | [auth.camelcase.club](https://auth.camelcase.club) | Authentication is managed via **Keycloak**  |
 | **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |  Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**, and protected by by **AWS WAF** |
