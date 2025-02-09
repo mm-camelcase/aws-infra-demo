@@ -48,6 +48,23 @@ This diagram represents the services within a VPC connected to public and privat
 
 ## Application Flow
 
+## Side-by-Side Panels Example
+
+<div style="display: flex;">
+
+<div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;">
+<h3>Panel 1</h3>
+<p>This is the content for the first panel.</p>
+</div>
+
+<div style="flex: 1; padding: 10px; border: 1px solid #ccc;">
+<h3>Panel 2</h3>
+<p>This is the content for the second panel.</p>
+</div>
+
+</div>
+
+
 ![App](assets/images/app.gif)
 
 
