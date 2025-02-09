@@ -7,14 +7,9 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 - [About the Demo Infrastructure](#about-the-demo-infrastructure)
 - [Architecture](#architecture)
+  - [High-Level Architecture](#High-Level-Architecture)
 - [Application Flow](#application-flow)
 - [Key Features](#key-features)
-  - [Networking](#networking)
-  - [Security](#security)
-  - [Access Management](#access-management)
-  - [Static Application](#static-application)
-  - [Service Security](#service-security)
-  - [Automation](#automation)
 - [Environment Details](#environment-details)
 - [Accessing Cloud Resources](#accessing-cloud-resources)
 - [Workflows](#workflows)
@@ -24,7 +19,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 ## Architecture
 
-## High-Level Architecture
+### High-Level Architecture
 The overall architecture is depicted in the following diagram:
 
 
@@ -65,7 +60,7 @@ This diagram represents the services within a VPC connected to public and privat
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
-## Application Flow
+### Application Flow
 
 
 |       |       |
