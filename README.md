@@ -30,7 +30,7 @@ This diagram represents the services within a VPC connected to public and privat
 
 ### Key Features
 
-**1. Networking:**
+#### **1. Networking:**
 
 - Private and public subnets for security and scalability.
 - Load Balancing: NLB for internal services, CloudFront for static content.
