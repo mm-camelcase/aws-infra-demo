@@ -10,7 +10,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
   - [Key Features](#key-features)
   - [High-Level Architecture](#high-level-architecture)
 - [Application Flow](#application-flow)
-- [Domain Configuration](#domain-donfiguration)
+- [Domain Configuration](#domain-configuration)
 - [Environment Details](#environment-details)
 - [Accessing Cloud Resources](#accessing-cloud-resources)
 - [Workflows](#workflows)
