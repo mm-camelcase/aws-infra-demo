@@ -1,15 +1,52 @@
-# aws-infra-demo
+# AWS Infrastructure Demo
+
+## About the Demo Infrastructure
+This repository showcases an end-to-end architecture that spans networking, security, services, and the deployment of a static application. The demo infrastructure serves as a complete reference implementation that highlights best practices for building secure, scalable, and well-orchestrated cloud solutions.
+
+### Key Features
+
+**1. Networking:**
+
+- Private and public subnets for security and scalability.
+- Load Balancing: NLB for internal services, CloudFront for static content.
+
+
+**2. Security:**
+
+- Private Subnets: Ensures sensitive services and databases remain inaccessible from the public internet.
+- WAF & API Gateway: Protect against exploits and secure API access.
+- OAuth Flow: Secure user authentication via Keycloak.
+
+
+**3. Access Management:**
+
+- SSM Bastion Access: Secure CLI access without SSH exposure.
+
+**Static Application:**
+
+- Veu-based app hosted in S3, secured with Keycloak authentication.
+
+
+**Service Security:**
+
+- ECS Fargate microservices and RDS databases secured in private networks.
+
+**Automation:**
+
+- Terraform/Terragrunt workflows automated via GitHub Actions.
+
+## Architecture
+
+## High-Level Architecture
+The overall architecture is depicted in the following diagram:
+
 
 ![Infrastructure](assets/images/infra.jpeg)
 
 
-  
+This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. It also integrates managed services for observability and security.
 
-    
-
-  
-
-### app
+## Application Flow
 
 ![App](assets/images/app.gif)
 
