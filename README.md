@@ -50,19 +50,15 @@ This diagram represents the services within a VPC connected to public and privat
 
 ## Side-by-Side Panels Example
 
-<div style="display: flex;">
+| **Panel 1**                         | **Panel 2**                         |
+|-------------------------------------|-------------------------------------|
+| Content for the first panel.        | Content for the second panel.       |
 
-<div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;">
-<h3>Panel 1</h3>
-<p>This is the content for the first panel.</p>
-</div>
+  
 
-<div style="flex: 1; padding: 10px; border: 1px solid #ccc;">
-<h3>Panel 2</h3>
-<p>This is the content for the second panel.</p>
-</div>
+ | Content for the first panel. | Content for the second panel. |
+| Content continues here. | More details on this side. |
 
-</div>
 
 
 ![App](assets/images/app.gif)
