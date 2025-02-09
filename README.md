@@ -64,7 +64,7 @@ This diagram represents the services within a VPC connected to public and privat
 
 |       |       |
 |-------------------------------------|-------------------------------------|
-| <li> dsfasd fdsasdf fds </li> <li>fdsfsdafs fdsafsd fd </li>   | ![App](assets/images/app.gif)  <img src="assets/images/app.gif" width="300"/>  |
+| <li> dsfasd fdsasdf fds </li> <li>fdsfsdafs fdsafsd fd </li>   |   <img src="assets/images/app.gif" width="300"/>  |
 
 
 
