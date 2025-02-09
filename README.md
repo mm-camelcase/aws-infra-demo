@@ -3,6 +3,19 @@
 ## About the Demo Infrastructure
 This repository showcases an end-to-end architecture that spans networking, security, services, and the deployment of a static application. The demo infrastructure serves as a complete reference implementation that highlights best practices for building secure, scalable, and well-orchestrated cloud solutions.
 
+
+
+## Architecture
+
+## High-Level Architecture
+The overall architecture is depicted in the following diagram:
+
+
+![Infrastructure](assets/images/infra.jpeg)
+
+
+This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. It also integrates managed services for observability and security.
+
 ### Key Features
 
 **1. Networking:**
@@ -35,17 +48,6 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
-## Architecture
-
-## High-Level Architecture
-The overall architecture is depicted in the following diagram:
-
-
-![Infrastructure](assets/images/infra.jpeg)
-
-
-This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. It also integrates managed services for observability and security.
-
 ## Application Flow
 
 ## Side-by-Side Panels Example
@@ -58,6 +60,11 @@ This diagram represents the services within a VPC connected to public and privat
 
  | Content for the first panel. | Content for the second panel. |
 | Content continues here. | More details on this side. |
+
+
+|       |       |
+|-------------------------------------|-------------------------------------|
+| - dsfasd fdsasdf fds    | ![App](assets/images/app.gif)    |
 
 
 
