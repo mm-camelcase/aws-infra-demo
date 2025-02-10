@@ -46,7 +46,7 @@ This diagram represents the services within a VPC connected to public and privat
 - **ECS & ECR:** Services are containerized in **AWS ECS**, with images stored in **ECR**.  
 - **Service Discovery:** **AWS Cloud Map** enables dynamic service registration and discovery.  
 - **Secrets Management:** Uses **AWS Parameter Store** for secrets and credentials, a **cost-effective alternative** to Secrets Manager.  
-- **Logging & Monitoring:** Integrated with **Amazon CloudWatch** for centralized logs and observability.  
+- **Logging & Monitoring:** Integrated with **Amazon CloudWatch** for centralized logs.  
 
 **5. Service Security**  
 - **Private Networking:** ECS Fargate microservices and **RDS databases** run in private networks.  
@@ -124,8 +124,8 @@ To securely connect to backend services or databases, use **AWS SSM Session Mana
 
 ```bash
 
-ec2_bridge_id=i-0011d23af0ba881f3   # EC2 Bastion Id
-db_url=stage-ff-core-platform-core-db.cqyjfzeufdkb.eu-west-1.rds.amazonaws.com  # db url
+ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+db_url=demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com  # db url
 
 ## PostgreSQL
 aws ssm start-session \
