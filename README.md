@@ -119,9 +119,37 @@ The following table outlines how different resources are accessed across environ
 ### **SSM Bastion Usage**
 To securely connect to backend services or databases, use **AWS SSM Session Manager**:
 
+
+#### **Database Access**
+
 ```bash
-aws ssm start-session --target <bastion-instance-id>
+
+ec2_bridge_id=i-0011d23af0ba881f3   # EC2 Bastion Id
+db_url=stage-ff-core-platform-core-db.cqyjfzeufdkb.eu-west-1.rds.amazonaws.com  # db url
+
+## PostgreSQL
+aws ssm start-session \
+    --target $ec2_bridge_id \
+    --document-name AWS-StartPortForwardingSessionToRemoteHost \
+    --parameters "{\"host\":[\"${db_url}\"],\"portNumber\":[\"5432\"], \"localPortNumber\":[\"5432\"]}"
 ```
+
+- update `ec2_bridge_id` and `db_url`
+- connect to database via localhost
+
+<table>
+  <tr>
+    <td style="padding: 10px; border: none; vertical-align: top;">
+      <ul>
+        <li>update `ec2_bridge_id` and `db_url`</li>
+        <li>connect to database via localhost</li>
+      </ul>
+    </td>
+    <td style="padding: 10px; border: none; vertical-align: top;">
+      <img src="assets/images/db_connection.gif" width="300"/>
+    </td>
+  </tr>
+</table>
 
 ## The rest
 
