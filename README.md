@@ -119,6 +119,23 @@ The following table outlines how different resources are accessed across environ
 ### **SSM Bastion Usage**
 To securely connect to backend services or databases, use **AWS SSM Session Manager**:
 
+Advantages of SSM over SSH
+✅ No open SSH ports → Eliminates the need for security group rules for SSH.
+✅ No SSH keys required → Uses IAM-based authentication.
+✅ Fully logged & auditable → All sessions are recorded in AWS CloudTrail.
+
+#### **Bastion Access**
+
+
+## PostgreSQL
+```bash
+
+ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+
+## Bastian
+aws ssm start-session --target $ec2_bridge_id
+```
+
 
 #### **Database Access**
 
@@ -141,7 +158,27 @@ aws ssm start-session \
 
 <img src="assets/images/db_connection.png" width="400"/>
 
+### **ECS Container Access via ** ``exec``
 
+
+```bash
+
+ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+
+## service
+env=demo
+service_name=keycloak-service
+
+task_arn=$(aws ecs list-tasks --cluster "${env}-cc-infra-cluster" --service-name ${env}-cc-infra-${service_name} --query "taskArns[]" --output text)
+
+aws ecs execute-command \
+  --cluster "${env}-cc-infra-cluster" \
+  --task $task_arn \
+  --container $service_name \
+  --command "sh" \
+  --interactive \
+  --region eu-west-1
+```
 
 ## The rest
 
@@ -345,4 +382,5 @@ role mapping --> api-viewer
 
 - add to intro ...a bit abouit tec terraform, ecs app , action workflow etc.
 -  links to app and api and keycloak config
+-  list cname in details Note: In this demo DNS configuration is managed externally from AWS, with CNAME records pointing to the appropriate AWS resources.
 
