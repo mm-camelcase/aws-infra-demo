@@ -69,6 +69,25 @@ This diagram represents the services within a VPC connected to public and privat
 | <li> **Hosting & Security:** The Vue.js application is hosted in S3, served via CloudFront, and protected by AWS WAF to mitigate web threats.  </li> <li>**User Authentication:** A Keycloak-based login, implementing OAuth 2.0 Authorization Code Flow</li>  <li>**Backend Communication:** After authentication, the frontend interacts with a Spring Boot service running on ECS Fargate. API requests are secured using OAuth 2.0, ensuring resource protection and controlled access. </li> |   <img src="assets/images/app.gif" width="400"/>  |
 
 
+### table
+
+<table>
+  <tr>
+    <td style="padding: 10px; border: 1px solid #ccc; vertical-align: top;">
+      <ul>
+        <li><strong>Hosting & Security:</strong> The Vue.js application is hosted in S3, served via CloudFront, and protected by AWS WAF to mitigate web threats.</li>
+        <li><strong>User Authentication:</strong> A Keycloak-based login, implementing OAuth 2.0 Authorization Code Flow.</li>
+        <li><strong>Backend Communication:</strong> After authentication, the frontend interacts with a Spring Boot service running on ECS Fargate. API requests are secured using OAuth 2.0, ensuring resource protection and controlled access.</li>
+      </ul>
+    </td>
+    <td style="padding: 10px; border: 1px solid #ccc; vertical-align: top;">
+      <img src="assets/images/app.gif" width="400"/>
+    </td>
+  </tr>
+</table>
+
+
+
 ## Domain Configuration
 
 The application and its services are accessible through the following domain setup:
@@ -88,12 +107,6 @@ The application and its services are accessible through the following domain set
 
   ## table  
 
-<table>
-  <tr>
-    <td style="padding: 10px; border: 1px solid #ccc;">This is the content for the first panel.</td>
-    <td style="padding: 10px; border: 1px solid #ccc;">This is the content for the second panel.</td>
-  </tr>
-</table>
 
 
 
