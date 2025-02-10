@@ -23,9 +23,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
 ### High-Level Architecture
 The overall architecture is depicted in the following diagram:
 
-
 ![Infrastructure](assets/images/infra.jpeg)
-
 
 This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. 
 
@@ -56,7 +54,7 @@ This diagram represents the services within a VPC connected to public and privat
 - APIs secured using OAuth 2.0
 - Devops access via bastion
 
-**Automation:**
+**6. Automation:**
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
@@ -96,8 +94,15 @@ The application and its services are accessible through the following domain set
 
 <div style="display: flex;"><div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;"><p>This is the content for the first panel.</p></div><div style="flex: 1; padding: 10px; border: 1px solid #ccc;"><p>This is the content for the second panel.</p></div></div>
 
-  ## table  
+## Environments
 
+This walkthrough is based on a **single demo environment**, but the Infrastructure as Code (IaC) setup is designed to support additional environments effortlessly.
+
+- **Scalable IaC Structure:** The Terraform/Terragrunt configuration is modular, making it easy to extend and add new environments as needed.
+- **Multi-Account Support:** The infrastructure can be configured to split environments across separate AWS accounts. For example:
+  - **Non-prod (Dev & Staging)** in one AWS account.
+  - **Production** in a separate AWS account for security and isolation.
+- **Terragrunt Compatibility:** The current structure fully supports multi-environment deployments, ensuring streamlined provisioning and consistency across accounts.
 
 
 
@@ -297,3 +302,8 @@ role mapping --> api-viewer
 
 
 -  create user and assign api-viewer role
+
+
+## todo 
+
+-  links to app and api and keycloak config
