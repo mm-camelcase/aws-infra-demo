@@ -180,7 +180,23 @@ aws ecs execute-command \
   --region eu-west-1
 ```
 
-## The rest
+## Workflows
+
+<table>
+  <tr>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">1. Select action and resource</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">2. Review terraform plan</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">3. Approve</th>
+  </tr>
+  <tr>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow1.png" width="300"/></td>
+    <td style="padding: 10px; border: none; vertical-align: top;">
+      <img src="assets/images/app.gif" width="300"/>
+    </td>
+    <td style="padding: 10px; border: none; vertical-align: top;">Another content</td>
+  </tr>
+  
+</table>
 
 
 
