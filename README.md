@@ -109,10 +109,10 @@ The following table outlines how different resources are accessed across environ
 
 | **Resource**         | **Access Method**                                    | **Notes** |
 |----------------------|------------------------------------------------------|----------|
-| **SSM Bastion**      | AWS Systems Manager Session Manager (`ssm start-session`) | Secure access to backend services and databases without exposing SSH. |
-| **Backend & ECS Services** | **Access via ALB/NLB for APIs** and **ECS `exec` for container access** | Services are containerized and secured with OAuth 2.0. |
-| **Databases**       | **Access via SSM Bastion with port forwarding**       | No direct internet exposure for RDS or other data stores. |
-| **Static Web App**  | **Served via CloudFront (S3-backed)**                 | Secured with WAF and Keycloak authentication. |
+| **SSM Bastion**      | **AWS Systems Manager Session Manager** (`ssm start-session`) | Secure access to backend services and databases without exposing SSH. |
+| **Backend & ECS Services** | Access via **API Gateway** for APIs and **ECS** `exec` for container access | Services are containerized and secured with OAuth 2.0. |
+| **Databases**       | Access via **SSM Bastion** with port forwarding       | No direct internet exposure for RDS or other data stores. |
+
 
 ---
 
