@@ -7,8 +7,8 @@ This repository showcases an end-to-end architecture that spans networking, secu
 
 - [About the Demo Infrastructure](#about-the-demo-infrastructure)
 - [Architecture](#architecture)
-  - [Key Features](#key-features)
   - [High-Level Architecture](#high-level-architecture)
+  - [Key Features](#key-features)
 - [Application Flow](#application-flow)
 - [Domain Configuration](#domain-configuration)
 - [Environment Details](#environment-details)
@@ -36,40 +36,31 @@ This diagram represents the services within a VPC connected to public and privat
 - Private and public subnets for security and scalability.
 - Load Balancing: NLB for internal services, CloudFront for static content.
 
-
 **2. Security:**
 
 - Private Subnets: Ensures sensitive services and databases remain inaccessible from the public internet.
 - WAF & API Gateway: Protect against exploits and secure API access.
 - OAuth Flow: Secure user authentication via Keycloak.
 
-
 **3. Access Management:**
 
-- SSM Bastion Access: Secure CLI access without SSH exposure.
+- A secure AWS SSM bastion is used for accessing backend services and databases, eliminating the need for SSH key management or public exposure.
 
-**Static Application:**
+**4. Static Application:**
 
 - Veu-based app hosted in S3, secured with Keycloak authentication.
 
-
-**Service Security:**
+**5. Service Security:**
 
 - ECS Fargate microservices and RDS databases secured in private networks.
+- APIs secured using OAuth 2.0
+- Devops access via bastion
 
 **Automation:**
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
 ### Application Flow
-
-
-|       |       |
-|-------------------------------------|-------------------------------------|
-| <li> **Hosting & Security:** The Vue.js application is hosted in S3, served via CloudFront, and protected by AWS WAF to mitigate web threats.  </li> <li>**User Authentication:** A Keycloak-based login, implementing OAuth 2.0 Authorization Code Flow</li>  <li>**Backend Communication:** After authentication, the frontend interacts with a Spring Boot service running on ECS Fargate. API requests are secured using OAuth 2.0, ensuring resource protection and controlled access. </li> |   <img src="assets/images/app.gif" width="400"/>  |
-
-
-### table
 
 <table>
   <tr>
