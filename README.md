@@ -64,7 +64,7 @@ This diagram represents the services within a VPC connected to public and privat
 
 <table>
   <tr>
-    <td style="padding: 10px; border: 1px solid #ccc; vertical-align: top;">
+    <td style="padding: 10px; border: none; vertical-align: top;">
       <ul>
         <li><strong>Hosting & Security:</strong> The Vue.js application is hosted in S3, served via CloudFront, and protected by AWS WAF to mitigate web threats.</li>
         <li><strong>User Authentication:</strong> A Keycloak-based login, implementing OAuth 2.0 Authorization Code Flow.</li>
