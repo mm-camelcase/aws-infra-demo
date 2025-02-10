@@ -193,7 +193,7 @@ aws ecs execute-command \
     <td style="padding: 10px; border: none; vertical-align: top;">
       <img src="assets/images/workflow2.png" width="300"/>
     </td>
-    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="300"/></td>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="400"/></td>
   </tr>
   
 </table>
