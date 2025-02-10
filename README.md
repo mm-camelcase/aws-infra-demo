@@ -182,6 +182,8 @@ aws ecs execute-command \
 
 ## Workflows
 
+
+
 This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
 
 ### **Terraform Workflows**
@@ -258,6 +260,52 @@ Two Terragrunt/Terraform workflows are implemented to streamline infrastructure 
 </table>  
 
 ----
+
+## **Introduction to Terraform Workflows with GitHub Actions**
+
+This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
+
+### **Terraform Workflow**
+A single Terraform workflow is implemented to streamline infrastructure management:
+
+- **Resource Workflow**:
+  - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
+  - Best suited for making isolated changes or updates to specific components.
+  - Workflow link: [Deploy Resource Demo](https://github.com/mm-camelcase/aws-infra-demo/actions/workflows/deploy-resource-demo.yml)
+
+---
+
+### **Workflow Steps**
+
+Below is a visual representation of the Terraform workflow process:
+
+| **Step 1: Select Action and Resource** | **Step 2: Review Terraform Plan** | **Step 3: Approve** |
+|----------------------------------------|------------------------------------|---------------------|
+| ![Step 1: Select Action and Resource](assets/images/workflow1.png) | ![Step 2: Review Terraform Plan](assets/images/workflow2.png) | ![Step 3: Approve](assets/images/workflow3.png) |
+
+#### **Step Details**
+1. **Select Action and Resource:**
+   - The workflow allows users to choose the Terraform action (e.g., `plan`, `apply`, `destroy`) and the specific resource to manage.
+   - Regions and modules are selected dynamically via the workflow.
+
+2. **Review Terraform Plan:**
+   - After initiating the action, the workflow generates a detailed Terraform plan.
+   - Resource changes are clearly displayed, categorized as `Create`, `Update`, `Delete`, etc.
+
+3. **Approve:**
+   - The plan requires manual approval before applying any changes to the infrastructure.
+   - Approval ensures no accidental changes are applied.
+
+---
+
+### **Benefits of this Setup**
+- **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens.
+- **Simplified CI/CD:** Seamless integration of GitHub Actions with AWS for automated Terraform runs.
+- **Controlled Changes:** Manual approval ensures no unintended changes to resources.
+- **Granular Access Control:** IAM roles ensure the workflow operates with the least privilege necessary.
+
+
+-----
 
 env=demo
 service_name=keycloak-service
