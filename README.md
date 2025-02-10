@@ -67,6 +67,39 @@ This diagram represents the services within a VPC connected to public and privat
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
+### Key Features
+
+**1. Networking**  
+- **Private & Public Subnets:** Ensures security and scalability.  
+- **Load Balancing:** Uses **NLB** for internal services and **CloudFront** for static content delivery.  
+
+**2. Security**  
+- **Private Subnets:** Keeps sensitive services and databases inaccessible from the internet.  
+- **WAF & API Gateway:** Protects against exploits and secures API access.  
+- **OAuth Flow:** Secure authentication using **Keycloak** and OAuth 2.0.  
+
+**3. Access Management**  
+- **SSM Bastion:** Secure **AWS SSM-based** access for backend services and databases, eliminating the need for SSH key management.  
+
+**4. Service Architecture**  
+- **ECS & ECR:** Services are containerized in **AWS ECS**, with images stored in **ECR**.  
+- **Service Discovery:** **AWS Cloud Map** enables dynamic service registration and discovery.  
+- **Secrets Management:** Uses **AWS Parameter Store** for secrets and credentials, a **cost-effective alternative** to Secrets Manager.  
+- **Logging & Monitoring:** Integrated with **Amazon CloudWatch** for centralized logs and observability.  
+
+**5. Service Security**  
+- **Private Networking:** ECS Fargate microservices and **RDS databases** run in private networks.  
+- **API Security:** APIs are secured with **OAuth 2.0** for controlled access.  
+- **DevOps Access:** Secure **bastion access** for debugging and maintenance.  
+
+**6. Static Application**  
+- **Vue-Based App:** Hosted in **S3**, secured with **Keycloak authentication**.  
+
+**7. Automation**  
+- **Infrastructure as Code:** Managed with **Terraform/Terragrunt**.  
+- **CI/CD:** Automated workflows via **GitHub Actions**.  
+
+
 ### Application Flow
 
 <table>
