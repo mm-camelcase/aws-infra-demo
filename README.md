@@ -191,9 +191,9 @@ aws ecs execute-command \
   <tr>
     <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow1.png" width="300"/></td>
     <td style="padding: 10px; border: none; vertical-align: top;">
-      <img src="assets/images/app.gif" width="300"/>
+      <img src="assets/images/workflow2.png" width="300"/>
     </td>
-    <td style="padding: 10px; border: none; vertical-align: top;">Another content</td>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="300"/></td>
   </tr>
   
 </table>
