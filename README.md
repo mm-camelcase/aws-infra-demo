@@ -119,7 +119,7 @@ The following table outlines how different resources are accessed across environ
 ### **SSM Bastion Usage**
 To securely connect to backend services or databases, use **AWS SSM Session Manager**:
 
-**Advantages of SSM over SSH:  **
+**Advantages of SSM over SSH:**  
 ✅ **No open SSH ports** → Eliminates the need for security group rules for SSH.  
 ✅ **No SSH keys required** → Uses IAM-based authentication.  
 ✅ **Fully logged & auditable** → All sessions are recorded in AWS CloudTrail.  
@@ -153,14 +153,14 @@ aws ssm start-session \
 ```
 
 - Update `ec2_bridge_id` and `db_url`
-- Connect to database via localhost
+- Connect to database via ``localhost``
 
 <img src="assets/images/db_connection.png" width="400"/>
 
 
 ### **ECS Container Access via** ``exec``
 
-```shell
+```shellscript
 
 ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
 
