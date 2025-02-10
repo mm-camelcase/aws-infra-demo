@@ -72,7 +72,7 @@ This diagram represents the services within a VPC connected to public and privat
       </ul>
     </td>
     <td style="padding: 10px; border: 1px solid #ccc; vertical-align: top;">
-      <img src="assets/images/app.gif" width="400"/>
+      <img src="assets/images/app.gif" width="300"/>
     </td>
   </tr>
 </table>
