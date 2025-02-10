@@ -265,13 +265,18 @@ Two Terragrunt/Terraform workflows are implemented to streamline infrastructure 
 
 This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
 
-### **Terraform Workflow**
-A single Terraform workflow is implemented to streamline infrastructure management:
+### **Terraform Workflows**
+Two Terragrunt/Terraform workflows are implemented to streamline infrastructure management:
 
-- **Resource Workflow**:
-  - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
-  - Best suited for making isolated changes or updates to specific components.
-  - Workflow link: [Deploy Resource Demo](https://github.com/mm-camelcase/aws-infra-demo/actions/workflows/deploy-resource-demo.yml)
+1. **Resource Workflow** (Recomended):
+   - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
+   - Best suited for making isolated changes or updates to specific components.
+
+2. **Stack Workflow** (Exprrimental):
+   - Manages larger infrastructure stacks or modules, such as VPCs, ECS clusters, or entire environments.
+   - Ensures consistency and coordination for complex deployments.
+   - See [Terragrunt Stacks Doc](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/03-stacks)
+
 
 ---
 
@@ -279,9 +284,21 @@ A single Terraform workflow is implemented to streamline infrastructure manageme
 
 Below is a visual representation of the Terraform workflow process:
 
-| **Step 1: Select Action and Resource** | **Step 2: Review Terraform Plan** | **Step 3: Approve** |
-|----------------------------------------|------------------------------------|---------------------|
-| ![Step 1: Select Action and Resource](assets/images/workflow1.png) | ![Step 2: Review Terraform Plan](assets/images/workflow2.png) | ![Step 3: Approve](assets/images/workflow3.png) |
+<table>
+  <tr>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 1: Select Action and Resource**</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 2: Review Terraform Plan**</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 3: Approve**</th>
+  </tr>
+  <tr>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow1.png" width="300"/></td>
+    <td style="padding: 10px; border: none; vertical-align: top;">
+      <img src="assets/images/workflow2.png" width="300"/>
+    </td>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="400"/></td>
+  </tr>
+</table>  
+
 
 #### **Step Details**
 1. **Select Action and Resource:**
