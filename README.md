@@ -224,15 +224,17 @@ Two Terraform workflows are implemented to streamline infrastructure management:
 This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
 
 ### **Terraform Workflows**
-Two Terraform workflows are implemented to streamline infrastructure management:
+Two Terragrunt/Terraform workflows are implemented to streamline infrastructure management:
 
-1. **Resource Workflow**:
+1. **Resource Workflow** (Recomended):
    - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
    - Best suited for making isolated changes or updates to specific components.
 
-2. **Stack Workflow**:
+2. **Stack Workflow** (Exprrimental):
    - Manages larger infrastructure stacks or modules, such as VPCs, ECS clusters, or entire environments.
    - Ensures consistency and coordination for complex deployments.
+   - See [Terragrunt Stacks Doc](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/03-stacks)
+
 
 ### **Benefits of this Setup**
 - **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens.
@@ -240,7 +242,22 @@ Two Terraform workflows are implemented to streamline infrastructure management:
 - **Modular Design:** Separate workflows for resources and stacks improve flexibility and scalability.
 - **Granular Access Control:** IAM roles ensure each workflow operates with the least privilege necessary.
 
+<table>
+  <tr>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">1. Select action and resource</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">2. Review terraform plan</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">3. Approve</th>
+  </tr>
+  <tr>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow1.png" width="300"/></td>
+    <td style="padding: 10px; border: none; vertical-align: top;">
+      <img src="assets/images/workflow2.png" width="300"/>
+    </td>
+    <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="400"/></td>
+  </tr>
+</table>  
 
+----
 
 env=demo
 service_name=keycloak-service
