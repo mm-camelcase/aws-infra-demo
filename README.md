@@ -44,9 +44,14 @@ This diagram represents the services within a VPC connected to public and privat
 
 - A secure AWS SSM bastion is used for accessing backend services and databases, eliminating the need for SSH key management or public exposure.
 
-**4. Static Application:**
+**4. Service Architecture**
 
-- Veu-based app hosted in S3, secured with Keycloak authentication.
+- **ECS & ECR:** Services are containerized and hosted in **AWS ECS**, with images stored in **ECR**.
+- **Service Discovery:** **AWS Cloud Map** enables dynamic service registration and discovery.
+- **Secrets Management:** **AWS Parameter Store** is used for storing secrets and credentials, providing a **cost-effective alternative to Secrets Manager**.
+- **Logging & Monitoring:** Integrated with **Amazon CloudWatch** for centralized logging and observability.
+
+
 
 **5. Service Security:**
 
@@ -54,7 +59,11 @@ This diagram represents the services within a VPC connected to public and privat
 - APIs secured using OAuth 2.0
 - Devops access via bastion
 
-**6. Automation:**
+**6. Static Application:**
+
+- Veu-based app hosted in S3, secured with Keycloak authentication see () below.
+
+**7. Automation:**
 
 - Terraform/Terragrunt workflows automated via GitHub Actions.
 
@@ -89,10 +98,6 @@ The application and its services are accessible through the following domain set
 
 **Note:** In this demo DNS configuration is managed externally from AWS, with CNAME records pointing to the appropriate AWS resources.
  
-
-
-
-<div style="display: flex;"><div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;"><p>This is the content for the first panel.</p></div><div style="flex: 1; padding: 10px; border: 1px solid #ccc;"><p>This is the content for the second panel.</p></div></div>
 
 ## Environments
 
