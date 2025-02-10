@@ -182,7 +182,16 @@ aws ecs execute-command \
 
 ## Workflows
 
-<table>
+This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
+
+### **Terraform Workflows**
+Two Terraform workflows are implemented to streamline infrastructure management:
+
+1. **Resource Workflow**:
+   - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
+   - Best suited for making isolated changes or updates to specific components.
+
+   <table>
   <tr>
     <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">1. Select action and resource</th>
     <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">2. Review terraform plan</th>
@@ -195,8 +204,18 @@ aws ecs execute-command \
     </td>
     <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow3.png" width="400"/></td>
   </tr>
-  
 </table>
+
+2. **Stack Workflow**:
+   - Manages larger infrastructure stacks or modules, such as VPCs, ECS clusters, or entire environments.
+   - Ensures consistency and coordination for complex deployments.
+
+### **Benefits of this Setup**
+- **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens.
+- **Simplified CI/CD:** Seamless integration of GitHub Actions with AWS for automated Terraform runs.
+- **Modular Design:** Separate workflows for resources and stacks improve flexibility and scalability.
+
+
 
 
 
