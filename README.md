@@ -286,9 +286,9 @@ Below is a visual representation of the Terraform workflow process:
 
 <table>
   <tr>
-    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 1: Select Action and Resource**</th>
-    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 2: Review Terraform Plan**</th>
-    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;">**Step 3: Approve**</th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;"><b>Step 1: Select Action and Resource</b></th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;"><b>Step 2: Review Terraform Plan</b></th>
+    <th style="padding: 10px; border: none; text-align: left; vertical-align: top;"><b>Step 3: Approve</b></th>
   </tr>
   <tr>
     <td style="padding: 10px; border: none; vertical-align: top;"><img src="assets/images/workflow1.png" width="300"/></td>
