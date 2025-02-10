@@ -71,7 +71,7 @@ This diagram represents the services within a VPC connected to public and privat
         <li><strong>Backend Communication:</strong> After authentication, the frontend interacts with a Spring Boot service running on ECS Fargate. API requests are secured using OAuth 2.0, ensuring resource protection and controlled access.</li>
       </ul>
     </td>
-    <td style="padding: 10px; border: 0px solid #ccc; vertical-align: top;">
+    <td style="padding: 10px; border: none; vertical-align: top;">
       <img src="assets/images/app.gif" width="300"/>
     </td>
   </tr>
