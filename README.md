@@ -160,7 +160,7 @@ aws ssm start-session \
 
 ### **ECS Container Access via** ``exec``
 
-```bash
+```shell
 
 ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
 
