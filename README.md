@@ -137,6 +137,8 @@ aws ssm start-session \
 - update `ec2_bridge_id` and `db_url`
 - connect to database via localhost
 
+<img src="assets/images/db_connection.png" width="400"/>
+
 <table>
   <tr>
     <td style="padding: 10px; border: none; vertical-align: top;">
