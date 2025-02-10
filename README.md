@@ -54,7 +54,7 @@ This diagram represents the services within a VPC connected to public and privat
 - **DevOps Access:** Secure **bastion access** for debugging and maintenance.  
 
 **6. Static Application**  
-- **Vue-Based App:** Hosted in **S3**, secured with **Keycloak authentication**.  
+- **Vue-Based App:** Hosted in **S3**, secured with **Keycloak authentication**. See [Application Flow](#application-flow) section.
 
 **7. Automation**  
 - **Infrastructure as Code:** Managed with **Terraform/Terragrunt**.  
@@ -103,7 +103,25 @@ This walkthrough is based on a **single demo environment**, but the Infrastructu
   - **Production** in a separate AWS account for security and isolation.
 - **Terragrunt Compatibility:** The current structure fully supports multi-environment deployments, ensuring streamlined provisioning and consistency across accounts.
 
+## Accessing Cloud Resources
 
+The following table outlines how different resources are accessed across environments:
+
+| **Resource**         | **Access Method**                                    | **Notes** |
+|----------------------|------------------------------------------------------|----------|
+| **SSM Bastion**      | AWS Systems Manager Session Manager (`ssm start-session`) | Secure access to backend services and databases without exposing SSH. |
+| **Backend & ECS Services** | **Access via ALB/NLB for APIs** and **ECS `exec` for container access** | Services are containerized and secured with OAuth 2.0. |
+| **Databases**       | **Access via SSM Bastion with port forwarding**       | No direct internet exposure for RDS or other data stores. |
+| **Static Web App**  | **Served via CloudFront (S3-backed)**                 | Secured with WAF and Keycloak authentication. |
+
+---
+
+### **SSM Bastion Usage**
+To securely connect to backend services or databases, use **AWS SSM Session Manager**:
+
+```bash
+aws ssm start-session --target <bastion-instance-id>
+```
 
 ## The rest
 
@@ -305,4 +323,6 @@ role mapping --> api-viewer
 
 ## todo 
 
+- add to intro ...a bit abouit tec terraform, ecs app , action workflow etc.
 -  links to app and api and keycloak config
+
