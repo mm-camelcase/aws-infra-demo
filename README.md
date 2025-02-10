@@ -13,6 +13,8 @@ This repository showcases an end-to-end architecture that spans networking, secu
 - [Domain Configuration](#domain-configuration)
 - [Environment Details](#environment-details)
 - [Accessing Cloud Resources](#accessing-cloud-resources)
+  - [SSM Bastion Usage](#ssm-bastion-usage)
+  - [ECS Container Access via exec](#ecs-container-access-via-exec)
 - [Workflows](#workflows)
 - [Local Setup](#local-setup)
 - [FAQ](#faq)
@@ -114,7 +116,6 @@ The following table outlines how different resources are accessed across environ
 | **Databases**       | Access via **SSM Bastion** with port forwarding       | No direct internet exposure for RDS or other data stores. |
 
 
----
 
 ### **SSM Bastion Usage**
 To securely connect to backend services or databases, use **AWS SSM Session Manager**:
@@ -160,7 +161,7 @@ aws ssm start-session \
 
 ### **ECS Container Access via** ``exec``
 
-```console
+```bash
 
 ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
 
