@@ -79,13 +79,17 @@ The application and its services are accessible through the following domain set
 | **Authentication (Keycloak)** | [auth.camelcase.club](https://auth.camelcase.club) | Authentication is managed via **Keycloak**  |
 | **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |  Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**, and protected by by **AWS WAF** |
 
-### Routing & Security
-- The **Vue app** is hosted in **S3** and served via **CloudFront**.
-- Authentication is managed via **Keycloak** at `auth.camelcase.club`.
-- Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**.
-- The entire setup is protected by **AWS WAF** to mitigate threats.
+**Note:** In this demo DNS configuration is managed externally from AWS, with CNAME records pointing to the appropriate AWS resources.
+ 
+
+
+
+<div style="display: flex;"><div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;"><p>This is the content for the first panel.</p></div><div style="flex: 1; padding: 10px; border: 1px solid #ccc;"><p>This is the content for the second panel.</p></div></div>
+
 
 ## The rest
+
+
 
 env=demo
 service_name=keycloak-service
