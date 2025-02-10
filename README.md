@@ -86,6 +86,16 @@ The application and its services are accessible through the following domain set
 
 <div style="display: flex;"><div style="flex: 1; padding: 10px; border: 1px solid #ccc; margin-right: 10px;"><p>This is the content for the first panel.</p></div><div style="flex: 1; padding: 10px; border: 1px solid #ccc;"><p>This is the content for the second panel.</p></div></div>
 
+  ## table  
+
+<table>
+  <tr>
+    <td style="padding: 10px; border: 1px solid #ccc;">This is the content for the first panel.</td>
+    <td style="padding: 10px; border: 1px solid #ccc;">This is the content for the second panel.</td>
+  </tr>
+</table>
+
+
 
 ## The rest
 
