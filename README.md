@@ -146,7 +146,7 @@ aws ssm start-session \
       </ul>
     </td>
     <td style="padding: 10px; border: none; vertical-align: top;">
-      <img src="assets/images/db_connection.gif" width="300"/>
+      <img src="assets/images/db_connection.png" width="300"/>
     </td>
   </tr>
 </table>
