@@ -27,45 +27,6 @@ The overall architecture is depicted in the following diagram:
 
 This diagram represents the services within a VPC connected to public and private subnets, AWS ECS, RDS, and other critical components. 
 
-### Key Features
-
-**1. Networking:**
-
-- Private and public subnets for security and scalability.
-- Load Balancing: NLB for internal services, CloudFront for static content.
-
-**2. Security:**
-
-- Private Subnets: Ensures sensitive services and databases remain inaccessible from the public internet.
-- WAF & API Gateway: Protect against exploits and secure API access.
-- OAuth Flow: Secure user authentication via Keycloak.
-
-**3. Access Management:**
-
-- A secure AWS SSM bastion is used for accessing backend services and databases, eliminating the need for SSH key management or public exposure.
-
-**4. Service Architecture**
-
-- **ECS & ECR:** Services are containerized and hosted in **AWS ECS**, with images stored in **ECR**.
-- **Service Discovery:** **AWS Cloud Map** enables dynamic service registration and discovery.
-- **Secrets Management:** **AWS Parameter Store** is used for storing secrets and credentials, providing a **cost-effective alternative to Secrets Manager**.
-- **Logging & Monitoring:** Integrated with **Amazon CloudWatch** for centralized logging and observability.
-
-
-
-**5. Service Security:**
-
-- ECS Fargate microservices and RDS databases secured in private networks.
-- APIs secured using OAuth 2.0
-- Devops access via bastion
-
-**6. Static Application:**
-
-- Veu-based app hosted in S3, secured with Keycloak authentication see () below.
-
-**7. Automation:**
-
-- Terraform/Terragrunt workflows automated via GitHub Actions.
 
 ### Key Features
 
