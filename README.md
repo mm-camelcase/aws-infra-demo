@@ -219,6 +219,27 @@ Two Terraform workflows are implemented to streamline infrastructure management:
 
 
 
+## **Introduction to Terraform Workflows with GitHub Actions**
+
+This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
+
+### **Terraform Workflows**
+Two Terraform workflows are implemented to streamline infrastructure management:
+
+1. **Resource Workflow**:
+   - Focused on managing individual Terraform resources, such as S3 buckets or RDS databases.
+   - Best suited for making isolated changes or updates to specific components.
+
+2. **Stack Workflow**:
+   - Manages larger infrastructure stacks or modules, such as VPCs, ECS clusters, or entire environments.
+   - Ensures consistency and coordination for complex deployments.
+
+### **Benefits of this Setup**
+- **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens.
+- **Simplified CI/CD:** Seamless integration of GitHub Actions with AWS for automated Terraform runs.
+- **Modular Design:** Separate workflows for resources and stacks improve flexibility and scalability.
+- **Granular Access Control:** IAM roles ensure each workflow operates with the least privilege necessary.
+
 
 
 env=demo
