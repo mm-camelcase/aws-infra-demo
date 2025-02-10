@@ -122,10 +122,12 @@ To securely connect to backend services or databases, use **AWS SSM Session Mana
 
 #### **Database Access**
 
+Database access via **SSM Port Forwarding**.
+
 ```bash
 
 ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
-db_url=demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com  # db url
+db_url=demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com  # DB URL
 
 ## PostgreSQL
 aws ssm start-session \
@@ -134,24 +136,12 @@ aws ssm start-session \
     --parameters "{\"host\":[\"${db_url}\"],\"portNumber\":[\"5432\"], \"localPortNumber\":[\"5432\"]}"
 ```
 
-- update `ec2_bridge_id` and `db_url`
-- connect to database via localhost
+- Update `ec2_bridge_id` and `db_url`
+- Connect to database via localhost
 
 <img src="assets/images/db_connection.png" width="400"/>
 
-<table>
-  <tr>
-    <td style="padding: 10px; border: none; vertical-align: top;">
-      <ul>
-        <li>update `ec2_bridge_id` and `db_url`</li>
-        <li>connect to database via localhost</li>
-      </ul>
-    </td>
-    <td style="padding: 10px; border: none; vertical-align: top;">
-      <img src="assets/images/db_connection.png" width="300"/>
-    </td>
-  </tr>
-</table>
+
 
 ## The rest
 
