@@ -108,10 +108,5 @@ $ awslocal s3 ls
 2024-12-20 14:28:59 local-cc-infra-test-bucket-001
 ```
 
-## wipe terragrunt working files and delete resources (i.e. start from scratch)
-```
-cd scripts
-./init.sh
-```
 
 
