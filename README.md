@@ -183,7 +183,7 @@ aws ecs execute-command \
 ## Workflows
 
 
-## **Introduction to Terraform Workflows with GitHub Actions**
+## **Terragrunt/Terraform Workflows with GitHub Actions**
 
 This infrastructure leverages **GitHub Actions** to run **Terraform workflows** securely using **OpenID Connect (OIDC) Identity Provider in AWS**. For detailed information on how OIDC is configured and used, refer to the [OIDC Authentication Guide](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth).
 
