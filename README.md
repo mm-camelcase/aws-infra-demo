@@ -16,8 +16,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
   - [SSM Bastion Usage](#ssm-bastion-usage)
   - [ECS Container Access via exec](#ecs-container-access-via-exec)
 - [Workflows](#workflows)
-- [Local Setup](#local-setup)
-- [FAQ](#faq)
+- [Local Setup for Testing](#local-setup-for-testing)
 
 
 ## Architecture
@@ -244,6 +243,18 @@ Below is a visual representation of the Terraform workflow process:
 - **Granular Access Control:** IAM roles ensure the workflow operates with the least privilege necessary.
 
 
+
+## **Local Setup for Testing**
+
+For local development and testing, this project includes a **LocalStack-based setup** that allows bootstrapping essential AWS services for testing service configurations.
+
+- LocalStack provides a **lightweight AWS cloud emulator**, ideal for local development.
+- This setup enables **testing authentication, API services, and resource provisioning** without deploying to AWS.
+
+📌 **Refer to the full LocalStack setup guide here:**  
+🔗 [LocalStack Documentation](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/01-localstack)
+
+This ensures a **fast, isolated** environment for development and validation.
 
 
 ## todo 
