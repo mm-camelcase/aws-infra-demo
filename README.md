@@ -3,6 +3,23 @@
 ## About the Demo Infrastructure
 This repository showcases an end-to-end architecture that spans networking, security, services, and the deployment of a static application. The demo infrastructure serves as a complete reference implementation that highlights best practices for building secure, scalable, and well-orchestrated cloud solutions.
 
+### **Why Terragrunt?**
+- **Modular & Reusable**: Enables structured and consistent Terraform deployments.
+- **Environment Management**: Simplifies managing multiple environments (e.g., dev, staging, prod).
+- **DRY (Don't Repeat Yourself)**: Reduces duplication by managing Terraform configurations centrally.
+
+### **Use of External Terraform Modules**
+- **Reliability**: Leverages battle-tested modules from the **Terraform Registry**.
+- **Faster Iteration**: Reuses existing infrastructure components without reinventing them.
+- **Maintainability**: Keeps the infrastructure **clean, composable, and easy to update**.
+
+### **Automation with GitHub Actions**
+- **CI/CD for Infrastructure**: Automates Terraform/Terragrunt workflows.
+- **Secure OIDC Integration**: Eliminates long-lived AWS credentials.
+- **Approval Workflow**: Ensures controlled, auditable infrastructure changes.
+
+This setup enables **scalable, secure, and automated infrastructure management** with minimal manual intervention.
+
 ## Table of Contents
 
 - [About the Demo Infrastructure](#about-the-demo-infrastructure)
@@ -16,6 +33,7 @@ This repository showcases an end-to-end architecture that spans networking, secu
   - [SSM Bastion Usage](#ssm-bastion-usage)
   - [ECS Container Access via exec](#ecs-container-access-via-exec)
 - [Workflows](#workflows)
+- [Database Setup](#database-setup)
 - [Local Setup for Testing](#local-setup-for-testing)
 
 
@@ -242,7 +260,9 @@ Below is a visual representation of the Terraform workflow process:
 - **Controlled Changes:** Manual approval ensures no unintended changes to resources.
 - **Granular Access Control:** IAM roles ensure the workflow operates with the least privilege necessary.
 
+## **Database Setup**
 
+Once the **RDS instance** is provisioned, see [database init](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/04-rds-db-init)
 
 ## **Local Setup for Testing**
 
@@ -256,10 +276,4 @@ For local development and testing, this project includes a **LocalStack-based se
 
 This ensures a **fast, isolated** environment for development and validation.
 
-
-## todo 
-
-- add to intro ...a bit abouit tec terraform, ecs app , action workflow etc.
--  links to app and api and keycloak config
--  list cname in details Note: In this demo DNS configuration is managed externally from AWS, with CNAME records pointing to the appropriate AWS resources.
 
