@@ -61,7 +61,7 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 # ----------------------
 
 resource "aws_apigatewayv2_authorizer" "keycloak_authorizer" {
-  api_id           = aws_apigatewayv2_api.keycloak_api.id
+  api_id           = aws_apigatewayv2_api.main_api.id
   authorizer_type  = "JWT"
   identity_sources = ["$request.header.Authorization"]
 
