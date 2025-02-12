@@ -107,7 +107,7 @@ The application and its services are accessible through the following domain set
 
 | **Service** | **URL** | **Details** |
 |------------|----------------------------|--------------|
-| **Frontend (Vue App)** | [app.camelcase.club](https://app.camelcase.club) | The **Vue app** is hosted in **S3** and served via **CloudFront**, protected by by **AWS WAF**  |
+| **Frontend (Vue App)** | [app.camelcase.club](https://app.camelcase.club) | The **Vue app** is hosted in **S3** and served via **CloudFront**, protected by by **AWS WAF**    see [Demo App repo](https://github.com/mm-camelcase/demo-app)  |
 | **Authentication (Keycloak)** | [auth.camelcase.club](https://auth.camelcase.club) | Authentication is managed via **Keycloak**  |
 | **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |  Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**, and protected by by **AWS WAF** |
 
@@ -257,7 +257,7 @@ Below is a visual representation of the Terraform workflow process:
 ---
 
 ### **Benefits of this Setup**
-- **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens.
+- **Secure Authentication:** Eliminates the need for long-lived AWS credentials by using OIDC to generate short-lived tokens, see [Github Actions Auth](https://github.com/mm-camelcase/aws-infra-demo/tree/main/docs/02-github-actions-auth)
 - **Simplified CI/CD:** Seamless integration of GitHub Actions with AWS for automated Terraform runs.
 - **Controlled Changes:** Manual approval ensures no unintended changes to resources.
 - **Granular Access Control:** IAM roles ensure the workflow operates with the least privilege necessary.
