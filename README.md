@@ -3,6 +3,8 @@
 ## About the Demo Infrastructure
 This repository showcases an end-to-end architecture that spans networking, security, services, and the deployment of a static application. The demo infrastructure serves as a complete reference implementation that highlights best practices for building secure, scalable, and well-orchestrated cloud solutions.
 
+The infrastructure is provisioned using **Terragrunt**, with **GitHub Actions** handling CI/CD automation. The application stack consists of a **Vue.js frontend** deployed on **S3/CloudFront**, backed by **Spring Boot services running on ECS**, secured with **Keycloak authentication**.
+
 ### **Why Terragrunt?**
 - **Modular & Reusable**: Enables structured and consistent Terraform deployments.
 - **Environment Management**: Simplifies managing multiple environments (e.g., dev, staging, prod).
