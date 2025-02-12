@@ -68,7 +68,7 @@ resource "aws_apigatewayv2_authorizer" "keycloak_authorizer" {
   name = "keycloak-jwt-authorizer"
 
   jwt_configuration {
-    issuer = "https://auth.example.com/realms/demo-realm"
+    issuer = "https://${var.auth_domain}/realms/demo-realm"
     audience = ["static-app"]  # Use your Keycloak Client ID
   }
 }
