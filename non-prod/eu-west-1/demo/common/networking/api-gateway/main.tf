@@ -57,6 +57,23 @@ resource "aws_apigatewayv2_integration" "auth_integration" {
 }
 
 # ----------------------
+# Authorizers
+# ----------------------
+
+resource "aws_apigatewayv2_authorizer" "keycloak_authorizer" {
+  api_id           = aws_apigatewayv2_api.keycloak_api.id
+  authorizer_type  = "JWT"
+  identity_sources = ["$request.header.Authorization"]
+
+  name = "keycloak-jwt-authorizer"
+
+  jwt_configuration {
+    issuer = "https://auth.example.com/realms/myrealm"
+    audience = ["static-app"]  # Use your Keycloak Client ID
+  }
+}
+
+# ----------------------
 # Routes
 # ----------------------
 
@@ -64,30 +81,40 @@ resource "aws_apigatewayv2_route" "get_todo_by_id" {
   api_id    = aws_apigatewayv2_api.main_api.id
   route_key = "GET /api/todos/{id}" # GET route for fetching a todo by ID
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.keycloak_authorizer.id
 }
 
 resource "aws_apigatewayv2_route" "update_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
   route_key = "PUT /api/todos/{id}" # PUT route for updating a todo by ID
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.keycloak_authorizer.id
 }
 
 resource "aws_apigatewayv2_route" "delete_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
   route_key = "DELETE /api/todos/{id}" # DELETE route for deleting a todo by ID
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.keycloak_authorizer.id
 }
 
 resource "aws_apigatewayv2_route" "get_all_todos" {
   api_id    = aws_apigatewayv2_api.main_api.id
   route_key = "GET /api/todos" # GET route for fetching all todos
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.keycloak_authorizer.id
 }
 
 resource "aws_apigatewayv2_route" "create_todo" {
   api_id    = aws_apigatewayv2_api.main_api.id
   route_key = "POST /api/todos" # POST route for creating a new todo
   target    = "integrations/${aws_apigatewayv2_integration.todo_service_integration.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.keycloak_authorizer.id
 }
 
 # Route for Auth service
