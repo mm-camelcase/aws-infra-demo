@@ -18,9 +18,9 @@ dependency "gateway-sg" {
   config_path = "../../security/groups/gateway-sg"
 }
 
-dependency "cert" {
-  config_path = "../../security/cert"
-}
+# dependency "cert" {
+#   config_path = "../../security/cert"
+# }
 
 locals {
   # example showing how to find and read a config file from a parent folder
@@ -37,9 +37,10 @@ inputs = {
   subnet_ids        = dependency.vpc.outputs.private_subnets
   api_listener_arn  = dependency.nlb.outputs.listeners["tcp_todo_service"].arn
   auth_listener_arn = dependency.nlb.outputs.listeners["tcp_keycloak_service"].arn
-  cert_arn          = dependency.cert.outputs.certificate_arn
-  gateway-sg-id     = dependency.gateway-sg.outputs.security_group_id
-  auth_domain       = local.auth_domain
-  app_domain        = local.app_domain
-  api_domain        = local.api_domain
+  #cert_arn          = dependency.cert.outputs.certificate_arn
+  cert_arn      = "dependency.cert.outputs.certificate_arn"
+  gateway-sg-id = dependency.gateway-sg.outputs.security_group_id
+  auth_domain   = local.auth_domain
+  app_domain    = local.app_domain
+  api_domain    = local.api_domain
 }
