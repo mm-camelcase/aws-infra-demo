@@ -10,7 +10,7 @@ Keycloak allows importing realm configurations from a file. Follow these steps:
 1. **Create a New Realm** (even if an error appears, it will still work):
    - Go to **Keycloak Admin Console**.
    - Create a realm with the name **`demo-realm`**.
-   - Choose the option to **import a realm file**.
+   - Choose the option to **import a realm file** and choose the attached `realm-export.json`
 
 2. **Verify Realm Import**:
    - After import, check the **Clients** and **Roles** sections to ensure they were created correctly.
