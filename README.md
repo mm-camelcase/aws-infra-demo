@@ -109,7 +109,7 @@ The application and its services are accessible through the following domain set
 |------------|----------------------------|--------------|
 | **Frontend (Vue App)** | [app.camelcase.club](https://app.camelcase.club) | The **Vue app** is hosted in **S3** and served via **CloudFront**, protected by by **AWS WAF**.  <br>See [Demo App repo here](https://github.com/mm-camelcase/demo-app).  |
 | **Authentication (Keycloak)** | [auth.camelcase.club](https://auth.camelcase.club) | Authentication is managed via **Keycloak**  |
-| **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |  Backend **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**, and protected by by **AWS WAF** |
+| **Backend APIs** | [api.camelcase.club](https://api.camelcase.club) |  Backend Spring Boot based **APIs** are exposed at `api.camelcase.club`, secured with **OAuth 2.0**, and protected by by **AWS WAF**. <br> <br>See [ToDo API repo here](https://github.com/mm-camelcase/demo-app). |
 
 **Note:** In this demo DNS configuration is managed externally from AWS, with CNAME records pointing to the appropriate AWS resources.
  
