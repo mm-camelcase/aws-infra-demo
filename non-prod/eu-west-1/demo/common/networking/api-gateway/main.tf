@@ -69,7 +69,7 @@ resource "aws_apigatewayv2_authorizer" "keycloak_authorizer" {
 
   jwt_configuration {
     issuer = "https://${var.auth_domain}/realms/demo-realm"
-    audience = ["static-app"]  # Use your Keycloak Client ID
+    audience = ["account"]  # default aud in keycloak, should set up Custom Audience Mapper in Keycloak and set to Client ID (static-app)
   }
 }
 
