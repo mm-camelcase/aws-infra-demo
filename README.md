@@ -9,6 +9,7 @@ The infrastructure is provisioned using **Terragrunt**, with **GitHub Actions** 
 - **Modular & Reusable**: Enables structured and consistent Terraform deployments.
 - **Environment Management**: Simplifies managing multiple environments (e.g., dev, staging, prod).
 - **DRY (Don't Repeat Yourself)**: Reduces duplication by managing Terraform configurations centrally.
+- **Consistent Tagging**: Ensures a standardized approach to tagging resources across environments, improving cost tracking, access control, and resource organization.
 
 ### **Use of External Terraform Modules**
 - **Reliability**: Leverages battle-tested modules from the **Terraform Registry**.
