@@ -3,7 +3,9 @@ include {
 }
 
 terraform {
-  source = "github.com/terraform-aws-modules/terraform-aws-ecs//modules/service?ref=v5.12.0"
+  #source = "github.com/terraform-aws-modules/terraform-aws-ecs//modules/service?ref=v5.12.0"
+  # todo: revert this when breaking change is fixed in terraform-aws-ecs
+  source = "git::https://github.com/mm-camelcase/terraform-aws-ecs.git//modules/service?ref=fix-inference-block"
 }
 
 
