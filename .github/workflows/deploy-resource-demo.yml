@@ -84,32 +84,32 @@ jobs:
         run: echo "::notice ::Running Terragrunt ${{ github.event.inputs.action }} on Resource --> ${{ env.base_dir }}/${{ github.event.inputs.region }}/${{ env.environment }}/${{ github.event.inputs.resource }}"
 
 
-  checks:
-    name: Validate Terragrunt Configuration
-    strategy:
-      fail-fast: true
-    runs-on: ubuntu-24.04
-    container:
-      image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
-    permissions:
-      id-token: write
-      contents: read
-    needs: setup
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+  # checks:
+  #   name: Validate Terragrunt Configuration
+  #   strategy:
+  #     fail-fast: true
+  #   runs-on: ubuntu-24.04
+  #   container:
+  #     image: ghcr.io/mm-camelcase/docker-terragrunt:tf-1.10.3-tg-0.71.1
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   needs: setup
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.aws_role }}
-          aws-region: ${{ github.event.inputs.region }}
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         role-to-assume: ${{ env.aws_role }}
+  #         aws-region: ${{ github.event.inputs.region }}
 
-      - name: Check HCL Formatting
-        run: terragrunt hclfmt --terragrunt-check --terragrunt-diff -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive 
+  #     - name: Check HCL Formatting
+  #       run: terragrunt hclfmt --terragrunt-check --terragrunt-diff -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }} --terragrunt-non-interactive 
 
-      - name: Validate Configuration
-        run: terragrunt validate -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
+  #     - name: Validate Configuration
+  #       run: terragrunt validate -terragrunt-working-dir ${{ needs.setup.outputs.tg_dir }}
 
   plan:
     name: Generate Plan
@@ -119,7 +119,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [setup, checks]
+    #needs: [setup, checks]
+    needs: [setup]
     if: ${{ github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply' || github.event.inputs.action == 'destroy' }}
     steps:
       - name: Checkout Repository

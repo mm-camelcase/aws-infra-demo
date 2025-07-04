@@ -150,7 +150,7 @@ To securely connect to backend services or databases, use **AWS SSM Session Mana
 
 ```bash
 
-ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+ec2_bridge_id=i-041c8436028e2e0ba   # EC2 Bastion Id
 
 ## Bastian
 aws ssm start-session --target $ec2_bridge_id
@@ -163,7 +163,7 @@ Database access via **SSM Port Forwarding**.
 
 ```bash
 
-ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+ec2_bridge_id=i-041c8436028e2e0ba   # EC2 Bastion Id
 db_url=demo-cc-infra-db.cf2okowc4emp.eu-west-1.rds.amazonaws.com  # DB URL
 
 ## PostgreSQL
@@ -183,7 +183,7 @@ aws ssm start-session \
 
 ```bash
 
-ec2_bridge_id=i-008045bbe4f75517b   # EC2 Bastion Id
+ec2_bridge_id=i-041c8436028e2e0ba   # EC2 Bastion Id
 
 ## service
 env=demo
