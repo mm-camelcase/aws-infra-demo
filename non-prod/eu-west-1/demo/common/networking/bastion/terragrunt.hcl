@@ -3,7 +3,8 @@ include {
 }
 
 terraform {
-  source = "github.com/terraform-aws-modules/terraform-aws-ec2-instance?ref=v5.6.0"
+  #source = "github.com/terraform-aws-modules/terraform-aws-ec2-instance?ref=v5.6.0"
+  source = "github.com/terraform-aws-modules/terraform-aws-ec2-instance?ref=v6.0.2"
 }
 
 dependency "vpc" {
@@ -35,9 +36,6 @@ inputs = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
     AmazonSSMFullAccess          = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
   }
-  cpu_core_count              = null
-  cpu_threads_per_core        = null
-  spot_block_duration_minutes = null
 }
 
 
