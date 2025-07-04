@@ -101,7 +101,7 @@ generate "versions" {
       required_providers {
         aws = {
           source = "hashicorp/aws"
-          version = ">= 5.81"
+          version = ">= 5.93"
         }
       }
     
