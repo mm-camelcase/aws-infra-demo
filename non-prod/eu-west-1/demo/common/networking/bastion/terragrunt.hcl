@@ -35,6 +35,9 @@ inputs = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
     AmazonSSMFullAccess          = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
   }
+  cpu_core_count              = null
+  cpu_threads_per_core        = null
+  spot_block_duration_minutes = null
 }
 
 
