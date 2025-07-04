@@ -5,5 +5,5 @@ variable "ec2_instance_id" {
 
 resource "aws_eip" "bastion_eip" {
   instance = var.ec2_instance_id
-  vpc      = true
+  domain = "vpc"
 }
