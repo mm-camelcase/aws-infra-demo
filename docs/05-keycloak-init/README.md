@@ -13,13 +13,14 @@ Keycloak allows importing realm configurations from a file. Follow these steps:
    - Choose the option to **import a realm file** and choose the attached `realm-export.json`
 
 2. **Verify Realm Import**:
-   - After import, check the **Clients** and **Roles** sections to ensure they were created correctly.
+   - After import, check the **Clients** and **Roles** (Clients --> `static-app` --> Roles) sections to ensure they were created correctly.
 
 ---
 
 ## **2. Creating Users & Assigning Roles**
 1. **Create a new user** in the `demo-realm`.
 2. Assign the **api-viewer** role to the user.
+   - Role-Mapping --> "Assign Role" dropdown --> `api-viewer` --> Assign
 3. Set a password for authentication.
 
 ---
