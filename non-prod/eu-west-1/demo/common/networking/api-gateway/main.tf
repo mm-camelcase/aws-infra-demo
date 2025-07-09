@@ -163,7 +163,7 @@ resource "aws_apigatewayv2_domain_name" "ecs_domain" {
   domain_name_configuration {
     certificate_arn = var.cert_arn
     endpoint_type   = "REGIONAL"
-    security_policy = "TLS_1_3"
+    security_policy = "TLS_1_2"
   }
   tags = var.tags
 }
@@ -174,7 +174,7 @@ resource "aws_apigatewayv2_domain_name" "auth_domain" {
   domain_name_configuration {
     certificate_arn = var.cert_arn
     endpoint_type   = "REGIONAL"
-    security_policy = "TLS_1_3"
+    security_policy = "TLS_1_2"
   }
   tags = var.tags
 }
